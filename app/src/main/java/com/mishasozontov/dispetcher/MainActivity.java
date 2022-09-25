@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.yandex.mapkit.MapKitFactory;
 
+public class MainActivity extends AppCompatActivity {
+    private static final String API_KEY = BuildConfig.ApiKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MapKitFactory.setApiKey("Ваш API-ключ");
         setContentView(R.layout.activity_main);
     }
 }

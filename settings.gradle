@@ -10,6 +10,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url "http://maven.google.com/"
+            allowInsecureProtocol = true
+        }
     }
 }
 rootProject.name = "dispetcher"
