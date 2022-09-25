@@ -5,9 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp">
+
+        <Button
+            android:id="@+id/btn_building"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Здания" />
+
+        <Button
+            android:id="@+id/btn_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Задания" />
+
+        <Button
+            android:id="@+id/btn_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Радио" />
+    </LinearLayout>
+</RelativeLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
