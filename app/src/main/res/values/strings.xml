@@ -4,4 +4,7 @@
     <string name="tasks">Задания</string>
     <string name="buildings">Здания</string>
     <string name="map">Карта</string>
+    <string name="money">10000 руб.</string>
+    <string name="premium_money">10$</string>
+    <string name="account">Аккаунт</string>
 </resources>

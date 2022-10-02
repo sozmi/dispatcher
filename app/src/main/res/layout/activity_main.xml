@@ -9,75 +9,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--Верхний бар-->
-    <RelativeLayout android:id="@+id/rl"
+    <RelativeLayout android:id="@+id/top_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scaleType="fitStart">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/txt_rub"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10000 руб.">
+                android:text="@string/money">
 
             </TextView>
 
             <TextView
-                android:id="@+id/txt_dol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10$">
+                android:text="@string/premium_money">
 
             </TextView>
         </LinearLayout>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Настройки"></Button>
+            android:layout_alignParentEnd="true"
+            android:text="@string/account"/>
 
     </RelativeLayout>
 
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:name="com.sozmi.dispetcher.MapFragment"
-        tools:layout="@layout/yandex_map" />
-
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/top_menu"
+        android:layout_above="@id/bottom_menu"
+        tools:layout="@layout/yandex_map"/>
 
     <LinearLayout
+        android:id="@+id/bottom_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp">
+        android:gravity="center">
 
-        <Button
-            android:id="@+id/btn_building"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/buildings"
-            />
+        <ImageButton
+            style="@style/img_btn"
+            android:src="@drawable/ic_building"
+            android:contentDescription="@string/buildings"/>
 
-        <Button
-            android:id="@+id/btn_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tasks" />
 
-        <Button
-            android:id="@+id/btn_radio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/radio" />
+        <ImageButton
+            style="@style/img_btn"
+            android:src="@drawable/ic_task"
+            android:contentDescription="@string/tasks"/>
 
-        <Button
-            android:id="@+id/btn_map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/map" />
+        <ImageButton
+            style="@style/img_btn"
+            android:src="@drawable/ic_radio"
+            android:contentDescription="@string/radio"/>
+
+        <ImageButton
+            style="@style/img_btn"
+            android:src="@drawable/ic_map"
+            android:contentDescription="@string/map"/>
     </LinearLayout>
 
 </RelativeLayout>

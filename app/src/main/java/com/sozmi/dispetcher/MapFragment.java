@@ -35,7 +35,7 @@ public class MapFragment extends Fragment {
 
 public  void addMarker(){
     mapView.getMap().getMapObjects().addPlacemark(new Point(55.751574, 37.573856),
-            ImageProvider.fromResource(getApplicationContext(), R.drawable.building));
+            ImageProvider.fromResource(getApplicationContext(), R.drawable.ic_radio));
     Toast toast = Toast.makeText(getApplicationContext(),
             "Пора покормить кота!", Toast.LENGTH_SHORT);
     toast.show();
