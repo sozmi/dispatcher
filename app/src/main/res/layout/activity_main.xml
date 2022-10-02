@@ -32,7 +32,7 @@
         </LinearLayout>
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="@string/account"/>

@@ -1,3 +1,20 @@
 <resources>
     <!-- Base application theme. -->
+    <style name="day_theme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryVariant">@color/light_primary_color</item>
+        <item name="colorPrimaryDark">@color/dark_primary_color</item>
+        <item name="colorOnPrimary">@color/primary_accent_color</item>
+        <item name="android:textSize">20sp</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#FF9800</item>
+        <item name="colorSecondaryVariant">#FFE0B2</item>
+        <item name="colorOnSecondary">@color/primary_accent_color</item>
+        <item name="android:textColorSecondary">@color/text_primary</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" >?attr/colorPrimaryDark</item>
+        <!-- Button color-->
+        <item name="android:colorButtonNormal">?attr/colorSecondary</item>
+    </style>
 </resources>

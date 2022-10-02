@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#FFEADF</color>
-    <color name="primary_variant">#BFB4AD</color>
-    <color name="on_primary">#A66948</color>
-    <color name="additional">#ECCED5</color>
-    <color name="additional_variant">#B1A0A4</color>
-    <color name="on_additional">#994356</color>
-
     <!--Primary colors of the application-->
-
+    <color name="dark_primary_color">#E64A19</color>
+    <color name="light_primary_color">#FFCCBC</color>
+    <color name="primary_color">#FF5722</color>
+    <color name="primary_accent_color">#FFC107</color>
     <!--Secondary brand color of the application-->
+    <color name="secondary_color">#FF9800</color>
+    <color name="secondary_light_color">#FFE0B2</color>
 
     <!--Other surface colors and red for error color-->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 
+    <color name="text_primary">#212121</color>
+    <color name="text_primary_secondary">#757575</color>
+    <color name="text_primary_divider">#BDBDBD</color>
 </resources>
