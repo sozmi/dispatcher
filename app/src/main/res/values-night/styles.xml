@@ -2,6 +2,10 @@
 
     <style name="Widget.Theme.Dispetcher.MyView" parent="">
         <item name="android:background">@color/gray_600</item>
+    </style>
+
+    <style name="Widget.main_theme.MyView" parent="">
+        <item name="android:background">@color/gray_600</item>
         <item name="exampleColor">@color/light_blue_600</item>
     </style>
 </resources>

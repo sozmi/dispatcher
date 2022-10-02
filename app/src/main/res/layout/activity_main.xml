@@ -1,18 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 <RelativeLayout
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.yandex.mapkit.mapview.MapView
-        android:id="@+id/mapview"
+    <!--Верхний бар-->
+    <RelativeLayout android:id="@+id/rl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/txt_rub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10000 руб.">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_dol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10$">
+
+            </TextView>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Настройки"></Button>
+
+    </RelativeLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.sozmi.dispetcher.MapFragment"
+        tools:layout="@layout/yandex_map" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,20 +58,28 @@
             android:id="@+id/btn_building"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Здания" />
+            android:text="@string/buildings"
+            />
 
         <Button
             android:id="@+id/btn_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Задания" />
+            android:text="@string/tasks" />
 
         <Button
             android:id="@+id/btn_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Радио" />
+            android:text="@string/radio" />
+
+        <Button
+            android:id="@+id/btn_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/map" />
     </LinearLayout>
+
 </RelativeLayout>
 
 

@@ -1,4 +1,4 @@
-package com.mishasozontov.dispetcher;
+package com.sozmi.dispetcher;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.mishasozontov.dispetcher;
+package com.sozmi.dispetcher;
 
 import android.content.Context;
 
