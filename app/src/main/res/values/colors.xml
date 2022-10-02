@@ -6,14 +6,8 @@
     <color name="primary_color">#FF5722</color>
     <color name="primary_accent_color">#FFC107</color>
     <!--Secondary brand color of the application-->
-    <color name="secondary_color">#FF9800</color>
-    <color name="secondary_light_color">#FFE0B2</color>
 
     <!--Other surface colors and red for error color-->
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFF</color>
 
     <color name="text_primary">#212121</color>
-    <color name="text_primary_secondary">#757575</color>
-    <color name="text_primary_divider">#BDBDBD</color>
 </resources>

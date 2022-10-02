@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-<RelativeLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
     <!--Верхний бар-->
     <FrameLayout
@@ -26,7 +23,7 @@
                 android:layout_margin="2dp"
 
                 android:padding="10dp"
-                android:text="Abram This" />
+                android:text="@string/name_account" />
 
             <ImageButton
                 style="@style/img_btn"
@@ -105,7 +102,3 @@
     </LinearLayout>
 
 </RelativeLayout>
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
