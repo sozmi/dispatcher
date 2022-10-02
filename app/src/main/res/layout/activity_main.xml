@@ -8,17 +8,45 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <!--Верхний бар-->
-    <RelativeLayout android:id="@+id/top_menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitStart">
+    <FrameLayout
+        android:id="@+id/top_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="2dp"
+
+                android:padding="10dp"
+                android:text="Abram This" />
+
+            <ImageButton
+                style="@style/img_btn"
+                android:layout_width="60dp"
+                android:contentDescription="@string/account"
+                android:src="@drawable/ic_account" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/light_primary_color"
+                android:layout_marginStart="2dp"
+                android:padding="10dp"
                 android:text="@string/money">
 
             </TextView>
@@ -26,19 +54,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="2dp"
+                android:background="@color/light_primary_color"
+                android:padding="10dp"
                 android:text="@string/premium_money">
 
             </TextView>
         </LinearLayout>
 
-        <Button
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="@string/account"/>
 
-    </RelativeLayout>
-
+    </FrameLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_view"
