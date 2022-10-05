@@ -22,6 +22,6 @@ public class LaunchActivity extends AppCompatActivity {
 
     private boolean IsAuth(){
         //TODO дописать проверку сохранен ли пароль и верен ли
-        return 1!=1;
+        return false;
     }
 }

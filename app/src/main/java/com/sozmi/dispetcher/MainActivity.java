@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import com.yandex.mapkit.MapKitFactory;
 
 
 public class MainActivity extends AppCompatActivity {

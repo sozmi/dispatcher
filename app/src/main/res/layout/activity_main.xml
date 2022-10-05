@@ -79,7 +79,8 @@
         android:src="@drawable/ic_add"
         android:background="@drawable/gradient"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="0dp"/>
+        android:layout_marginBottom="0dp"
+        android:contentDescription="@string/add"/>
     <!--Нижний бар-->
     <LinearLayout
         android:id="@+id/bottom_menu"
