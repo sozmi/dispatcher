@@ -71,21 +71,22 @@ public class LoginActivity extends AppCompatActivity {
         password = passwordInput.getText().toString();
         emailInput.addTextChangedListener(tw_email);
         passwordInput.addTextChangedListener(tw_password);
-        auth.setOnClickListener(view ->{
-            if(isLoginValid && isPasswordValid){
-                Login(email,password);
-            }
-            else
-            {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Неверное имя пользователя или пароль", Toast.LENGTH_SHORT);
-                toast.show();
-                //TODO: убрать Login()
-                Login("xx","xxx");
-            }
-        });
-    }
 
+        auth.setOnClickListener(view -> OnAuthClick());
+    }
+   private void OnAuthClick() {
+        if(isLoginValid && isPasswordValid){
+            Login(email,password);
+        }
+        else
+        {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Неверное имя пользователя или пароль", Toast.LENGTH_SHORT);
+            toast.show();
+            //TODO: убрать Login()
+            Login("xx","xxx");
+        }
+    }
 
 
     private void Login(String email, String password){

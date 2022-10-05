@@ -61,6 +61,7 @@
 
     </FrameLayout>
 
+    <!--Фрвгмент-->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_view"
         android:name="com.sozmi.dispetcher.MapFragment"
@@ -70,6 +71,16 @@
         android:layout_above="@id/bottom_menu"
         tools:layout="@layout/yandex_map"/>
 
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@+id/fragment_view"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_add"
+        android:background="@drawable/gradient"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="0dp"/>
+    <!--Нижний бар-->
     <LinearLayout
         android:id="@+id/bottom_menu"
         android:layout_width="match_parent"

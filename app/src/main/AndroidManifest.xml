@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <application
         android:allowBackup="true"
@@ -11,20 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/day_theme"
-        tools:targetApi="31">
+        tools:targetApi="31" >
         <activity
-            android:name=".LoginActivity"
+            android:name=".LaunchActivity"
             android:exported="true"
-            android:noHistory="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:noHistory="true" >
         </activity>
         <activity
             android:name=".MainActivity"
