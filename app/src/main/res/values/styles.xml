@@ -3,7 +3,6 @@
     <style name="img_btn">
         <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">60dp</item>
-        <item name="android:backgroundTint">@color/light_primary_color</item>
         <item name="android:scaleType">centerInside</item>
     </style>
 

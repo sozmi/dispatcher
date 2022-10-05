@@ -29,7 +29,7 @@
                 style="@style/img_btn"
                 android:layout_width="60dp"
                 android:contentDescription="@string/account"
-                android:src="@drawable/ic_account" />
+                android:src="@drawable/ic_user" />
 
         </LinearLayout>
 
@@ -41,7 +41,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/light_primary_color"
                 android:layout_marginStart="2dp"
                 android:padding="10dp"
                 android:text="@string/money">
@@ -53,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="2dp"
-                android:background="@color/light_primary_color"
                 android:padding="10dp"
                 android:text="@string/premium_money">
 

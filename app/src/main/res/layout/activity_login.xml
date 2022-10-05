@@ -9,25 +9,24 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="144dp"
-        android:background="@drawable/dispetcher_map"
-        android:fontFamily="@font/stalinist_one"
+        android:layout_height="160dp"
+        android:fontFamily="@font/oswald"
         android:gravity="center"
         android:text="@string/login_text"
-        android:textColor="@color/light_primary_color"/>
+        android:textSize="30sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_marginHorizontal="30dp"
         android:layout_height="wrap_content"
-        android:text="E-mail:"
-        android:textColor="@color/light_primary_color" />
+        android:text="@string/email"
+        android:textColor="@color/day.primary.dark"/>
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="example-mail@mail.ru"
+        android:hint="@string/example_email"
         android:imeOptions="actionGo"
         android:paddingHorizontal="12dp"
         android:paddingVertical="20dp"
@@ -38,32 +37,34 @@
         android:layout_width="match_parent"
         android:layout_marginHorizontal="30dp"
         android:layout_height="wrap_content"
-        android:text="Пароль:"
-        android:textColor="@color/light_primary_color"
-        />
+        android:textColor="@color/day.primary.dark"
+        android:text="@string/password" />
     <EditText
         android:id="@+id/editText_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="сюды вводите пароль"
+        android:hint="@string/example_password"
         android:inputType="textPassword"
         android:paddingHorizontal="12dp"
         android:paddingVertical="20dp"
         android:layout_marginHorizontal="30dp"
-        />
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Вход/регистрация"
+        android:text="@string/auth"
         android:layout_marginHorizontal="30dp"
         android:layout_marginVertical="20dp"
-        android:textColor="@color/text_primary" />
-<CheckBox
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Запомнить пароль"
-    android:layout_gravity="center" />
+        android:background="@drawable/gradient"
+        />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:minHeight="48dp"
+        android:text="@string/save_password" />
 
 </LinearLayout>

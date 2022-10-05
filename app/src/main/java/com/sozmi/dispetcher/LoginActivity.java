@@ -1,7 +1,5 @@
 package com.sozmi.dispetcher;
 
-import static com.yandex.runtime.Runtime.getApplicationContext;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,13 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.regex.Pattern;
-
 public class LoginActivity extends AppCompatActivity {
-    private TextWatcher tw_email = new TextWatcher() {
+    private final TextWatcher tw_email = new TextWatcher() {
         public void afterTextChanged(Editable s){
-            String email = emailInput.getText().toString();
-            if(email.isEmpty()==false && isEmailValid(email)==false) {
+            if(email.isEmpty() && isEmailValid(email)) {
                 emailInput.setError("Неправильная почта.");
                 isLoginValid=false;
             }
@@ -34,11 +29,9 @@ public class LoginActivity extends AppCompatActivity {
             return email.matches(EMAIL_REGEX);
         }
     };
-    private TextWatcher tw_password = new TextWatcher() {
+    private final TextWatcher tw_password = new TextWatcher() {
         public void afterTextChanged(Editable s){
-            String password = passwordInput.getText().toString();
-
-            if(password.isEmpty()==false && isPasswordValid(password)==false){
+            if(password.isEmpty() && isPasswordValid(password)){
                 passwordInput.setError("Некорректный пароль. В пароле должны быть:\n" +
                         "1)цифры [0-9];\n" +
                         "2)строчные буквы [a-z];\n" +
@@ -61,20 +54,24 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    private Button loginButton;
     private  EditText emailInput,passwordInput;
+    private static String email,password;
     private static boolean isPasswordValid=false,isLoginValid=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // This will be the top level handling of theme
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        loginButton = (Button)findViewById(R.id.login_btn);
-        emailInput =(EditText)findViewById(R.id.username);
-        passwordInput =(EditText)findViewById(R.id.editText_password);
-        String email = emailInput.getText().toString();
-        String password = passwordInput.getText().toString();
-        loginButton.setOnClickListener(view -> {
+        Button auth = findViewById(R.id.login_btn);
+        emailInput =findViewById(R.id.username);
+        passwordInput =findViewById(R.id.editText_password);
+        email = emailInput.getText().toString();
+        password = passwordInput.getText().toString();
+        emailInput.addTextChangedListener(tw_email);
+        passwordInput.addTextChangedListener(tw_password);
+        auth.setOnClickListener(view ->{
             if(isLoginValid && isPasswordValid){
                 Login(email,password);
             }
@@ -83,18 +80,19 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Неверное имя пользователя или пароль", Toast.LENGTH_SHORT);
                 toast.show();
+                //TODO: убрать Login()
+                Login("xx","xxx");
             }
         });
-
-        emailInput.addTextChangedListener(tw_email);
-        passwordInput.addTextChangedListener(tw_password);
-// Java
     }
+
 
 
     private void Login(String email, String password){
         //TODO: Написать обработчик сверки с бд и регистрацией, входом
-        Intent main = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(main);
+        if(email!=null &&password!=null){
+            Intent main = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(main);
+        }
     }
 }

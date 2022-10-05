@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!--Primary colors of the application-->
-    <color name="dark_primary_color">#E64A19</color>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- <color name="dark_primary_color">#E64A19</color>
     <color name="light_primary_color">#FFCCBC</color>
     <color name="primary_color">#FF5722</color>
     <color name="primary_accent_color">#FFC107</color>
+    <color name="secondary_color">#FF9800</color>
+    <color name="light_secondary_color">#FFE0B2</color>
+-->
+    <!--Primary colors of the application-->
+    <color name="night.primary" tools:keep="@color/night_primary">#7535B9</color>
+    <color name="night.primary.light" tools:keep="@color/night_primary_light">#65408D</color>
+    <color name="night.primary.dark" tools:keep="@color/night_primary_dark">#45137C</color>
     <!--Secondary brand color of the application-->
+    <color name="night.secondary" tools:keep="@color/night_secondary">#982EB6</color>
+    <color name="night.secondary.light" tools:keep="@color/night_secondary_light">#793B8B</color>
+    <color name="night.secondary.dark" tools:keep="@color/night_secondary_dark">#62107A</color>
+    <!--Primary colors of the application-->
+    <color name="day.primary">#BA1D2C</color>
+    <color name="day.primary.light">#F49BA3</color>
+    <color name="day.primary.dark">#77040F</color>
 
-    <!--Other surface colors and red for error color-->
-
+    <!--Secondary brand color of the application-->
+    <color name="day.secondary">#DE1629</color>
+    <color name="day.secondary.light">#ED96B4</color>
+    <color name="day.secondary.dark" tools:keep="@color/day_secondary_dark">#6D0427</color>
+    <!--Other colors-->
+    <color name="icons">#FFFFFF</color>
+    <color name="launch">#FFCCBC</color>
     <color name="text_primary">#212121</color>
 </resources>

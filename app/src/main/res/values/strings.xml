@@ -10,13 +10,10 @@
     <!-- Strings related to login -->
     <string name="name_account">Abram This</string>
     <string name="login_text">ВХОД ИЛИ РЕГИСТРАЦИЯ</string>
-    <string name="title_activity_login2">LoginActivity2</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="email">E-mail:</string>
+    <string name="example_email">example-mail@mail.ru</string>
+    <string name="password">Пароль:</string>
+    <string name="example_password">сюды вводите пароль</string>
+    <string name="auth">Вход/регистрация</string>
+    <string name="save_password">Запомнить пароль</string>
 </resources>

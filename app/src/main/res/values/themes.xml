@@ -1,16 +1,32 @@
 <resources>
-    <!-- Base application theme. -->
+    <!-- Base application theme.
     <style name="day_theme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Primary brand color. -->
+
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/light_primary_color</item>
         <item name="colorPrimaryDark">@color/dark_primary_color</item>
         <item name="colorOnPrimary">@color/primary_accent_color</item>
         <item name="android:textSize">20sp</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">#FF9800</item>
-        <item name="colorSecondaryVariant">#FFE0B2</item>
+
+        <item name="colorSecondary">@color/secondary_color</item>
+        <item name="colorSecondaryVariant">@color/light_secondary_color</item>
         <item name="colorOnSecondary">@color/primary_accent_color</item>
+        <item name="android:textColorSecondary">@color/text_primary</item>
+
+        <item name="android:statusBarColor" >?attr/colorPrimaryDark</item>
+        <item name="android:colorButtonNormal">?attr/colorSecondary</item>
+    </style>-->
+
+    <style name="day_theme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/day.primary</item>
+        <item name="colorPrimaryVariant">@color/day.primary.light</item>
+        <item name="colorPrimaryDark">@color/day.primary.dark</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColorPrimary">#E7E3FA</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/day.secondary</item>
+        <item name="colorSecondaryVariant">@color/day.secondary.light</item>
         <item name="android:textColorSecondary">@color/text_primary</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryDark</item>

@@ -1,3 +1,19 @@
-<resources>
-    <!-- Base application theme. -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Night application theme. -->
+    <style name="night_theme" parent="Theme.AppCompat.DayNight.DarkActionBar" tools:keep="@style/night_theme">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/night.primary</item>
+        <item name="colorPrimaryVariant">@color/night.primary.light</item>
+        <item name="colorPrimaryDark">@color/night.primary.dark</item>
+        <item name="android:textColorPrimaryNoDisable">#E7E3FA</item>
+        <item name="android:textSize">20sp</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/night.secondary</item>
+        <item name="colorSecondaryVariant">@color/night.secondary.light</item>
+        <item name="android:textColorSecondary">@color/text_primary</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" >?attr/colorPrimaryDark</item>
+        <!-- Button color-->
+        <item name="android:colorButtonNormal">?attr/colorSecondary</item>
+    </style>
 </resources>
