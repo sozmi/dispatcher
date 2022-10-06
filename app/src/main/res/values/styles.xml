@@ -1,7 +1,7 @@
 <resources>
     <!--Кнопка-изображение-->
     <style name="img_btn">
-        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_width">80dp</item>
         <item name="android:layout_height">60dp</item>
         <item name="android:scaleType">centerInside</item>
     </style>
