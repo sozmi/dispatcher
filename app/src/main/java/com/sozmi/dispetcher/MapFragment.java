@@ -16,9 +16,6 @@ public class MapFragment extends Fragment {
         Map.setMapView(view);
         Map.setLogoPosition();
         Map.moveTo(new Point(55.751574, 37.573856));
-        //Map.addMarker(new Point(55.751574, 37.573856),TypeBuilding.fire_station);
-        //Map.addMarker(new Point(55.651574, 37.673856),TypeBuilding.police);
-        //Map.addMarker(new Point(55.751574, 37.573856),TypeBuilding.none);
         return view;
     }
 

@@ -17,4 +17,7 @@
     <string name="auth">Вход/регистрация</string>
     <string name="save_password">Запомнить пароль</string>
     <string name="add">Добавить</string>
+    <string name="build">Построить здание</string>
+    <string name="cancel">отмена</string>
+    <string name="building">Строительство</string>
 </resources>

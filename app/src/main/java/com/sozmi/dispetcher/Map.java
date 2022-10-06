@@ -2,7 +2,6 @@ package com.sozmi.dispetcher;
 import static com.yandex.runtime.Runtime.getApplicationContext;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -18,8 +17,6 @@ import com.yandex.mapkit.logo.Alignment;
 import com.yandex.mapkit.logo.HorizontalAlignment;
 import com.yandex.mapkit.logo.VerticalAlignment;
 import com.yandex.mapkit.map.CameraPosition;
-import com.yandex.mapkit.map.IconSet;
-import com.yandex.mapkit.map.IconStyle;
 import com.yandex.mapkit.map.PlacemarkMapObject;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.runtime.image.ImageProvider;
