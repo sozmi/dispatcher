@@ -71,7 +71,28 @@
         android:layout_above="@id/bottom_menu"
         tools:layout="@layout/yandex_map"/>
 
+    <FrameLayout
+        android:id="@+id/panel_build"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/fragment_view"
+        android:layout_alignParentEnd="true"
+        android:visibility="invisible">
+        <Button
+            android:id="@+id/building_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Построить здание"
+            android:layout_gravity="start"/>
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="отмена"
+            android:layout_gravity="end"/>
+    </FrameLayout>
     <ImageButton
+        android:id="@+id/add_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignBottom="@+id/fragment_view"
@@ -105,10 +126,16 @@
             android:src="@drawable/ic_radio"
             android:contentDescription="@string/radio"/>
 
+
         <ImageButton
             style="@style/img_btn"
             android:src="@drawable/ic_map"
             android:contentDescription="@string/map"/>
+
+        <ImageButton
+            style="@style/img_btn"
+            android:src="@drawable/ic_crane"
+            android:contentDescription="Строительство"/>
     </LinearLayout>
 
 </RelativeLayout>
