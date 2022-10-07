@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher;
+package com.sozmi.dispetcher.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.sozmi.dispetcher.R;
 
 public class LoginActivity extends AppCompatActivity {
     private final TextWatcher tw_email = new TextWatcher() {

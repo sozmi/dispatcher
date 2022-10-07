@@ -20,4 +20,10 @@
     <string name="build">Построить здание</string>
     <string name="cancel">отмена</string>
     <string name="building">Строительство</string>
+
+    <string-array name="building_array">
+        <item>Пожарная станция</item>
+        <item>Полицейский участок</item>
+        <item>Больница</item>
+    </string-array>
 </resources>

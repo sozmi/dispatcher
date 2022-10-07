@@ -17,12 +17,16 @@ android {
 
     buildTypes {
         debug{
-            buildConfigField 'String', "ApiKey", MAPKIT_API_KEY
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            buildConfigField 'String', "API_KEY", "\"${properties.getProperty('MAPKIT_API_KEY')}\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', "ApiKey", MAPKIT_API_KEY
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            buildConfigField 'String', "API_KEY", "\"${properties.getProperty('MAPKIT_API_KEY')}\""
         }
     }
     compileOptions {

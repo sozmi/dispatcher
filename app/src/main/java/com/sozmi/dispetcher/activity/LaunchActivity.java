@@ -1,8 +1,10 @@
-package com.sozmi.dispetcher;
+package com.sozmi.dispetcher.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.sozmi.dispetcher.R;
 
 public class LaunchActivity extends AppCompatActivity {
 

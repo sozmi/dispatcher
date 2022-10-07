@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <!--Верхний бар-->
     <FrameLayout
@@ -21,7 +21,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="2dp"
-
                 android:padding="10dp"
                 android:text="@string/name_account" />
 
@@ -36,13 +35,16 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="start|center">
+            android:layout_gravity="start|center"
+            android:background="@drawable/gradient">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:padding="10dp"
+                android:textColor="@color/icons"
+
                 android:text="@string/money">
 
             </TextView>
@@ -52,6 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="2dp"
+                android:textColor="@color/icons"
+                android:background="@color/day.secondary"
                 android:padding="10dp"
                 android:text="@string/premium_money">
 
@@ -64,7 +68,7 @@
     <!--Фрвгмент-->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_view"
-        android:name="com.sozmi.dispetcher.MapFragment"
+        android:name="com.sozmi.dispetcher.fragment.MapFragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/top_menu"
@@ -85,14 +89,14 @@
             android:text="@string/build"
             android:layout_gravity="start"/>
         <Button
-            android:id="@+id/cancel_button"
+            android:id="@+id/cancelBuildButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
             android:layout_gravity="end"/>
     </FrameLayout>
     <ImageButton
-        android:id="@+id/add_button"
+        android:id="@+id/addBuildingButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignBottom="@+id/fragment_view"
@@ -109,30 +113,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center">
-
         <ImageButton
-            style="@style/img_btn"
-            android:src="@drawable/ic_building"
-            android:contentDescription="@string/buildings"/>
-
-
-        <ImageButton
-            style="@style/img_btn"
-            android:src="@drawable/ic_task"
-            android:contentDescription="@string/tasks"/>
-
-        <ImageButton
+            android:id="@+id/radioButton"
             style="@style/img_btn"
             android:src="@drawable/ic_radio"
             android:contentDescription="@string/radio"/>
-
-
         <ImageButton
+            android:id="@+id/buildingButton"
+            style="@style/img_btn"
+            android:src="@drawable/ic_building"
+            android:contentDescription="@string/buildings"/>
+        <ImageButton
+            android:id="@+id/mapButton"
             style="@style/img_btn"
             android:src="@drawable/ic_map"
             android:contentDescription="@string/map"/>
 
         <ImageButton
+            android:id="@+id/taskButton"
+            style="@style/img_btn"
+            android:src="@drawable/ic_task"
+            android:contentDescription="@string/tasks"/>
+
+
+
+
+
+
+        <ImageButton
+            android:id="@+id/buildButton"
             style="@style/img_btn"
             android:src="@drawable/ic_crane"
             android:contentDescription="@string/building"/>

@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher;
+package com.sozmi.dispetcher.model;
 
 public enum TypeBuilding {
     hospital,

@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher;
+package com.sozmi.dispetcher.model;
 import static com.yandex.runtime.Runtime.getApplicationContext;
 
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.sozmi.dispetcher.BuildConfig;
+import com.sozmi.dispetcher.R;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
@@ -17,15 +19,19 @@ import com.yandex.mapkit.logo.Alignment;
 import com.yandex.mapkit.logo.HorizontalAlignment;
 import com.yandex.mapkit.logo.VerticalAlignment;
 import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.Map;
 import com.yandex.mapkit.map.PlacemarkMapObject;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.runtime.image.ImageProvider;
 
-public final class Map {
+public final class MyMap {
     private static boolean isInit=false;
     private static MapView mapView;
-    private static com.yandex.mapkit.map.Map map;
+    private static Map map;
 
+    public static Point getTargetCamera(){
+        return map.getCameraPosition().getTarget();
+    }
     public static void setApi(){
         if(!isInit){
             MapKitFactory.setApiKey(BuildConfig.ApiKey);
@@ -53,6 +59,13 @@ public final class Map {
                 null);
     }
 
+    public static void LoadResource(){
+        //TODO: для оптимизации необходимо реализовать передачу готового
+        // ImageProvider в метод создания маркера.
+        // Иначе каждый раз происходит формирование нового btm файла
+
+    }
+
     public static PlacemarkMapObject addMarker(Point coordinate, TypeBuilding type){
         int id=0;
         switch (type){
@@ -77,6 +90,8 @@ public final class Map {
         return pm;
     }
     public static void delMarker(PlacemarkMapObject mapObject){
+        if(mapObject==null)
+            return;
        mapObject.getParent().remove(mapObject);
     }
 
@@ -93,6 +108,7 @@ public final class Map {
 
         return bitmap;
     }
+
     public static void OnStart(){
         MapKitFactory.getInstance().onStart();
         mapView.onStart();

@@ -13,7 +13,7 @@
         android:theme="@style/day_theme"
         tools:targetApi="31" >
         <activity
-            android:name=".LaunchActivity"
+            android:name=".activity.LaunchActivity"
             android:exported="true"
             android:noHistory="true" >
             <intent-filter>
@@ -23,12 +23,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="false"
             android:noHistory="true" >
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="false" />
 
         <meta-data
