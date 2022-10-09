@@ -83,20 +83,20 @@
         android:layout_alignParentEnd="true"
         android:visibility="invisible">
         <Button
-            android:id="@+id/building_button"
+            android:id="@+id/buttonBuildOnPanel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/build"
             android:layout_gravity="start"/>
         <Button
-            android:id="@+id/cancelBuildButton"
+            android:id="@+id/buttonCancelBuildOnPanel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
             android:layout_gravity="end"/>
     </FrameLayout>
     <ImageButton
-        android:id="@+id/addBuildingButton"
+        android:id="@+id/buttonAddBuilding"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignBottom="@+id/fragment_view"
@@ -114,34 +114,27 @@
         android:layout_alignParentBottom="true"
         android:gravity="center">
         <ImageButton
-            android:id="@+id/radioButton"
             style="@style/img_btn"
             android:src="@drawable/ic_radio"
             android:contentDescription="@string/radio"/>
         <ImageButton
-            android:id="@+id/buildingButton"
+            android:id="@+id/buttonBuildings"
             style="@style/img_btn"
             android:src="@drawable/ic_building"
             android:contentDescription="@string/buildings"/>
         <ImageButton
-            android:id="@+id/mapButton"
+            android:id="@+id/buttonMap"
             style="@style/img_btn"
             android:src="@drawable/ic_map"
             android:contentDescription="@string/map"/>
 
         <ImageButton
-            android:id="@+id/taskButton"
             style="@style/img_btn"
             android:src="@drawable/ic_task"
             android:contentDescription="@string/tasks"/>
 
-
-
-
-
-
         <ImageButton
-            android:id="@+id/buildButton"
+            android:id="@+id/buttonBuild"
             style="@style/img_btn"
             android:src="@drawable/ic_crane"
             android:contentDescription="@string/building"/>

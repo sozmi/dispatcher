@@ -26,4 +26,22 @@
         <item>Полицейский участок</item>
         <item>Больница</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="iconBuilding">Иконка здания</string>
+    <string name="iconCar">Иконка машины</string>
+    <string name="codeCar">Код</string>
+    <string name="typeCar">тип машины</string>
+    <string name="nameCar">Пользовательское название</string>
+    <string name="coordinate">Координаты</string>
+    <string name="coordinateExample">123456,234t65432</string>
+    <string name="change">изменить</string>
+    <string name="adress">Адрес:</string>
+    <string name="adressExample">Москва, Оборонная улица, 5</string>
+    <string name="typeBuilding">Тип здания:</string>
+    <string name="getTypeBuilding">Выбор здания</string>
+    <string name="nameBuilding">Название:</string>
+    <string name="nameBuildingExample">МЧС РФ г. Твери №1</string>
+    <string name="costBuilding">Стоимость постройки:</string>
+    <string name="costBuildingExample">100$</string>
+
 </resources>

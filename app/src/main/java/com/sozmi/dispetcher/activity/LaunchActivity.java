@@ -22,6 +22,7 @@ public class LaunchActivity extends AppCompatActivity {
         startActivity(activity);
     }
 
+    @SuppressWarnings("SameReturnValue")
     private boolean IsAuth(){
         //TODO дописать проверку сохранен ли пароль и верен ли
         return false;

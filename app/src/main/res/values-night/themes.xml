@@ -10,7 +10,7 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/night.secondary</item>
         <item name="colorSecondaryVariant">@color/night.secondary.light</item>
-        <item name="android:textColorSecondary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/dark_gray</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryDark</item>
         <!-- Button color-->

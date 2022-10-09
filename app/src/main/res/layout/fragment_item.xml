@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/image_building"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/iconBuilding"
+        android:src="@drawable/ic_radio"/>
+    <TextView
+        android:id="@+id/nameBuilding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/image_building"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="Название здания" />
+
+    <TextView
+        android:id="@+id/typeBuilding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameBuilding"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toEndOf="@id/image_building"
+        android:textSize="12sp"
+        tools:text="Тип здания" />
+</RelativeLayout>
+
+
+
+    <com.sozmi.dispetcher.ui.MyListView
+        android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/carBuilding"
+            android:scrollbars="none"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="16dp"/>
+</LinearLayout>

@@ -10,11 +10,13 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
+import com.sozmi.dispetcher.fragment.BuildingFragment;
 import com.sozmi.dispetcher.fragment.BuildFragment;
 import com.sozmi.dispetcher.fragment.MapFragment;
 import com.sozmi.dispetcher.R;
 import com.sozmi.dispetcher.model.MyMap;
 import com.sozmi.dispetcher.model.TypeBuilding;
+
 import com.yandex.mapkit.map.PlacemarkMapObject;
 
 
@@ -23,6 +25,15 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout panel_building;
     PlacemarkMapObject mapObject;
     String _current;
+
+    @Override
+    public void onBackPressed(){
+        if(_current.equals("MapFragment"))
+            super.onBackPressed();
+        else
+            mapButtonOnClick();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,17 +42,22 @@ public class MainActivity extends AppCompatActivity {
         MyMap.setApi();
         OpenFragment(new MapFragment(),"MapFragment");
 
-        addBuildingButton = findViewById(R.id.addBuildingButton);
-        Button cancelBuildButton  = findViewById(R.id.cancelBuildButton);
-        ImageButton buildButton  = findViewById(R.id.buildButton);
-        ImageButton mapButton  = findViewById(R.id.mapButton);
-
+        addBuildingButton = findViewById(R.id.buttonAddBuilding);
+        Button cancelBuildingButton  = findViewById(R.id.buttonCancelBuildOnPanel);
+        Button buildBuildingButton  = findViewById(R.id.buttonBuildOnPanel);
         panel_building  = findViewById(R.id.panel_build);
 
-        addBuildingButton.setOnClickListener(view -> addBuildingButtonOnClick());
+        //нижний бар
+        ImageButton mapButton  = findViewById(R.id.buttonMap);
+        ImageButton buildingsButton = findViewById(R.id.buttonBuildings);
+        ImageButton buildButton =findViewById(R.id.buttonBuild);
+
+        addBuildingButton.setOnClickListener(view -> buttonAddBuildingOnClick());
         buildButton.setOnClickListener(view -> buildButtonOnClick());
-        cancelBuildButton.setOnClickListener(view -> cancelBuildButtonOnClick());
+        buildBuildingButton.setOnClickListener(view -> buildButtonOnClick());
+        cancelBuildingButton.setOnClickListener(view -> cancelBuildButtonOnClick());
         mapButton.setOnClickListener(view -> mapButtonOnClick());
+        buildingsButton.setOnClickListener(view->BuildingsButtonOnClick());
     }
 
     /**
@@ -59,12 +75,17 @@ public class MainActivity extends AppCompatActivity {
     /**
      *Поведение при нажатии кнопки "Добавление нового здания" на карте
      */
-    private void addBuildingButtonOnClick(){
+    private void buttonAddBuildingOnClick(){
         mapObject = MyMap.addMarker(MyMap.getTargetCamera(), TypeBuilding.none);
         addBuildingButton.setVisibility(View.INVISIBLE);
         panel_building.setVisibility(View.VISIBLE);
     }
 
+    private void  BuildingsButtonOnClick(){
+        mapObject = MyMap.addMarker(MyMap.getTargetCamera(), TypeBuilding.none);
+        addBuildingButton.setVisibility(View.INVISIBLE);
+        OpenFragment(new BuildingFragment(),"BuildingsFragment");
+    }
     /**
      *Поведение при нажатии кнопки для вызова фрагмента строительства
      */
@@ -91,11 +112,5 @@ public class MainActivity extends AppCompatActivity {
         panel_building.setVisibility(View.INVISIBLE);
     }
 
-    @Override
-    public void onBackPressed(){
-        if(_current.equals("MapFragment"))
-            super.onBackPressed();
-        else
-           mapButtonOnClick();
-    }
+
 }

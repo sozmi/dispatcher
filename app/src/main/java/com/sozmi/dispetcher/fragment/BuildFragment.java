@@ -13,11 +13,6 @@ import android.widget.Spinner;
 import com.sozmi.dispetcher.R;
 
 public class BuildFragment extends Fragment {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -27,7 +27,7 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/day.secondary</item>
         <item name="colorSecondaryVariant">@color/day.secondary.light</item>
-        <item name="android:textColorSecondary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/dark_gray</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryDark</item>
         <!-- Button color-->

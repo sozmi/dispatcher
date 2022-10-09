@@ -13,20 +13,19 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Координаты" />
+        android:text="@string/coordinate" />
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="123456,234t65432"
         android:autofillHints=""
-        android:inputType="text">
+        android:inputType="text"
+        android:hint="@string/coordinateExample">
 
     </EditText>
     <Button
-        android:id="@+id/changeCoordinateBuildButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="изменить">
+        android:text="@string/change">
     </Button>
 </LinearLayout>
 
@@ -36,11 +35,11 @@
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:text="Адрес:"/>
+           android:text="@string/adress"/>
        <EditText
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:text="Москва, Оборонная улица, 5"
+           android:text="@string/adressExample"
            android:inputType="text"
            android:autofillHints=""
            android:background="@drawable/gradient"
@@ -56,12 +55,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Тип здания:"></TextView>
+            android:text="@string/typeBuilding"/>
         <Spinner
             android:id="@+id/spinner_build"
             android:layout_width="200dp"
             android:layout_height="48dp"
-            android:contentDescription="Выбор здания">
+            android:contentDescription="@string/getTypeBuilding">
 
         </Spinner>
     </LinearLayout>
@@ -71,11 +70,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Название:"/>
+            android:text="@string/nameBuilding"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="МЧС РФ г. Твери №1"
+            android:text="@string/nameBuildingExample"
             android:inputType="text"
             android:autofillHints=""
             tools:ignore="LabelFor">
@@ -89,11 +88,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Стоимость постройки:"/>
+            android:text="@string/costBuilding"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100$"
+            android:text="@string/costBuildingExample"
             android:inputType="text"
             android:autofillHints=""
             tools:ignore="LabelFor">
@@ -102,8 +101,8 @@
 
     </LinearLayout>
     <Button
-        android:id="@+id/buildBuildingButton"
+        android:id="@+id/buttonBuildOnPanel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Построить"/>
+        android:text="@string/build"/>
 </LinearLayout>

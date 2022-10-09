@@ -34,7 +34,7 @@ public final class MyMap {
     }
     public static void setApi(){
         if(!isInit){
-            MapKitFactory.setApiKey(BuildConfig.ApiKey);
+            MapKitFactory.setApiKey(BuildConfig.API_KEY);
             isInit=true;
         }
     }
@@ -59,12 +59,15 @@ public final class MyMap {
                 null);
     }
 
-    public static void LoadResource(){
-        //TODO: для оптимизации необходимо реализовать передачу готового
-        // ImageProvider в метод создания маркера.
-        // Иначе каждый раз происходит формирование нового btm файла
-
-    }
+// --Commented out by Inspection START (09.10.2022 19:21):
+//    @SuppressWarnings("EmptyMethod")
+//    public static void LoadResource(){
+//        //TODO: для оптимизации необходимо реализовать передачу готового
+//        // ImageProvider в метод создания маркера.
+//        // Иначе каждый раз происходит формирование нового btm файла
+//
+//    }
+// --Commented out by Inspection STOP (09.10.2022 19:21)
 
     public static PlacemarkMapObject addMarker(Point coordinate, TypeBuilding type){
         int id=0;

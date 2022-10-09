@@ -15,6 +15,7 @@
     <color name="night.secondary" tools:keep="@color/night_secondary">#982EB6</color>
     <color name="night.secondary.light" tools:keep="@color/night_secondary_light">#793B8B</color>
     <color name="night.secondary.dark" tools:keep="@color/night_secondary_dark">#62107A</color>
+
     <!--Primary colors of the application-->
     <color name="day.primary">#BA1D2C</color>
     <color name="day.primary.light">#F49BA3</color>
@@ -27,9 +28,8 @@
     <!--Other colors-->
     <color name="icons">#FFFFFF</color>
     <color name="launch">#FFCCBC</color>
-    <color name="text_primary">#212121</color>
-    <color name="light_blue_400">#FF29B6F6</color>
-    <color name="light_blue_600">#FF039BE5</color>
-    <color name="gray_400">#FFBDBDBD</color>
-    <color name="gray_600">#FF757575</color>
+    <color name="dark_gray">#212121</color>
+    <color name="blue">#165FDE</color>
+    <color name="green">#26AE16</color>
+    <color name="yellow">#DEDB16</color>
 </resources>
