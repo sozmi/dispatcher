@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    tools:context=".MainActivity">
 
     <!--Верхний бар-->
     <FrameLayout
         android:id="@+id/top_menu"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,12 +61,13 @@
                 android:text="@string/premium_money">
 
             </TextView>
+
         </LinearLayout>
 
 
     </FrameLayout>
 
-    <!--Фрвгмент-->
+    <!--Фрагмент-->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_view"
         android:name="com.sozmi.dispetcher.fragment.MapFragment"
@@ -73,44 +75,14 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/top_menu"
         android:layout_above="@id/bottom_menu"
-        tools:layout="@layout/yandex_map"/>
+        tools:layout="@layout/fragment_map"/>
 
-    <FrameLayout
-        android:id="@+id/panel_build"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/fragment_view"
-        android:layout_alignParentEnd="true"
-        android:visibility="invisible">
-        <Button
-            android:id="@+id/buttonBuildOnPanel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/build"
-            android:layout_gravity="start"/>
-        <Button
-            android:id="@+id/buttonCancelBuildOnPanel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel"
-            android:layout_gravity="end"/>
-    </FrameLayout>
-    <ImageButton
-        android:id="@+id/buttonAddBuilding"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignBottom="@+id/fragment_view"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_add"
-        android:background="@drawable/gradient"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="0dp"
-        android:contentDescription="@string/add"/>
     <!--Нижний бар-->
     <LinearLayout
         android:id="@+id/bottom_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:gravity="center">
         <ImageButton

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <FrameLayout
+        android:id="@+id/panel_build"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="invisible">
+        <Button
+            android:id="@+id/buttonBuildOnPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/build"
+            android:layout_gravity="start"/>
+        <Button
+            android:id="@+id/buttonCancelBuildOnPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:layout_gravity="end"/>
+    </FrameLayout>
+    <ImageButton
+        android:id="@+id/buttonAddBuilding"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_add"
+        android:background="@drawable/gradient"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="0dp"
+        android:contentDescription="@string/add"/>
+</FrameLayout>

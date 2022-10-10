@@ -15,14 +15,17 @@
         android:layout_height="match_parent"
         android:text="@string/coordinate" />
     <EditText
+        android:id="@+id/coordinateOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:inputType="text"
+        android:enabled="false"
         android:hint="@string/coordinateExample">
 
     </EditText>
     <Button
+        android:id="@+id/buttonChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/change">
@@ -37,6 +40,7 @@
            android:layout_height="wrap_content"
            android:text="@string/adress"/>
        <EditText
+           android:id="@+id/adressOut"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="@string/adressExample"
@@ -58,7 +62,7 @@
             android:text="@string/typeBuilding"/>
         <Spinner
             android:id="@+id/spinner_build"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:contentDescription="@string/getTypeBuilding">
 

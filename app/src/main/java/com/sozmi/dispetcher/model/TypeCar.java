@@ -7,15 +7,12 @@ import com.sozmi.dispetcher.R;
 public enum TypeCar {
     ambulance,
     police,
-    fireTrack,
-    none;
+    fireTrack;
 
     @NonNull
     @Override
     public String toString() {
         switch (this) {
-            case none:
-                return "нет";
             case fireTrack:
                 return "Пожарная машина";
             case ambulance:
@@ -29,14 +26,12 @@ public enum TypeCar {
 
     public int toImageId() {
         switch (this) {
-            case none:
-                return R.drawable.ic_map_marker;
             case fireTrack:
-                return R.drawable.ic_firemen;
+                return R.drawable.ic_fire_truck;
             case ambulance:
-                return R.drawable.ic_hospital;
+                return R.drawable.ic_ambulance;
             case police:
-                return R.drawable.ic_police;
+                return R.drawable.ic_police_car;
             default:
                 return -1;
         }

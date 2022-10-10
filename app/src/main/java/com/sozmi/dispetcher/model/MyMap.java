@@ -1,10 +1,15 @@
 package com.sozmi.dispetcher.model;
+
 import static com.yandex.runtime.Runtime.getApplicationContext;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
@@ -12,6 +17,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.sozmi.dispetcher.BuildConfig;
 import com.sozmi.dispetcher.R;
+
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
@@ -25,34 +31,70 @@ import com.yandex.mapkit.mapview.MapView;
 import com.yandex.runtime.image.ImageProvider;
 
 public final class MyMap {
-    private static boolean isInit=false;
+    private static boolean isInit = false;
     private static MapView mapView;
     private static Map map;
+    // --Commented out by Inspection (10.10.2022 22:01):private static Point coordinateBuilding;
+    private static Point coordinateUser;
+    private static PlacemarkMapObject mapObject;
 
-    public static Point getTargetCamera(){
+
+    public static Point getTargetCamera() {
         return map.getCameraPosition().getTarget();
     }
-    public static void setApi(){
-        if(!isInit){
+
+    public static void setApi() {
+        if (!isInit) {
             MapKitFactory.setApiKey(BuildConfig.API_KEY);
-            isInit=true;
+            isInit = true;
         }
+    }
+
+    public static Point getCoordinateUser() {
+        return new Point(coordinateUser.getLatitude(), coordinateUser.getLongitude());
+    }
+
+    @SuppressLint("MissingPermission")
+    public static void SetUserLocation() {
+        LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+
+        if (currentApiVersion >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+            criteria.setSpeedAccuracy(Criteria.ACCURACY_HIGH);
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+            criteria.setAltitudeRequired(true);
+            criteria.setBearingRequired(true);
+            criteria.setSpeedRequired(true);
+        }
+
+        String provider = locationManager.getBestProvider(criteria, true);
+        Location location = locationManager.getLastKnownLocation(provider);
+        if(location!=null){
+            setCoordinateUser(new Point(location.getLatitude(),location.getLongitude()));
+        }
+
+    }
+
+
+    public static void setCoordinateUser(Point coordinateUser) {
+        MyMap.coordinateUser = coordinateUser;
     }
 
     public static void setMapView(View view){
         mapView = view.findViewById(R.id.mapview);
         map=mapView.getMap();
     }
-    public static void setLogoPosition(){
-        map.getLogo().setAlignment(new Alignment(HorizontalAlignment.LEFT, VerticalAlignment.BOTTOM));
+
+    public static void init(View view){
+            setMapView(view);
+            MapKitFactory.initialize(view.getContext());
+            map.getLogo().setAlignment(new Alignment(HorizontalAlignment.LEFT, VerticalAlignment.BOTTOM));
     }
 
-    public static void init(Context context){
-            MapKitFactory.initialize(context);
-    }
 
-
-    public static void moveTo( Point coordinate){
+    public static void camMoveTo(Point coordinate){
         map.move(
                 new CameraPosition(coordinate, 11.0f, 0.0f, 0.0f),
                 new Animation(Animation.Type.SMOOTH, 0),
@@ -69,7 +111,7 @@ public final class MyMap {
 //    }
 // --Commented out by Inspection STOP (09.10.2022 19:21)
 
-    public static PlacemarkMapObject addMarker(Point coordinate, TypeBuilding type){
+    public static void addMarker(Point coordinate, TypeBuilding type){
         int id=0;
         switch (type){
             case police:
@@ -90,7 +132,7 @@ public final class MyMap {
         pm.setIcon(ImageProvider.fromBitmap(btm));
         if(type==TypeBuilding.none)
             pm.setDraggable(true);
-        return pm;
+        setMapObject(pm);
     }
     public static void delMarker(PlacemarkMapObject mapObject){
         if(mapObject==null)
@@ -120,5 +162,25 @@ public final class MyMap {
     public static void OnStop(){
         mapView.onStop();
         MapKitFactory.getInstance().onStop();
+    }
+
+// --Commented out by Inspection START (10.10.2022 22:00):
+//    public static Point getCoordinateNewBuilding() {
+//        return coordinateBuilding;
+//    }
+// --Commented out by Inspection STOP (10.10.2022 22:00)
+
+// --Commented out by Inspection START (10.10.2022 22:00):
+//    public static void setCoordinateNewBuilding(Point coordinateBuilding) {
+//        MyMap.coordinateBuilding = coordinateBuilding;
+//    }
+// --Commented out by Inspection STOP (10.10.2022 22:00)
+
+    public static PlacemarkMapObject getMapObject() {
+        return mapObject;
+    }
+
+    public static void setMapObject(PlacemarkMapObject mapObject) {
+        MyMap.mapObject = mapObject;
     }
 }

@@ -5,5 +5,4 @@
         <item name="android:layout_height">60dp</item>
         <item name="android:scaleType">centerInside</item>
     </style>
-
 </resources>

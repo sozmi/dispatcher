@@ -40,5 +40,9 @@ public class Server {
         lst.add(build9);
         return lst;
     }
+
+    public static boolean isAuth(){
+        return false;
+    }
 }
 

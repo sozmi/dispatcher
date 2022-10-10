@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.LoginActivity">
-
+    tools:context=".fragment.LoginFragment">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:fontFamily="@font/oswald"
         android:gravity="center"
         android:text="@string/login_text"
-        android:textSize="30sp" />
+        android:textSize="@dimen/big_text" />
 
     <TextView
         android:layout_width="match_parent"
@@ -32,7 +30,7 @@
         android:paddingVertical="20dp"
         android:layout_marginHorizontal="30dp"
         android:inputType="textEmailAddress"
-        android:autofillHints="" />
+        android:autofillHints="emailAddress" />
     <TextView
         android:layout_width="match_parent"
         android:layout_marginHorizontal="30dp"
@@ -48,7 +46,8 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="20dp"
         android:layout_marginHorizontal="30dp"
-        android:autofillHints="" />
+        android:autofillHints="password"
+        />
 
     <Button
         android:id="@+id/login_btn"
@@ -66,5 +65,4 @@
         android:layout_gravity="center"
         android:minHeight="48dp"
         android:text="@string/save_password" />
-
 </LinearLayout>
