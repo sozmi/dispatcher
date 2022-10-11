@@ -23,8 +23,8 @@ public class MyFM {
         return nameCurrent;
     }
 
-    public static void setCurrentName(String _currentFragment) {
-        MyFM.nameCurrent = _currentFragment;
+    public static void setCurrentName(String currentFragment) {
+        MyFM.nameCurrent = currentFragment;
     }
 
     public static FragmentManager getFM() {
