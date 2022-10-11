@@ -1,41 +1,52 @@
 package com.sozmi.dispetcher.model;
 import java.util.ArrayList;
 
-public class Building {
-    private String name;
-    private TypeBuilding type;
-    private ArrayList<Car> car;
 
+/**
+ * Класс, описывающий здания
+ */
+public class Building {
+    private final String name;
+    private final TypeBuilding type;
+    private final ArrayList<Car> cars;
+
+    /**
+     * @param name название здания
+     * @param type тип здания по его классификации
+     * @param cars список машин, относящихся к зданию
+     */
     public Building(String name, TypeBuilding type, ArrayList<Car> cars) {
-        setName(name);
-        setType(type);
-        setCar(cars);
+        this.name=name;
+        this.cars = cars;
+        this.type = type;
     }
 
+    /**
+     * Получение названия здания
+     * @return название здания
+     */
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * Получение типа здания
+     * @return тип здания
+     */
     public TypeBuilding getType() {
         return type;
     }
 
-    public void setType(TypeBuilding type) {
-        this.type = type;
+    /**
+     * Получение списка машин, относящихся к зданию
+     * @return список машин, относящихся к зданию
+     */
+    public ArrayList<Car> getCars() {
+        return cars;
     }
-
-    public ArrayList<Car> getCar() {
-        return car;
-    }
-
-    public void setCar(ArrayList<Car> car) {
-        this.car = car;
-    }
-
+    /**
+     * Получение id иконки здания
+     * @return id ресурса
+     */
     public int getImage() {
         return type.toImageId();
     }

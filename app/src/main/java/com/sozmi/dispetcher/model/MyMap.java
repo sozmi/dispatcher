@@ -51,7 +51,7 @@ public final class MyMap {
     }
 
     public static Point getCoordinateUser() {
-        return new Point(coordinateUser.getLatitude(), coordinateUser.getLongitude());
+        return coordinateUser;
     }
 
     @SuppressLint("MissingPermission")
@@ -78,8 +78,8 @@ public final class MyMap {
     }
 
 
-    public static void setCoordinateUser(Point coordinateUser) {
-        MyMap.coordinateUser = coordinateUser;
+    public static void setCoordinateUser(Point coordinate) {
+        coordinateUser = coordinate;
     }
 
     public static void setMapView(View view){
