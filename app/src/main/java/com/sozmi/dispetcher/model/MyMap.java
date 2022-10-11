@@ -101,24 +101,15 @@ public final class MyMap {
                 null);
     }
 
-// --Commented out by Inspection START (09.10.2022 19:21):
-//    @SuppressWarnings("EmptyMethod")
-//    public static void LoadResource(){
-//        //TODO: для оптимизации необходимо реализовать передачу готового
-//        // ImageProvider в метод создания маркера.
-//        // Иначе каждый раз происходит формирование нового btm файла
-//
-//    }
-// --Commented out by Inspection STOP (09.10.2022 19:21)
 
-    public static void addMarker(Point coordinate, TypeBuilding type){
+    private static ImageProvider getImageProvider(TypeBuilding type){
         int id=0;
         switch (type){
-            case police:
-                id =R.drawable.ic_police;
-                break;
             case hospital:
                 id =R.drawable.ic_hospital;
+                break;
+            case police:
+                id =R.drawable.ic_police;
                 break;
             case fire_station:
                 id =R.drawable.ic_firemen;
@@ -128,8 +119,18 @@ public final class MyMap {
                 break;
         }
         var btm = getBitmapFromVectorDrawable(getApplicationContext(),id);
+        return ImageProvider.fromBitmap(btm);
+    }
+
+    public static void addMarker(Point coordinate, TypeBuilding type){
+        ImageProvider[] imageProviders =new ImageProvider[TypeBuilding.values().length];
+
+        if(imageProviders[type.ordinal()]==null){
+            imageProviders[type.ordinal()]= getImageProvider(type);
+        }
+
         var pm =map.getMapObjects().addPlacemark(coordinate);
-        pm.setIcon(ImageProvider.fromBitmap(btm));
+        pm.setIcon(imageProviders[type.ordinal()]);
         if(type==TypeBuilding.none)
             pm.setDraggable(true);
         setMapObject(pm);
