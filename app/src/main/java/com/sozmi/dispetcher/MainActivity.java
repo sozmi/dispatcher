@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MyMap.setApi();
+        MyMap.setActivity(this);
         MyFM.setFM(getSupportFragmentManager());
-
         if(Server.isAuth())
             MyFM.OpenFragment(new MapFragment(false,true),"MapFragment");
         else

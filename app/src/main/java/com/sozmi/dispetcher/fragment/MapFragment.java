@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import com.sozmi.dispetcher.R;
+import com.sozmi.dispetcher.model.Driving;
 import com.sozmi.dispetcher.model.MyFM;
 import com.sozmi.dispetcher.model.MyMap;
 import com.sozmi.dispetcher.model.TypeBuilding;
@@ -30,6 +31,7 @@ public class MapFragment extends Fragment {
         MyMap.init(view);
         MyMap.SetUserLocation();
         MyMap.camMoveTo(MyMap.getCoordinateUser());
+        Driving dr =new Driving(view.getContext());
         if(viewAllMenu){
             FrameLayout topMenu = getActivity().findViewById(R.id.top_menu);
             LinearLayout bottomMenu = getActivity().findViewById(R.id.bottom_menu);
@@ -65,7 +67,7 @@ public class MapFragment extends Fragment {
      *Поведение при нажатии кнопки отмены при выборе координат на карте
      */
     private void cancelBuildButtonOnClick(){
-        MyMap.delMarker(MyMap.getMapObject());
+        MyMap.delMarker(MyMap.getPlMapObject());
         addBuildingButton.setVisibility(View.VISIBLE);
         panel_building.setVisibility(View.INVISIBLE);
     }

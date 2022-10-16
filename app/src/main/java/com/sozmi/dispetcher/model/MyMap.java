@@ -3,6 +3,7 @@ package com.sozmi.dispetcher.model;
 import static com.yandex.runtime.Runtime.getApplicationContext;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -30,14 +31,20 @@ import com.yandex.mapkit.map.PlacemarkMapObject;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.runtime.image.ImageProvider;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public final class MyMap {
     private static boolean isInit = false;
     private static MapView mapView;
     private static Map map;
     // --Commented out by Inspection (10.10.2022 22:01):private static Point coordinateBuilding;
     private static Point coordinateUser;
-    private static PlacemarkMapObject mapObject;
+    private static PlacemarkMapObject plMapObject;
 
+    public static Map getMap() {
+        return map;
+    }
 
     public static Point getTargetCamera() {
         return map.getCameraPosition().getTarget();
@@ -50,6 +57,15 @@ public final class MyMap {
         }
     }
 
+    public static void setActivity(Activity a){
+        activity=a;
+    }
+    private static Activity activity;
+
+    public static void moveMarker(PlacemarkMapObject pm, Point point){
+        delMarker(pm);
+        addMarker(point,TypeBuilding.none);
+    }
     public static Point getCoordinateUser() {
         return coordinateUser;
     }
@@ -122,7 +138,7 @@ public final class MyMap {
         return ImageProvider.fromBitmap(btm);
     }
 
-    public static void addMarker(Point coordinate, TypeBuilding type){
+    public static PlacemarkMapObject addMarker(Point coordinate, TypeBuilding type){
         ImageProvider[] imageProviders =new ImageProvider[TypeBuilding.values().length];
 
         if(imageProviders[type.ordinal()]==null){
@@ -133,7 +149,8 @@ public final class MyMap {
         pm.setIcon(imageProviders[type.ordinal()]);
         if(type==TypeBuilding.none)
             pm.setDraggable(true);
-        setMapObject(pm);
+        setPlMapObject(pm);
+        return pm;
     }
     public static void delMarker(PlacemarkMapObject mapObject){
         if(mapObject==null)
@@ -177,11 +194,11 @@ public final class MyMap {
 //    }
 // --Commented out by Inspection STOP (10.10.2022 22:00)
 
-    public static PlacemarkMapObject getMapObject() {
-        return mapObject;
+    public static PlacemarkMapObject getPlMapObject() {
+        return plMapObject;
     }
 
-    public static void setMapObject(PlacemarkMapObject mapObject) {
-        MyMap.mapObject = mapObject;
+    public static void setPlMapObject(PlacemarkMapObject pm) {
+        plMapObject = pm;
     }
 }
