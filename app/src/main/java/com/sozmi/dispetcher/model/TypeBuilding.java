@@ -18,7 +18,7 @@ public enum TypeBuilding {
             case fire_station: return "Пожарная станция";
             case hospital: return "Больница";
             case police: return "Полицейский участок";
-            default: return "null";
+            default: return "Неизвестно";
         }
     }
 

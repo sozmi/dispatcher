@@ -1,9 +1,6 @@
 package com.sozmi.dispetcher.fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +8,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import androidx.fragment.app.Fragment;
+
 import com.sozmi.dispetcher.R;
 import com.sozmi.dispetcher.model.MyFM;
-import com.yandex.mapkit.geometry.Point;
+
+import org.osmdroid.util.GeoPoint;
 
 public class BuildFragment extends Fragment {
-    Point point;
+    GeoPoint point;
     public BuildFragment(){
 
     }
-    public BuildFragment(Point point){
+    public BuildFragment(GeoPoint point){
         this.point=point;
     }
     @Override

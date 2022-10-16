@@ -19,14 +19,14 @@ android {
         debug{
             Properties properties = new Properties()
             properties.load(project.rootProject.file('local.properties').newDataInputStream())
-            buildConfigField 'String', "API_KEY", "\"${properties.getProperty('MAPKIT_API_KEY')}\""
+            buildConfigField 'String', "API_KEY", "\"${properties.getProperty('API_KEY')}\""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             Properties properties = new Properties()
             properties.load(project.rootProject.file('local.properties').newDataInputStream())
-            buildConfigField 'String', "API_KEY", "\"${properties.getProperty('MAPKIT_API_KEY')}\""
+            buildConfigField 'String', "API_KEY", "\"${properties.getProperty('API_KEY')}\""
         }
     }
     compileOptions {
@@ -56,12 +56,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    // Облегченная библиотека, содержит только карту, слой пробок,
-    // LocationManager, UserLocationLayer и возможность скачивать офлайн-карты (только в платной версии).
-    //implementation 'com.yandex.android:maps.mobile:4.2.1-lite'
-
-    // Полная библиотека в дополнение к lite версии предоставляет автомобильную маршрутизацию,
-    // веломаршрутизацию, пешеходную маршрутизацию и маршрутизацию на общественном транспорте,
-    // поиск, suggest, геокодирование и отображение панорам.
-    implementation 'com.yandex.android:maps.mobile:4.2.1-full'
+    implementation 'com.github.MKergall:osmbonuspack:6.9.0'
 }

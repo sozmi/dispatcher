@@ -9,7 +9,6 @@ import com.sozmi.dispetcher.fragment.BuildingFragment;
 import com.sozmi.dispetcher.fragment.BuildFragment;
 import com.sozmi.dispetcher.fragment.MapFragment;
 import com.sozmi.dispetcher.model.MyFM;
-import com.sozmi.dispetcher.model.MyMap;
 import com.sozmi.dispetcher.model.Server;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MyMap.setApi();
-        MyMap.setActivity(this);
+
         MyFM.setFM(getSupportFragmentManager());
         if(Server.isAuth())
             MyFM.OpenFragment(new MapFragment(false,true),"MapFragment");

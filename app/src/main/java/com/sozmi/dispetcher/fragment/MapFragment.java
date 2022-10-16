@@ -1,4 +1,5 @@
 package com.sozmi.dispetcher.fragment;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +10,22 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
+
 import com.sozmi.dispetcher.R;
-import com.sozmi.dispetcher.model.Driving;
+import com.sozmi.dispetcher.model.Map;
 import com.sozmi.dispetcher.model.MyFM;
-import com.sozmi.dispetcher.model.MyMap;
 import com.sozmi.dispetcher.model.TypeBuilding;
+
+import org.osmdroid.views.overlay.Marker;
+
+import java.util.Objects;
 
 public class MapFragment extends Fragment {
     ImageButton addBuildingButton;
     FrameLayout panel_building;
     Boolean viewPanel=false, viewAllMenu=false;
+    private Marker build;
+
     public MapFragment(){
     }
     public MapFragment(Boolean viewPanel,Boolean viewAllMenu){
@@ -28,16 +35,14 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-        MyMap.init(view);
-        MyMap.SetUserLocation();
-        MyMap.camMoveTo(MyMap.getCoordinateUser());
-        Driving dr =new Driving(view.getContext());
+        Map.init(view);
         if(viewAllMenu){
-            FrameLayout topMenu = getActivity().findViewById(R.id.top_menu);
-            LinearLayout bottomMenu = getActivity().findViewById(R.id.bottom_menu);
+            FrameLayout topMenu = requireActivity().findViewById(R.id.top_menu);
+            LinearLayout bottomMenu = requireActivity().findViewById(R.id.bottom_menu);
             topMenu.setVisibility(View.VISIBLE);
             bottomMenu.setVisibility(View.VISIBLE);
         }
+
         addBuildingButton = view.findViewById(R.id.buttonAddBuilding);
         Button cancelBuildingButton  = view.findViewById(R.id.buttonCancelBuildOnPanel);
         Button buildBuildingButton  = view.findViewById(R.id.buttonBuildOnPanel);
@@ -53,21 +58,12 @@ public class MapFragment extends Fragment {
 
         return view;
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        MyMap.OnStart();
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        MyMap.OnStop();
-    }
+
     /**
      *Поведение при нажатии кнопки отмены при выборе координат на карте
      */
     private void cancelBuildButtonOnClick(){
-        MyMap.delMarker(MyMap.getPlMapObject());
+        Map.removeMarker(build);
         addBuildingButton.setVisibility(View.VISIBLE);
         panel_building.setVisibility(View.INVISIBLE);
     }
@@ -82,7 +78,7 @@ public class MapFragment extends Fragment {
      *Поведение при нажатии кнопки "Добавление нового здания" на карте
      */
     private void buttonAddBuildingOnClick(){
-        MyMap.addMarker(MyMap.getTargetCamera(), TypeBuilding.none);
+        build = Map.addMarker(Map.getCamPoint(), TypeBuilding.none);
         panel_building.setVisibility(View.VISIBLE);
         addBuildingButton.setVisibility(View.INVISIBLE);
     }
