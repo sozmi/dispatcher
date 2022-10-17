@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher;
+package com.sozmi.dispatcher;
 
 import android.content.Context;
 

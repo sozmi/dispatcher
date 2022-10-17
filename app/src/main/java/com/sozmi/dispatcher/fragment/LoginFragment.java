@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher.fragment;
+package com.sozmi.dispatcher.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.sozmi.dispetcher.R;
-import com.sozmi.dispetcher.model.MyFM;
+import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.model.MyFM;
 
 
 public class LoginFragment extends Fragment {

@@ -70,7 +70,7 @@
     <!--Фрагмент-->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_view"
-        android:name="com.sozmi.dispetcher.fragment.MapFragment"
+        android:name="com.sozmi.dispatcher.fragment.MapFragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/top_menu"

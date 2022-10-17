@@ -1,15 +1,15 @@
-package com.sozmi.dispetcher;
+package com.sozmi.dispatcher;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
-import com.sozmi.dispetcher.fragment.LoginFragment;
-import com.sozmi.dispetcher.fragment.BuildingFragment;
-import com.sozmi.dispetcher.fragment.BuildFragment;
-import com.sozmi.dispetcher.fragment.MapFragment;
-import com.sozmi.dispetcher.model.MyFM;
-import com.sozmi.dispetcher.model.Server;
+import com.sozmi.dispatcher.fragment.LoginFragment;
+import com.sozmi.dispatcher.fragment.BuildingFragment;
+import com.sozmi.dispatcher.fragment.BuildFragment;
+import com.sozmi.dispatcher.fragment.MapFragment;
+import com.sozmi.dispatcher.model.MyFM;
+import com.sozmi.dispatcher.model.Server;
 
 public class MainActivity extends AppCompatActivity {
 

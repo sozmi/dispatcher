@@ -1,13 +1,12 @@
-package com.sozmi.dispetcher.model;
+package com.sozmi.dispatcher.model;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 
-import com.sozmi.dispetcher.BuildConfig;
+import com.sozmi.dispatcher.BuildConfig;
 
 import org.osmdroid.bonuspack.routing.GraphHopperRoadManager;
 import org.osmdroid.bonuspack.routing.Road;

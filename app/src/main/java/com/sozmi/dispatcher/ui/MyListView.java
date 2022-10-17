@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher.ui;
+package com.sozmi.dispatcher.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;

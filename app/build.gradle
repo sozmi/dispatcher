@@ -6,7 +6,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.mishasozontov.dispetcher"
+        applicationId 'com.sozmi.dispatcher'
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -33,7 +33,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-    namespace 'com.sozmi.dispetcher'
+    namespace 'com.sozmi.dispatcher'
     buildToolsVersion '33.0.0'
     buildFeatures {
         viewBinding true

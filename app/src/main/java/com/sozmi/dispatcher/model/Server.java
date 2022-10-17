@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher.model;
+package com.sozmi.dispatcher.model;
 
 import java.util.ArrayList;
 

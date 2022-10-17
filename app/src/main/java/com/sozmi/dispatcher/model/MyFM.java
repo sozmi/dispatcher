@@ -1,9 +1,9 @@
-package com.sozmi.dispetcher.model;
+package com.sozmi.dispatcher.model;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import com.sozmi.dispetcher.R;
+import com.sozmi.dispatcher.R;
 
 public class MyFM {
     private static String nameCurrent;

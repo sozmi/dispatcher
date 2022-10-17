@@ -1,8 +1,9 @@
-package com.sozmi.dispetcher.model;
+package com.sozmi.dispatcher.model;
 
 import androidx.annotation.NonNull;
 
-import com.sozmi.dispetcher.R;
+import com.sozmi.dispatcher.R;
+
 
 public enum TypeCar {
     ambulance,

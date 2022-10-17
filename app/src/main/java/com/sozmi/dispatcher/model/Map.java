@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher.model;
+package com.sozmi.dispatcher.model;
 
 import android.Manifest;
 import android.content.Context;
@@ -12,8 +12,8 @@ import android.view.View;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.sozmi.dispetcher.BuildConfig;
-import com.sozmi.dispetcher.R;
+import com.sozmi.dispatcher.BuildConfig;
+import com.sozmi.dispatcher.R;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;

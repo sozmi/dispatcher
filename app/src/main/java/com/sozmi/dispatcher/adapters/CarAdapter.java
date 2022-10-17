@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher.adapters;
+package com.sozmi.dispatcher.adapters;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
-import com.sozmi.dispetcher.R;
-import com.sozmi.dispetcher.model.Car;
+import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.model.Car;
 import java.util.ArrayList;
 
 public class CarAdapter extends ArrayAdapter<Car> {

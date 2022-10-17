@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher.fragment;
+package com.sozmi.dispatcher.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sozmi.dispetcher.adapters.BuildingViewAdapter;
-import com.sozmi.dispetcher.R;
-import com.sozmi.dispetcher.model.Server;
+import com.sozmi.dispatcher.adapters.BuildingViewAdapter;
+import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.model.Server;
 
 /**
  * A fragment representing a list of Items.

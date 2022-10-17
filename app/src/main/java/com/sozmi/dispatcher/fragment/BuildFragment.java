@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher.fragment;
+package com.sozmi.dispatcher.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,8 +10,8 @@ import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
-import com.sozmi.dispetcher.R;
-import com.sozmi.dispetcher.model.MyFM;
+import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.model.MyFM;
 
 import org.osmdroid.util.GeoPoint;
 

@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher.adapters;
+package com.sozmi.dispatcher.adapters;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sozmi.dispetcher.R;
-import com.sozmi.dispetcher.databinding.FragmentItemBinding;
-import com.sozmi.dispetcher.model.Building;
-import com.sozmi.dispetcher.ui.MyListView;
+import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.databinding.FragmentItemBinding;
+import com.sozmi.dispatcher.model.Building;
+import com.sozmi.dispatcher.ui.MyListView;
 
 import java.util.List;
 /**

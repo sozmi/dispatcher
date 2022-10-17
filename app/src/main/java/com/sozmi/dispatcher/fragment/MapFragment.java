@@ -1,4 +1,4 @@
-package com.sozmi.dispetcher.fragment;
+package com.sozmi.dispatcher.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,14 +11,12 @@ import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 
-import com.sozmi.dispetcher.R;
-import com.sozmi.dispetcher.model.Map;
-import com.sozmi.dispetcher.model.MyFM;
-import com.sozmi.dispetcher.model.TypeBuilding;
+import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.model.Map;
+import com.sozmi.dispatcher.model.MyFM;
+import com.sozmi.dispatcher.model.TypeBuilding;
 
 import org.osmdroid.views.overlay.Marker;
-
-import java.util.Objects;
 
 public class MapFragment extends Fragment {
     ImageButton addBuildingButton;
