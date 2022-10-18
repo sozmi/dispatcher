@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
     <!--Верхний бар-->
     <FrameLayout
         android:id="@+id/top_menu"
@@ -46,7 +45,7 @@
                 android:padding="10dp"
                 android:textColor="@color/icons"
 
-                android:text="@string/money">
+                android:text="@string/RUB">
 
             </TextView>
 
@@ -58,7 +57,7 @@
                 android:textColor="@color/icons"
                 android:background="@color/day.secondary"
                 android:padding="10dp"
-                android:text="@string/premium_money">
+                android:text="@string/USD">
 
             </TextView>
 
