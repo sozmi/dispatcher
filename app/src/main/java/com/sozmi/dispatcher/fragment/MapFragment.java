@@ -30,6 +30,7 @@ public class MapFragment extends Fragment {
         this.viewPanel=viewPanel;
         this.viewAllMenu=viewAllMenu;
     }
+
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
@@ -69,7 +70,7 @@ public class MapFragment extends Fragment {
      *Поведение при нажатии кнопки для вызова фрагмента строительства
      */
     private void buildButtonOnClick(){
-        MyFM.OpenFragment(new BuildFragment(), "BuildFragment");
+        MyFM.OpenFragment(new BuildFragment(Map.getMarkerPoint(build)), "BuildFragment");
     }
 
     /**

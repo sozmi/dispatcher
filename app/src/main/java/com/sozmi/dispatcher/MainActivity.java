@@ -1,13 +1,15 @@
 package com.sozmi.dispatcher;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
-import com.sozmi.dispatcher.fragment.LoginFragment;
-import com.sozmi.dispatcher.fragment.BuildingFragment;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.sozmi.dispatcher.fragment.BuildFragment;
+import com.sozmi.dispatcher.fragment.BuildingFragment;
+import com.sozmi.dispatcher.fragment.LoginFragment;
 import com.sozmi.dispatcher.fragment.MapFragment;
+import com.sozmi.dispatcher.model.Permission;
 import com.sozmi.dispatcher.model.MyFM;
 import com.sozmi.dispatcher.model.Server;
 
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Permission.get(this);
         MyFM.setFM(getSupportFragmentManager());
         if(Server.isAuth())
             MyFM.OpenFragment(new MapFragment(false,true),"MapFragment");

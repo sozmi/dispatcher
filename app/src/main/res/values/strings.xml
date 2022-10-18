@@ -4,8 +4,8 @@
     <string name="tasks">Задания</string>
     <string name="buildings">Здания</string>
     <string name="map">Карта</string>
-    <string name="money">10000 руб.</string>
-    <string name="premium_money">10$</string>
+    <string name="RUB">10000 руб.</string>
+    <string name="USD">10$</string>
     <string name="account">Аккаунт</string>
     <!-- Strings related to login -->
     <string name="name_account">Abram This</string>
@@ -43,5 +43,5 @@
     <string name="nameBuildingExample">МЧС РФ г. Твери №1</string>
     <string name="costBuilding">Стоимость постройки:</string>
     <string name="costBuildingExample">100$</string>
-
+    <string name="setting">Настройки</string>
 </resources>

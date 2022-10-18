@@ -6,19 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.model.Map;
 import com.sozmi.dispatcher.model.MyFM;
 
 import org.osmdroid.util.GeoPoint;
 
 public class BuildFragment extends Fragment {
-    GeoPoint point;
+    private final GeoPoint point;
     public BuildFragment(){
-
+        this.point = Map.getCamPoint();
     }
     public BuildFragment(GeoPoint point){
         this.point=point;
@@ -28,6 +30,8 @@ public class BuildFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_build, container, false);
         Button changeCoordinate = view.findViewById(R.id.buttonChange);
+        EditText pointBuild = view.findViewById(R.id.coordinateOut);
+        pointBuild.setText(point.toString());
         changeCoordinate.setOnClickListener(v->onButtonChangeClick());
         CreateSpinner(view);
         return view;
@@ -46,6 +50,7 @@ public class BuildFragment extends Fragment {
 
 
     private void onButtonChangeClick(){
+
         MyFM.OpenFragment(new MapFragment(true,false),"MyMap");
     }
 }

@@ -49,7 +49,9 @@ public class Map {
     public static GeoPoint getUserPoint() {
         return userPoint;
     }
-
+    public static GeoPoint getMarkerPoint(Marker marker) {
+        return marker.getPosition();
+    }
     public static void setUserPoint(GeoPoint point) {
         Map.userPoint = point;
     }
