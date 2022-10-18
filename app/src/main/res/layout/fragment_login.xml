@@ -51,12 +51,8 @@
 
     <Button
         android:id="@+id/login_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/auth"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginVertical="20dp"
-        android:background="@drawable/gradient"
+        style="@style/button_text"
         />
 
     <CheckBox

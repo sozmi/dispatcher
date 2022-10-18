@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
@@ -29,9 +29,9 @@ public class BuildFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_build, container, false);
-        Button changeCoordinate = view.findViewById(R.id.buttonChange);
+        ImageButton changeCoordinate = view.findViewById(R.id.buttonChange);
         EditText pointBuild = view.findViewById(R.id.coordinateOut);
-        pointBuild.setText(point.toString());
+        pointBuild.setText(point.toString().replace(",",",\n"));
         changeCoordinate.setOnClickListener(v->onButtonChangeClick());
         CreateSpinner(view);
         return view;

@@ -16,14 +16,12 @@
         android:visibility="invisible">
         <Button
             android:id="@+id/buttonBuildOnPanel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/button_text_little"
             android:text="@string/build"
             android:layout_gravity="start"/>
         <Button
             android:id="@+id/buttonCancelBuildOnPanel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/button_text_little"
             android:text="@string/cancel"
             android:layout_gravity="end"/>
     </FrameLayout>
@@ -31,7 +29,6 @@
         android:id="@+id/buttonAddBuilding"
         android:layout_width="50dp"
         android:layout_height="50dp"
-
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_add"
         android:background="@drawable/gradient"

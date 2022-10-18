@@ -33,7 +33,7 @@
     <string name="typeCar">тип машины</string>
     <string name="nameCar">Пользовательское название</string>
     <string name="coordinate">Координаты</string>
-    <string name="coordinateExample">123456,234t65432</string>
+    <string name="coordinateExample">55.03987264242,\n33.456776547654,\n 0.000</string>
     <string name="change">изменить</string>
     <string name="adress">Адрес:</string>
     <string name="adressExample">Москва, Оборонная улица, 5</string>

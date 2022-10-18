@@ -5,8 +5,30 @@
         <item name="android:layout_height">60dp</item>
         <item name="android:scaleType">centerInside</item>
     </style>
+    <!--Кнопка-изображение квадратная-->
+    <style name="img_btn_square">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
     <style name="AlertDialogCustom" parent="Theme.AppCompat.DayNight.Dialog.Alert" >
         <item name="android:color">@color/dark_gray</item>
+    </style>
 
+    <style name="button_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:layout_marginEnd">30dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:background">@drawable/gradient</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="button_text_little">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/gradient</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>
