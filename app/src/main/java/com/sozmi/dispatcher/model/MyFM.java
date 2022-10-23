@@ -3,19 +3,23 @@ package com.sozmi.dispatcher.model;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.sozmi.dispatcher.R;
 
 public class MyFM {
     private static String nameCurrent;
     private static FragmentManager fm;
+
     /**
      * Метод открывающий заменяющий текущий фрагмент нужным
+     *
      * @param fragment - фрагмент который будет отображаться
      */
-    public static void OpenFragment(Fragment fragment,String name){
+    public static void OpenFragment(Fragment fragment, String name) {
+        if (name.equals(nameCurrent)) return;
         setCurrentName(name);
         FragmentTransaction ft = getFM().beginTransaction();
-        ft.replace(R.id.fragment_view, fragment,name);
+        ft.replace(R.id.fragment_view, fragment, name);
         ft.commit();
     }
 

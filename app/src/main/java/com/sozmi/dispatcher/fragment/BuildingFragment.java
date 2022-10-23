@@ -2,17 +2,16 @@ package com.sozmi.dispatcher.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.sozmi.dispatcher.adapters.BuildingViewAdapter;
 import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.adapters.BuildingViewAdapter;
 import com.sozmi.dispatcher.model.Server;
 
 /**
@@ -35,7 +34,7 @@ public class BuildingFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new BuildingViewAdapter(Server.getBuildings(),view));
+            recyclerView.setAdapter(new BuildingViewAdapter(Server.getBuildings(), view));
         }
         return view;
     }

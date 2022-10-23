@@ -7,12 +7,11 @@ import android.content.pm.PackageManager;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.sozmi.dispatcher.R;
 
 /**Класс для получения разрешений*/
-public class Permission {
+public class Permission{
 
     /** Массив разрешений, необходимых для работы приложения*/
     private final static String[] PERMISSION = new String[]{
@@ -26,11 +25,10 @@ public class Permission {
      */
     public static void get(Context context) {
         if (!checkAll(context)) {
-            ActivityCompat.requestPermissions((Activity) context, PERMISSION, 0);
-            if (checkAll(context)) return;
             showDialog(context);
         }
     }
+
 
     /**
      * Проверка даны ли все разрешения
@@ -39,8 +37,8 @@ public class Permission {
      */
     private static boolean checkAll(Context context) {
         for (String permission : PERMISSION)
-            //если разрешения нет возвращаем false
-            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
+            //если нет разрешения возвращаем false
+            if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
                 return false;
         return true;
     }
@@ -51,6 +49,7 @@ public class Permission {
      * @param context контекст приложения
      */
     private static void showDialog(Context context) {
+        if (checkAll(context)) return;
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
         alertBuilder.setCancelable(true);
         alertBuilder.setTitle("Получение разрешений");

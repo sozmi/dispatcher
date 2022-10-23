@@ -1,4 +1,4 @@
-package com.sozmi.dispatcher.model;
+package com.sozmi.dispatcher.model.objects;
 
 /**
  * Класс, описывающий машину как объект
@@ -8,10 +8,13 @@ public class Car {
     private TypeCar type;
     private Status status;
 
-    /**Конструктор
-     * @param name пользовательское название машины
-     * @param type тип машины по её классификации
-     * @param status статус машины*/
+    /**
+     * Конструктор
+     *
+     * @param name   пользовательское название машины
+     * @param type   тип машины по её классификации
+     * @param status статус машины
+     */
     public Car(String name, TypeCar type, Status status) {
         setName(name);
         setType(type);
@@ -20,6 +23,7 @@ public class Car {
 
     /**
      * Получение пользовательского названия машины
+     *
      * @return Пользовательское название машины
      */
     public String getName() {
@@ -29,6 +33,7 @@ public class Car {
 
     /**
      * Установка пользовательского названия машины
+     *
      * @param name название машины
      */
     public void setName(String name) {
@@ -37,6 +42,7 @@ public class Car {
 
     /**
      * Получение типа машины
+     *
      * @return тип машины
      */
     public TypeCar getType() {
@@ -45,6 +51,7 @@ public class Car {
 
     /**
      * Установка типа машины
+     *
      * @param type тип машины
      */
     public void setType(TypeCar type) {
@@ -54,14 +61,16 @@ public class Car {
 
     /**
      * Получение статуса машины
+     *
      * @return статус машины
      */
     public String getStatus() {
-       return status.toString();
+        return status.toString();
     }
 
     /**
      * Получение цвета статуса машины
+     *
      * @return цвет статуса машины
      */
     public int getColor() {
@@ -71,6 +80,7 @@ public class Car {
 
     /**
      * Установка статуса машины
+     *
      * @param status статус машины
      */
     public void setStatus(Status status) {
@@ -80,9 +90,18 @@ public class Car {
 
     /**
      * Получение иконки машины
+     *
      * @return id ресурса
      */
     public int getImage() {
         return type.toImageId();
+    }
+
+    /**
+     * Получение стоимости машины
+     * @return стоимость машны
+     */
+    public int getCost(){
+        return  -1;
     }
 }

@@ -32,8 +32,9 @@
         <ImageButton
             android:id="@+id/buttonChange"
             android:layout_marginStart="10dp"
-            style="@style/img_btn_square"
+            style="@style/button_image_square"
             android:src="@drawable/ic_change"
+            android:background="@drawable/gradient"
             android:layout_gravity="center"
             android:contentDescription="@string/change">
         </ImageButton>
@@ -64,6 +65,7 @@
             android:text="@string/nameBuilding"/>
 
         <EditText
+            android:id="@+id/nameBuildingOnFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autofillHints=""
@@ -83,16 +85,17 @@
             android:text="@string/costBuilding"/>
 
         <EditText
+            android:id="@+id/costBuilding"
             android:layout_width="wrap_content"
             android:minWidth="150dp"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:autofillHints=""
             android:gravity="center"
-            android:inputType="text"
-            android:text="@string/costBuildingExample"/>
+            android:inputType="text" />
     </LinearLayout>
     <Button
-        android:id="@+id/buttonBuildOnPanel"
+        android:id="@+id/buttonBuildOnFragment"
         android:text="@string/build"
         style="@style/button_text"/>
 </LinearLayout>

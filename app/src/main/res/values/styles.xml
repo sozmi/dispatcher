@@ -1,12 +1,12 @@
 <resources>
     <!--Кнопка-изображение-->
-    <style name="img_btn">
+    <style name="button_image">
         <item name="android:layout_width">80dp</item>
         <item name="android:layout_height">60dp</item>
         <item name="android:scaleType">centerInside</item>
     </style>
     <!--Кнопка-изображение квадратная-->
-    <style name="img_btn_square">
+    <style name="button_image_square">
         <item name="android:layout_width">70dp</item>
         <item name="android:layout_height">70dp</item>
         <item name="android:scaleType">centerInside</item>
@@ -26,6 +26,7 @@
     </style>
 
     <style name="button_text_little">
+        <item name="android:padding">10dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/gradient</item>

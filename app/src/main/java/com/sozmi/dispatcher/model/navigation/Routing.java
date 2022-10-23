@@ -1,4 +1,4 @@
-package com.sozmi.dispatcher.model;
+package com.sozmi.dispatcher.model.navigation;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 
 import com.sozmi.dispatcher.BuildConfig;
+import com.sozmi.dispatcher.model.objects.TypeCar;
 
 import org.osmdroid.bonuspack.routing.GraphHopperRoadManager;
 import org.osmdroid.bonuspack.routing.Road;

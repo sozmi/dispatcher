@@ -1,4 +1,4 @@
-package com.sozmi.dispatcher.model;
+package com.sozmi.dispatcher.model.objects;
 
 import androidx.annotation.NonNull;
 
@@ -33,6 +33,19 @@ public enum TypeCar {
                 return R.drawable.ic_ambulance;
             case police:
                 return R.drawable.ic_police_car;
+            default:
+                return -1;
+        }
+    }
+
+    public int toCost() {
+        switch (this) {
+            case fireTrack:
+                return 5000;
+            case ambulance:
+                return 10000;
+            case police:
+                return 9000;
             default:
                 return -1;
         }

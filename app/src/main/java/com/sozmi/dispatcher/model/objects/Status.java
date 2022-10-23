@@ -1,4 +1,4 @@
-package com.sozmi.dispatcher.model;
+package com.sozmi.dispatcher.model.objects;
 
 import androidx.annotation.NonNull;
 

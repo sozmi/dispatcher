@@ -1,48 +1,49 @@
 package com.sozmi.dispatcher.model;
 
+import com.sozmi.dispatcher.model.objects.Building;
+import com.sozmi.dispatcher.model.objects.Car;
+import com.sozmi.dispatcher.model.objects.Status;
+import com.sozmi.dispatcher.model.objects.TypeBuilding;
+import com.sozmi.dispatcher.model.objects.TypeCar;
+
+import org.osmdroid.util.GeoPoint;
+
 import java.util.ArrayList;
 
 public class Server {
-    public static ArrayList<Building> getBuildings(){
-        ArrayList<Car> car = new ArrayList<>();
-        car.add(new Car("Машинка 1",TypeCar.police,Status.Moving));
-        car.add(new Car("Машинка 2",TypeCar.ambulance,Status.OnCall));
-        car.add(new Car("Машинка 3",TypeCar.fireTrack,Status.Available));
-        car.add(new Car("Машинка 4",TypeCar.fireTrack,Status.Unavailable));
-        Building build1 = new Building("Здание одно", TypeBuilding.fire_station, car);
-        Building build2 = new Building("Здание два", TypeBuilding.fire_station, car);
-        Building build3 = new Building("Здание три", TypeBuilding.fire_station, car);
-        Building build4 = new Building("Здание одно", TypeBuilding.police, car);
-        Building build5 = new Building("Здание два", TypeBuilding.police, car);
-        Building build6 = new Building("Здание три", TypeBuilding.police, car);
-        Building build7 = new Building("Здание одно", TypeBuilding.hospital, car);
-        Building build8 = new Building("Здание два", TypeBuilding.hospital, car);
-        Building build9 = new Building("Здание три", TypeBuilding.hospital, car);
+    private static final ArrayList<Building> buildings =new ArrayList<>();
 
-        ArrayList<Building>  lst= new ArrayList<>();
-        lst.add(build1);
-        lst.add(build2);
-        lst.add(build3);
-        lst.add(build4);
-        lst.add(build5);
-        lst.add(build6);
-        lst.add(build7);
-        lst.add(build8);
-        lst.add(build9);
-        lst.add(build1);
-        lst.add(build2);
-        lst.add(build3);
-        lst.add(build4);
-        lst.add(build5);
-        lst.add(build6);
-        lst.add(build7);
-        lst.add(build8);
-        lst.add(build9);
-        return lst;
+    public static ArrayList<Building> getBuildings(){
+        return buildings;
     }
 
     public static boolean isAuth(){
         return false;
+    }
+
+    public static boolean addBuild(String name, GeoPoint point, TypeBuilding typeBuilding){
+        if(typeBuilding.toCost()>getMoney())
+            return false;
+        setMoney(getMoney()-typeBuilding.toCost());
+        Building b =new Building(name,typeBuilding, new ArrayList<>(),point);
+        buildings.add(b);
+        return true;
+    }
+    private static int money=150000;
+    public static int getMoney(){
+        return money;
+    }
+    public static void setMoney(int m){
+        money=m;
+        DataController.setData(money+" руб.");
+    }
+
+    public static boolean addCar(Building building, TypeCar typeCar){
+        if(typeCar.toCost()>getMoney()){return false;}
+        setMoney(getMoney()-typeCar.toCost());
+        Car car =new Car(typeCar.name(), typeCar, Status.Available);
+        building.addCar(car);
+        return true;
     }
 }
 

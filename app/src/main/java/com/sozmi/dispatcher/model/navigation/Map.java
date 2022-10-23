@@ -1,4 +1,4 @@
-package com.sozmi.dispatcher.model;
+package com.sozmi.dispatcher.model.navigation;
 
 import android.Manifest;
 import android.content.Context;
@@ -14,26 +14,39 @@ import androidx.core.content.ContextCompat;
 
 import com.sozmi.dispatcher.BuildConfig;
 import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.model.objects.Building;
+import com.sozmi.dispatcher.model.Server;
+import com.sozmi.dispatcher.model.objects.TypeBuilding;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Map {
-
+    public static GeoPoint tempPoint;
     private static MapView map;
-    private static GeoPoint userPoint;
+    private static List<Marker> markers;
 
-    public static void  init(View view) {
+    public static void init(View view) {
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         map = view.findViewById(R.id.mapView);
-
+        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         map.setMultiTouchControls(true);
-        setUserLocation(view.getContext());
-        moveCamTo(getUserPoint());
+        moveCamTo(getUserLocation(view.getContext()));
+        addBuilding(Server.getBuildings());
         map.invalidate();
+    }
+
+    public static void addBuilding(ArrayList<Building> buildings) {
+        for (Building building : buildings) {
+            addMarker(building.getPoint(), building.getType());
+        }
     }
 
     public static void moveCamTo(GeoPoint point) {
@@ -46,29 +59,19 @@ public class Map {
         return (GeoPoint) map.getMapCenter();
     }
 
-    public static GeoPoint getUserPoint() {
-        return userPoint;
-    }
     public static GeoPoint getMarkerPoint(Marker marker) {
         return marker.getPosition();
     }
-    public static void setUserPoint(GeoPoint point) {
-        Map.userPoint = point;
-    }
 
-    public static void setUserLocation(Context context) {
+    public static GeoPoint getUserLocation(Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         Criteria criteria = new Criteria();
-        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
-
-        if (currentApiVersion >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            criteria.setSpeedAccuracy(Criteria.ACCURACY_HIGH);
-            criteria.setAccuracy(Criteria.ACCURACY_FINE);
-            criteria.setAltitudeRequired(true);
-            criteria.setBearingRequired(true);
-            criteria.setSpeedRequired(true);
-        }
+        criteria.setSpeedAccuracy(Criteria.ACCURACY_HIGH);
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAltitudeRequired(true);
+        criteria.setBearingRequired(true);
+        criteria.setSpeedRequired(true);
 
         String provider = locationManager.getBestProvider(criteria, true);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -80,14 +83,10 @@ public class Map {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            return;
+            return new GeoPoint(0.0, 0.0);
         }
         Location location = locationManager.getLastKnownLocation(provider);
-        if (location != null) {
-            setUserPoint(new GeoPoint(location));
-        } else setUserPoint(new GeoPoint(0.0, 0.0));
-
-
+        return new GeoPoint(location);
     }
 
     public static Marker addMarker(GeoPoint point, TypeBuilding type) {
@@ -95,14 +94,23 @@ public class Map {
         Marker marker = new Marker(map);
         marker.setIcon(getDrawable(map.getContext(), type.toImageId()));
         marker.setPosition(point);
-        if (type == TypeBuilding.none)
-            marker.setDraggable(true);
+        marker.setOnMarkerClickListener((marker1, mapView) -> true);
         map.getOverlays().add(marker);
 
         map.invalidate();
         return marker;
     }
+    public static Marker addMarkerIndicator(GeoPoint point) {
 
+        Marker marker = new Marker(map);
+        marker.setIcon(getDrawable(map.getContext(), R.drawable.ic_map_marker));
+        marker.setPosition(point);
+        marker.setOnMarkerClickListener((marker1, mapView) -> true);
+        marker.setDraggable(true);
+        map.getOverlays().add(marker);
+        map.invalidate();
+        return marker;
+    }
     public static void removeMarker(Marker marker) {
         marker.remove(map);
         map.invalidate();
@@ -111,4 +119,5 @@ public class Map {
     private static Drawable getDrawable(Context context, int drawableId) {
         return ContextCompat.getDrawable(context, drawableId);
     }
+
 }

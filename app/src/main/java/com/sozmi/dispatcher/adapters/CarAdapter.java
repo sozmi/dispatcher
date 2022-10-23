@@ -10,7 +10,9 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.model.Car;
+import com.sozmi.dispatcher.model.objects.Building;
+import com.sozmi.dispatcher.model.objects.Car;
+
 import java.util.ArrayList;
 
 public class CarAdapter extends ArrayAdapter<Car> {
@@ -18,7 +20,7 @@ public class CarAdapter extends ArrayAdapter<Car> {
     private final int layout;
     private final ArrayList<Car> carArrayList;
     @SuppressWarnings("unused")
-    public CarAdapter(Context context, int resource, ArrayList<Car> cars) {
+    public CarAdapter(Context context, int resource, ArrayList<Car> cars, Building building) {
         super(context, resource, cars);
         this.carArrayList = cars;
         this.layout = resource;
@@ -58,5 +60,7 @@ public class CarAdapter extends ArrayAdapter<Car> {
             mImageView = view.findViewById(R.id.imageCar);
             mStatusView =view.findViewById(R.id.statusCar);
         }
+
+
     }
 }

@@ -25,7 +25,7 @@
                 android:text="@string/name_account" />
 
             <ImageButton
-                style="@style/img_btn"
+                style="@style/button_image"
                 android:layout_width="60dp"
                 android:contentDescription="@string/account"
                 android:src="@drawable/ic_user" />
@@ -39,13 +39,12 @@
             android:background="@drawable/gradient">
 
             <TextView
+                android:id="@+id/money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:padding="10dp"
-                android:textColor="@color/icons"
-
-                android:text="@string/RUB">
+                android:textColor="@color/icons">
 
             </TextView>
 
@@ -85,28 +84,28 @@
         android:layout_alignParentBottom="true"
         android:gravity="center">
         <ImageButton
-            style="@style/img_btn"
+            style="@style/button_image"
             android:src="@drawable/ic_radio"
             android:contentDescription="@string/radio"/>
         <ImageButton
             android:id="@+id/buttonBuildings"
-            style="@style/img_btn"
+            style="@style/button_image"
             android:src="@drawable/ic_building"
             android:contentDescription="@string/buildings"/>
         <ImageButton
             android:id="@+id/buttonMap"
-            style="@style/img_btn"
+            style="@style/button_image"
             android:src="@drawable/ic_map"
             android:contentDescription="@string/map"/>
 
         <ImageButton
-            style="@style/img_btn"
+            style="@style/button_image"
             android:src="@drawable/ic_task"
             android:contentDescription="@string/tasks"/>
 
         <ImageButton
             android:id="@+id/buttonBuild"
-            style="@style/img_btn"
+            style="@style/button_image"
             android:src="@drawable/ic_crane"
             android:contentDescription="@string/building"/>
     </LinearLayout>
