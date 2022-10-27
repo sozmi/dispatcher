@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
@@ -19,10 +20,6 @@ import com.sozmi.dispatcher.model.MyFM;
 
 
 public class LoginFragment extends Fragment {
-
-    public LoginFragment() {
-        // Required empty public constructor
-    }
 
     private final TextWatcher tw_email = new TextWatcher() {
         public void afterTextChanged(Editable s) {
@@ -111,7 +108,7 @@ public class LoginFragment extends Fragment {
     private void Login(String email, String password) {
         //TODO: Написать обработчик сверки с бд и регистрацией, входом
         if (email != null && password != null) {
-            MyFM.OpenFragment(new MapFragment(false), "MapFragment");
+            MyFM.OpenFragment(new MapFragment());
             FrameLayout topMenu = requireActivity().findViewById(R.id.top_menu);
             LinearLayout bottomMenu = requireActivity().findViewById(R.id.bottom_menu);
             topMenu.setVisibility(View.VISIBLE);
@@ -119,5 +116,9 @@ public class LoginFragment extends Fragment {
 
         }
     }
-
+    @NonNull
+    @Override
+    public String toString() {
+        return "LoginFragment";
+    }
 }

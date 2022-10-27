@@ -11,6 +11,7 @@
         <item name="android:layout_height">70dp</item>
         <item name="android:scaleType">centerInside</item>
     </style>
+
     <style name="AlertDialogCustom" parent="Theme.AppCompat.DayNight.Dialog.Alert" >
         <item name="android:color">@color/dark_gray</item>
     </style>

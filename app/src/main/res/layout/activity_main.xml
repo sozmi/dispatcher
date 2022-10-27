@@ -99,6 +99,7 @@
             android:contentDescription="@string/map"/>
 
         <ImageButton
+            android:id="@+id/buttonTasks"
             style="@style/button_image"
             android:src="@drawable/ic_task"
             android:contentDescription="@string/tasks"/>

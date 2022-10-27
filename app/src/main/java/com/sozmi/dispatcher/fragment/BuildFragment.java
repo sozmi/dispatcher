@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
@@ -23,14 +24,14 @@ import com.sozmi.dispatcher.model.objects.TypeBuilding;
 import org.osmdroid.util.GeoPoint;
 
 public class BuildFragment extends Fragment {
-    private final GeoPoint point;
+    private static GeoPoint point;
     private TypeBuilding typeBuilding;
     private EditText name;
     private EditText cost;
 
 
     public BuildFragment(GeoPoint point) {
-        this.point = point;
+        BuildFragment.point = point;
     }
 
     @Override
@@ -77,18 +78,25 @@ public class BuildFragment extends Fragment {
 
     private void onButtonChangeClick() {
         Map.tempPoint = point;
-        MyFM.OpenFragment(new MapFragment(true), "MyMap");
+        MapFragment.setViewPanel(true);
+        MyFM.OpenFragment(new MapFragment());
     }
 
 
     private void onButtonBuildClick() {
         if (Server.addBuild(name.getText().toString(), point, typeBuilding)) {
-            MyFM.OpenFragment(new MapFragment(false), "MyMap");
+            MyFM.OpenFragment(new MapFragment());
         } else {
             Toast toast = Toast.makeText(getContext(),
                     "Недостаточно средств", Toast.LENGTH_SHORT);
             toast.show();
         }
 
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "BuildFragment";
     }
 }

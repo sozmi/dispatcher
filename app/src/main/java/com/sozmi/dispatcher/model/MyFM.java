@@ -15,7 +15,8 @@ public class MyFM {
      *
      * @param fragment - фрагмент который будет отображаться
      */
-    public static void OpenFragment(Fragment fragment, String name) {
+    public static void OpenFragment(Fragment fragment) {
+        String name =fragment.toString();
         if (name.equals(nameCurrent)) return;
         setCurrentName(name);
         FragmentTransaction ft = getFM().beginTransaction();

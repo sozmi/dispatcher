@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.sozmi.dispatcher.R;
 
-public enum Status {
+public enum StatusCar {
     Available,
     OnCall,
     Moving,

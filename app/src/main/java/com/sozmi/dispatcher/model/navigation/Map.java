@@ -14,9 +14,9 @@ import androidx.core.content.ContextCompat;
 
 import com.sozmi.dispatcher.BuildConfig;
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.model.objects.Building;
 import com.sozmi.dispatcher.model.Server;
-import com.sozmi.dispatcher.model.objects.TypeBuilding;
+import com.sozmi.dispatcher.model.objects.Building;
+import com.sozmi.dispatcher.model.objects.Task;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -38,14 +38,23 @@ public class Map {
         map = view.findViewById(R.id.mapView);
         map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         map.setMultiTouchControls(true);
+        map.setMaxZoomLevel(20.0);
+        map.setMinZoomLevel(4.0);
         moveCamTo(getUserLocation(view.getContext()));
-        addBuilding(Server.getBuildings());
+        addBuildings(Server.getBuildings());
+        addTasks(Server.getTasks());
         map.invalidate();
     }
 
-    public static void addBuilding(ArrayList<Building> buildings) {
+    public static void addBuildings(ArrayList<Building> buildings) {
         for (Building building : buildings) {
-            addMarker(building.getPoint(), building.getType());
+            addMarkerBuilding(building);
+        }
+    }
+
+    public static void addTasks(ArrayList<Task> tasks) {
+        for (Task task : tasks) {
+            addMarkerTask(task);
         }
     }
 
@@ -89,17 +98,28 @@ public class Map {
         return new GeoPoint(location);
     }
 
-    public static Marker addMarker(GeoPoint point, TypeBuilding type) {
+    public static Marker addMarkerBuilding(Building building) {
 
         Marker marker = new Marker(map);
-        marker.setIcon(getDrawable(map.getContext(), type.toImageId()));
-        marker.setPosition(point);
-        marker.setOnMarkerClickListener((marker1, mapView) -> true);
+        marker.setIcon(getDrawable(map.getContext(), building.getType().toImageId()));
+        marker.setPosition(building.getPoint());
+        marker.setTitle(building.getName());
+        // marker.setOnMarkerClickListener((marker1, mapView) -> true);
         map.getOverlays().add(marker);
-
         map.invalidate();
         return marker;
     }
+
+    public static Marker addMarkerTask(Task task) {
+        Marker marker = new Marker(map);
+        marker.setIcon(getDrawable(map.getContext(), task.getImage()));
+        marker.setPosition(task.getPoint());
+        marker.setOnMarkerClickListener((marker1, mapView) -> true);
+        map.getOverlays().add(marker);
+        map.invalidate();
+        return marker;
+    }
+
     public static Marker addMarkerIndicator(GeoPoint point) {
 
         Marker marker = new Marker(map);
@@ -111,6 +131,7 @@ public class Map {
         map.invalidate();
         return marker;
     }
+
     public static void removeMarker(Marker marker) {
         marker.remove(map);
         map.invalidate();

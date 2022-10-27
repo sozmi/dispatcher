@@ -47,7 +47,7 @@ public class BuildingViewAdapter extends RecyclerView.Adapter<BuildingViewAdapte
         holder.mNameView.setText(building.getName());
         holder.mTypeView.setText(building.getType().toString());
         holder.mImageView.setImageResource(building.getImage());
-        holder.mCarView.setAdapter(new CarAdapter(view.getContext(), R.layout.frament_item_car, building.getCars(), building));
+        holder.mCarView.setAdapter(new CarAdapter(view.getContext(), R.layout.fragment_item_car, building.getCars(), building));
         holder.mAddButton.setOnClickListener(view1 -> {
             if(Server.addCar(building, building.getTypeCar())){
                 ((BaseAdapter)  holder.mCarView.getAdapter()).notifyDataSetChanged();

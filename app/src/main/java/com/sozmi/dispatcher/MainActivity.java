@@ -11,9 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 import com.sozmi.dispatcher.fragment.BuildFragment;
-import com.sozmi.dispatcher.fragment.BuildingFragment;
+import com.sozmi.dispatcher.fragment.BuildingsFragment;
 import com.sozmi.dispatcher.fragment.LoginFragment;
 import com.sozmi.dispatcher.fragment.MapFragment;
+import com.sozmi.dispatcher.fragment.TasksFragment;
 import com.sozmi.dispatcher.model.DataController;
 import com.sozmi.dispatcher.model.navigation.Map;
 import com.sozmi.dispatcher.model.MyFM;
@@ -42,40 +43,49 @@ public class MainActivity extends AppCompatActivity {
         liveData.observe(this, money::setText);
         DataController.setData(Server.getMoney() + " руб.");
         if (Server.isAuth()) {
-            MyFM.OpenFragment(new MapFragment(false), "MapFragment");
+            MyFM.OpenFragment(new MapFragment());
             FrameLayout topMenu = findViewById(R.id.top_menu);
             LinearLayout bottomMenu = findViewById(R.id.bottom_menu);
             topMenu.setVisibility(View.VISIBLE);
             bottomMenu.setVisibility(View.VISIBLE);
         } else {
-            MyFM.OpenFragment(new LoginFragment(), "LoginFragment");
+            MyFM.OpenFragment(new LoginFragment());
         }
 
         ImageButton mapButton = findViewById(R.id.buttonMap);
         ImageButton buildingsButton = findViewById(R.id.buttonBuildings);
         ImageButton buildButton = findViewById(R.id.buttonBuild);
+        ImageButton taskButton =findViewById(R.id.buttonTasks);
 
         buildButton.setOnClickListener(view -> buildButtonOnClick());
         mapButton.setOnClickListener(view -> mapButtonOnClick());
         buildingsButton.setOnClickListener(view -> BuildingsButtonOnClick());
+        taskButton.setOnClickListener(view -> taskButtonOnClick());
     }
 
     private void BuildingsButtonOnClick() {
-        MyFM.OpenFragment(new BuildingFragment(), "BuildingsFragment");
+        MyFM.OpenFragment(new BuildingsFragment());
     }
 
     /**
      * Поведение при нажатии кнопки для вызова фрагмента строительства
      */
     private void buildButtonOnClick() {
-        MyFM.OpenFragment(new BuildFragment(Map.getUserLocation(this)), "BuildFragment");
+        MyFM.OpenFragment(new BuildFragment(Map.getUserLocation(this)));
     }
 
     /**
      * Поведение при нажатии кнопки для вызова фрагмента карты
      */
     private void mapButtonOnClick() {
-        MyFM.OpenFragment(new MapFragment(), "MapFragment");
+        MyFM.OpenFragment(new MapFragment());
+    }
+
+    /**
+     * Поведение при нажатии кнопки для вызова фрагмента заданий
+     */
+    private void taskButtonOnClick() {
+        MyFM.OpenFragment(new TasksFragment());
     }
 
 

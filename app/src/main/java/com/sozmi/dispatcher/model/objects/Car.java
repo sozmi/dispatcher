@@ -1,12 +1,12 @@
 package com.sozmi.dispatcher.model.objects;
 
+import org.osmdroid.util.GeoPoint;
+
 /**
  * Класс, описывающий машину как объект
  */
-public class Car {
-    private String name;
-    private TypeCar type;
-    private Status status;
+public class Car extends Object<TypeCar> {
+    private StatusCar status;
 
     /**
      * Конструктор
@@ -14,50 +14,12 @@ public class Car {
      * @param name   пользовательское название машины
      * @param type   тип машины по её классификации
      * @param status статус машины
+     * @param point координаты машины
      */
-    public Car(String name, TypeCar type, Status status) {
-        setName(name);
-        setType(type);
+    public Car(String name, TypeCar type, StatusCar status, GeoPoint point) {
+        super(name, point, type);
         setStatus(status);
     }
-
-    /**
-     * Получение пользовательского названия машины
-     *
-     * @return Пользовательское название машины
-     */
-    public String getName() {
-        return name;
-    }
-
-
-    /**
-     * Установка пользовательского названия машины
-     *
-     * @param name название машины
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Получение типа машины
-     *
-     * @return тип машины
-     */
-    public TypeCar getType() {
-        return type;
-    }
-
-    /**
-     * Установка типа машины
-     *
-     * @param type тип машины
-     */
-    public void setType(TypeCar type) {
-        this.type = type;
-    }
-
 
     /**
      * Получение статуса машины
@@ -83,18 +45,8 @@ public class Car {
      *
      * @param status статус машины
      */
-    public void setStatus(Status status) {
+    public void setStatus(StatusCar status) {
         this.status = status;
-    }
-
-
-    /**
-     * Получение иконки машины
-     *
-     * @return id ресурса
-     */
-    public int getImage() {
-        return type.toImageId();
     }
 
     /**

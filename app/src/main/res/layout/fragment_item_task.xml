@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageGroupTask"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/share_yellow"
+        android:src="@drawable/ic_star" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/nameTask"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:drawablePadding="25dp"
+            android:text="Название задания"
+            android:textSize="@dimen/medium_text" />
+
+        <LinearLayout
+            android:id="@+id/panelTimerTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible">
+
+            <ProgressBar
+                android:id="@+id/progressBarTask"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="188dp"
+                android:layout_height="35dp"/>
+
+            <TextView
+                android:id="@+id/timerTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="02:55:10" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/infoTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="info">
+
+    </Button>
+
+</LinearLayout>

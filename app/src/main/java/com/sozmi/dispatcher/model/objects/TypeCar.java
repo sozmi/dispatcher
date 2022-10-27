@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import com.sozmi.dispatcher.R;
 
 
-public enum TypeCar {
+public enum TypeCar implements BaseType {
     ambulance,
     police,
     fireTrack;
@@ -25,6 +25,7 @@ public enum TypeCar {
         }
     }
 
+    @Override
     public int toImageId() {
         switch (this) {
             case fireTrack:

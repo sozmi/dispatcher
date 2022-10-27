@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageGroupTask"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/share_yellow"
+            android:src="@drawable/ic_star"
+            android:contentDescription="вудд" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/nameTask"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:drawablePadding="25dp"
+                android:text="Название задания"
+                android:textSize="@dimen/medium_text" />
+
+            <LinearLayout
+                android:id="@+id/panelTimerTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible">
+
+                <ProgressBar
+                    android:id="@+id/progressBarTask"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="188dp"
+                    android:layout_height="35dp"/>
+
+                <TextView
+                    android:id="@+id/timerTask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:text="02:55:10" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/backTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="back">
+
+        </Button>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/txtOnLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topPanel"
+        android:layout_marginTop="0dp"
+        android:text="Машины на месте вызова" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lst_on_location"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/txtOnLocation"
+        android:layout_marginTop="0dp" />
+
+    <TextView
+        android:id="@+id/txtCarFree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Свободные машины"
+        android:layout_below="@+id/lst_on_location"
+        android:layout_marginTop="0dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lst_free_car"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_above="@+id/buttonPanel"
+        android:layout_below="@+id/txtCarFree"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:minHeight="100dp" />
+
+    <LinearLayout
+        android:id="@+id/buttonPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp">
+
+        <Button
+            style="@style/button_text_little"
+            android:text="Отправить машины" />
+
+        <Button
+            style="@style/button_text_little"
+            android:text="Поделиться" />
+    </LinearLayout>
+</RelativeLayout>

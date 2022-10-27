@@ -2,13 +2,14 @@ package com.sozmi.dispatcher.model.objects;
 
 import com.sozmi.dispatcher.R;
 
-public enum TypeTask {
+public enum TypeGroupTask implements BaseType {
     personal,
     common,
     premium,
     group;
 
-    public int toImage(){
+    @Override
+    public int toImageId(){
         switch (this){
             case personal:
                 return R.drawable.ic_user;

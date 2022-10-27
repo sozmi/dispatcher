@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.objects.TypeCar;
 
-public enum TypeBuilding {
+public enum TypeBuilding implements BaseType{
     hospital,
     police,
     fire_station;
@@ -21,6 +21,7 @@ public enum TypeBuilding {
         }
     }
 
+    @Override
     public int toImageId(){
         switch (this){
             case fire_station: return R.drawable.ic_firemen;

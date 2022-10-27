@@ -1,5 +1,8 @@
-<vector android:height="200dp" android:viewportHeight="509.42"
-    android:viewportWidth="509.42" android:width="200dp" xmlns:android="http://schemas.android.com/apk/res/android">
+<vector android:height="@dimen/task_icon_size"
+    android:viewportHeight="509.42"
+    android:viewportWidth="509.42"
+    android:width="@dimen/task_icon_size"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#9BC9FF" android:pathData="M409.42,251.35V123.07c-35.37,0 -64.14,28.77 -64.14,64.14S374.05,251.35 409.42,251.35z"/>
     <path android:fillColor="#57A4FF" android:pathData="M473.56,187.21c0,-35.37 -28.77,-64.14 -64.14,-64.14v128.27C444.79,251.35 473.56,222.58 473.56,187.21z"/>
     <path android:fillColor="#9BC9FF" android:pathData="M509.42,366.35c0,-55.14 -44.86,-100 -100,-100c-28.62,0 -55.21,12.07 -73.88,32.6c26.1,21.11 43.81,52.19 47.29,87.4h126.59V366.35z"/>
