@@ -1,4 +1,6 @@
-package com.sozmi.dispatcher.model;
+package com.sozmi.dispatcher.model.system;
+
+import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -15,10 +17,11 @@ public class MyFM {
      *
      * @param fragment - фрагмент который будет отображаться
      */
-    public static void OpenFragment(Fragment fragment) {
-        String name =fragment.toString();
+    public static void OpenFragment(Fragment fragment, Bundle bundle) {
+        String name = fragment.toString();
         if (name.equals(nameCurrent)) return;
         setCurrentName(name);
+        fragment.setArguments(bundle);
         FragmentTransaction ft = getFM().beginTransaction();
         ft.replace(R.id.fragment_view, fragment, name);
         ft.commit();

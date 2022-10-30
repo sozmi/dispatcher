@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.model.MyFM;
+import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.navigation.Map;
 
 import org.osmdroid.util.GeoPoint;
@@ -21,16 +21,7 @@ import org.osmdroid.views.overlay.Marker;
 public class MapFragment extends Fragment {
     ImageButton addBuildingButton;
     FrameLayout panel_building;
-    private static Boolean viewPanel =false;
     private Marker build;
-
-    public static void setViewPanel(Boolean viewPanel) {
-        MapFragment.viewPanel = viewPanel;
-    }
-
-    private static boolean getViewPanel() {
-        return MapFragment.viewPanel;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,11 +43,14 @@ public class MapFragment extends Fragment {
         Map.init(requireView());
 
         super.onStart();
-
-        if (getViewPanel()) {
-            showMarker(Map.tempPoint);
-            Map.moveCamTo(Map.tempPoint);
-            setViewPanel(false);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            GeoPoint point = bundle.getParcelable("Point");
+            boolean viewPanel = bundle.getBoolean("viewPanel");
+            if (viewPanel) {
+                showMarker(point);
+            }
+            Map.moveCamTo(point);
         }
     }
 
@@ -74,7 +68,9 @@ public class MapFragment extends Fragment {
      * Поведение при нажатии кнопки для вызова фрагмента строительства
      */
     private void buildButtonOnClick() {
-        MyFM.OpenFragment(new BuildFragment(Map.getMarkerPoint(build)));
+        Bundle bundle =new Bundle();
+        bundle.putParcelable("Point",Map.getMarkerPoint(build));
+        MyFM.OpenFragment(new BuildFragment(), bundle);
     }
 
     /**

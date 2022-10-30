@@ -15,15 +15,18 @@ import com.sozmi.dispatcher.fragment.BuildingsFragment;
 import com.sozmi.dispatcher.fragment.LoginFragment;
 import com.sozmi.dispatcher.fragment.MapFragment;
 import com.sozmi.dispatcher.fragment.TasksFragment;
-import com.sozmi.dispatcher.model.DataController;
+import com.sozmi.dispatcher.model.system.DataController;
+import com.sozmi.dispatcher.model.system.MyFM;
+import com.sozmi.dispatcher.model.system.Permission;
+import com.sozmi.dispatcher.model.system.Server;
 import com.sozmi.dispatcher.model.navigation.Map;
-import com.sozmi.dispatcher.model.MyFM;
-import com.sozmi.dispatcher.model.Permission;
-import com.sozmi.dispatcher.model.Server;
+
+import org.osmdroid.util.GeoPoint;
 
 public class MainActivity extends AppCompatActivity {
+    private static GeoPoint point =null;
     final LiveData<String> liveData = DataController.getData();
-
+    private static final String TAG_POINT = "Point";
     @Override
     public void onBackPressed() {
         if (MyFM.getCurrentName().equals("MapFragment") || MyFM.getCurrentName().equals("LoginFragment"))
@@ -43,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
         liveData.observe(this, money::setText);
         DataController.setData(Server.getMoney() + " руб.");
         if (Server.isAuth()) {
-            MyFM.OpenFragment(new MapFragment());
+            MyFM.OpenFragment(new MapFragment(),null);
             FrameLayout topMenu = findViewById(R.id.top_menu);
             LinearLayout bottomMenu = findViewById(R.id.bottom_menu);
             topMenu.setVisibility(View.VISIBLE);
             bottomMenu.setVisibility(View.VISIBLE);
         } else {
-            MyFM.OpenFragment(new LoginFragment());
+            MyFM.OpenFragment(new LoginFragment(),null);
         }
 
         ImageButton mapButton = findViewById(R.id.buttonMap);
@@ -64,28 +67,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void BuildingsButtonOnClick() {
-        MyFM.OpenFragment(new BuildingsFragment());
+        point = Map.getCamPoint();
+        MyFM.OpenFragment(new BuildingsFragment(),null);
     }
 
     /**
      * Поведение при нажатии кнопки для вызова фрагмента строительства
      */
     private void buildButtonOnClick() {
-        MyFM.OpenFragment(new BuildFragment(Map.getUserLocation(this)));
+        point = Map.getCamPoint();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(TAG_POINT,Map.getUserLocation(this));
+        MyFM.OpenFragment(new BuildFragment(),bundle);
     }
 
     /**
      * Поведение при нажатии кнопки для вызова фрагмента карты
      */
     private void mapButtonOnClick() {
-        MyFM.OpenFragment(new MapFragment());
+        if(point!=null){
+            point = Map.getCamPoint();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(TAG_POINT,point);
+            MyFM.OpenFragment(new MapFragment(),bundle);
+            return;
+        }
+        MyFM.OpenFragment(new MapFragment(),null);
+
+
     }
 
     /**
      * Поведение при нажатии кнопки для вызова фрагмента заданий
      */
     private void taskButtonOnClick() {
-        MyFM.OpenFragment(new TasksFragment());
+        point=Map.getCamPoint();
+        MyFM.OpenFragment(new TasksFragment(),null);
     }
 
 

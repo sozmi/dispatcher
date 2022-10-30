@@ -1,4 +1,4 @@
-package com.sozmi.dispatcher.model;
+package com.sozmi.dispatcher.model.system;
 
 import com.sozmi.dispatcher.model.objects.Building;
 import com.sozmi.dispatcher.model.objects.Car;
@@ -9,6 +9,7 @@ import com.sozmi.dispatcher.model.objects.TypeBuilding;
 import com.sozmi.dispatcher.model.objects.TypeCar;
 import com.sozmi.dispatcher.model.objects.TypeIconTask;
 import com.sozmi.dispatcher.model.objects.TypeGroupTask;
+import com.sozmi.dispatcher.model.system.DataController;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -28,8 +29,10 @@ public class Server {
     }
 
     public static void addTask(){
-        tasks.add(new Task(new GeoPoint(56,34),"Пожар в гостинице", TypeGroupTask.personal, 500, TypeIconTask.epidemic, StatusTask.executed));
+        tasks.add(new Task(new GeoPoint(56.1,34.1),"Пожар в гостинице", TypeGroupTask.personal, 500, TypeIconTask.epidemic, StatusTask.executed));
         tasks.add(new Task(new GeoPoint(56.01,34.01),"Пожар в доме", TypeGroupTask.group, 500, TypeIconTask.epidemic, StatusTask.wait));
+        tasks.add(new Task(new GeoPoint(56.01,34.01),"Пожар в доме", TypeGroupTask.group, 500, TypeIconTask.epidemic, StatusTask.not_executed));
+
     }
     public static boolean isAuth(){
         return false;

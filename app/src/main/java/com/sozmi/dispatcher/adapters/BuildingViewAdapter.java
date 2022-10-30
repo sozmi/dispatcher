@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.databinding.FragmentItemBuildingBinding;
 import com.sozmi.dispatcher.model.objects.Building;
-import com.sozmi.dispatcher.model.Server;
+import com.sozmi.dispatcher.model.system.Server;
 import com.sozmi.dispatcher.ui.MyListView;
 
 import java.util.List;

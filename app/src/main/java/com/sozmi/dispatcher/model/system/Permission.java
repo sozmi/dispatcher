@@ -1,4 +1,4 @@
-package com.sozmi.dispatcher.model;
+package com.sozmi.dispatcher.model.system;
 
 import android.Manifest;
 import android.app.Activity;

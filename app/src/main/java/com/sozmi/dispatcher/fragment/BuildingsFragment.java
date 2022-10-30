@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.adapters.BuildingViewAdapter;
-import com.sozmi.dispatcher.model.Server;
+import com.sozmi.dispatcher.model.system.Server;
 
 /**
  * A fragment representing a list of Items.

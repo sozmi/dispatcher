@@ -1,4 +1,4 @@
-package com.sozmi.dispatcher.model;
+package com.sozmi.dispatcher.model.system;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

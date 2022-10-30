@@ -16,23 +16,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.model.navigation.Map;
-import com.sozmi.dispatcher.model.MyFM;
-import com.sozmi.dispatcher.model.Server;
+import com.sozmi.dispatcher.model.system.MyFM;
+import com.sozmi.dispatcher.model.system.Server;
 import com.sozmi.dispatcher.model.objects.TypeBuilding;
 
 import org.osmdroid.util.GeoPoint;
 
 public class BuildFragment extends Fragment {
-    private static GeoPoint point;
     private TypeBuilding typeBuilding;
     private EditText name;
     private EditText cost;
-
-
-    public BuildFragment(GeoPoint point) {
-        BuildFragment.point = point;
-    }
+    private GeoPoint point;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,7 +38,12 @@ public class BuildFragment extends Fragment {
         name = view.findViewById(R.id.nameBuildingOnFragment);
         cost = view.findViewById(R.id.costBuilding);
 
-        pointBuild.setText(point.toString().replace(",", ",\n"));
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            point =bundle.getParcelable("Point");
+            pointBuild.setText(point.toString().replace(",", ",\n"));
+        }
+
         changeCoordinate.setOnClickListener(v -> onButtonChangeClick());
         build.setOnClickListener(v -> onButtonBuildClick());
         CreateSpinner(view);
@@ -77,15 +76,18 @@ public class BuildFragment extends Fragment {
 
 
     private void onButtonChangeClick() {
-        Map.tempPoint = point;
-        MapFragment.setViewPanel(true);
-        MyFM.OpenFragment(new MapFragment());
+        Bundle bundle =new Bundle();
+        bundle.putParcelable("Point",point);
+        bundle.putBoolean("viewPanel",true);
+        MyFM.OpenFragment(new MapFragment(),bundle);
     }
 
 
     private void onButtonBuildClick() {
         if (Server.addBuild(name.getText().toString(), point, typeBuilding)) {
-            MyFM.OpenFragment(new MapFragment());
+            Bundle bundle =new Bundle();
+            bundle.putParcelable("Point",point);
+            MyFM.OpenFragment(new MapFragment(),bundle);
         } else {
             Toast toast = Toast.makeText(getContext(),
                     "Недостаточно средств", Toast.LENGTH_SHORT);

@@ -1,22 +1,21 @@
 package com.sozmi.dispatcher.adapters;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.databinding.FragmentItemTaskBinding;
-import com.sozmi.dispatcher.model.Server;
+import com.sozmi.dispatcher.fragment.TasksFragment;
+import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.objects.Task;
 
 import java.util.List;
@@ -48,6 +47,9 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
         holder.mImageViewStatus.setBackgroundResource(task.getBackgroundStatusTask());
         holder.mPanelTime.setVisibility(View.INVISIBLE);
         holder.mInfoButton.setOnClickListener(view1 -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("TASK",  task);
+            MyFM.OpenFragment(new TasksFragment(),null);
         });
     }
 

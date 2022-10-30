@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat;
 
 import com.sozmi.dispatcher.BuildConfig;
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.model.Server;
+import com.sozmi.dispatcher.model.system.Server;
 import com.sozmi.dispatcher.model.objects.Building;
 import com.sozmi.dispatcher.model.objects.Task;
 
@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
-    public static GeoPoint tempPoint;
     private static MapView map;
     private static List<Marker> markers;
 

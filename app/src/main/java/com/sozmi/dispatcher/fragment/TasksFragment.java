@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.adapters.TaskViewAdapter;
-import com.sozmi.dispatcher.model.Server;
+import com.sozmi.dispatcher.model.system.Server;
 
 
 public class TasksFragment extends Fragment {
