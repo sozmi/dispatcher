@@ -1,6 +1,7 @@
 package com.sozmi.dispatcher;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
+import com.sozmi.dispatcher.databinding.FragmentItemTaskBinding;
+import com.sozmi.dispatcher.databinding.FragmentMapBinding;
 import com.sozmi.dispatcher.fragment.BuildFragment;
 import com.sozmi.dispatcher.fragment.BuildingsFragment;
 import com.sozmi.dispatcher.fragment.LoginFragment;
@@ -20,13 +23,14 @@ import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.system.Permission;
 import com.sozmi.dispatcher.model.system.Server;
 import com.sozmi.dispatcher.model.navigation.Map;
+import com.sozmi.dispatcher.model.system.Tag;
 
 import org.osmdroid.util.GeoPoint;
 
 public class MainActivity extends AppCompatActivity {
     private static GeoPoint point =null;
     final LiveData<String> liveData = DataController.getData();
-    private static final String TAG_POINT = "Point";
+
     @Override
     public void onBackPressed() {
         if (MyFM.getCurrentName().equals("MapFragment") || MyFM.getCurrentName().equals("LoginFragment"))
@@ -44,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         MyFM.setFM(getSupportFragmentManager());
         TextView money = findViewById(R.id.money);
         liveData.observe(this, money::setText);
-        DataController.setData(Server.getMoney() + " руб.");
+        DataController.setData(Server.getUser().getMoney() + " руб.");
         if (Server.isAuth()) {
             MyFM.OpenFragment(new MapFragment(),null);
             FrameLayout topMenu = findViewById(R.id.top_menu);
@@ -54,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             MyFM.OpenFragment(new LoginFragment(),null);
         }
-
+//TODO: TEst
+        Server.AddTestBuild();
+        Map.init();
         ImageButton mapButton = findViewById(R.id.buttonMap);
         ImageButton buildingsButton = findViewById(R.id.buttonBuildings);
         ImageButton buildButton = findViewById(R.id.buttonBuild);
@@ -77,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private void buildButtonOnClick() {
         point = Map.getCamPoint();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(TAG_POINT,Map.getUserLocation(this));
+        bundle.putParcelable(Tag.Point.toString(),Map.getUserLocation(this));
         MyFM.OpenFragment(new BuildFragment(),bundle);
     }
 
@@ -88,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         if(point!=null){
             point = Map.getCamPoint();
             Bundle bundle = new Bundle();
-            bundle.putParcelable(TAG_POINT,point);
+            bundle.putParcelable(Tag.Point.toString(), point);
             MyFM.OpenFragment(new MapFragment(),bundle);
             return;
         }

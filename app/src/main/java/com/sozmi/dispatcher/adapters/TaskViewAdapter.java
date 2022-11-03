@@ -14,9 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sozmi.dispatcher.databinding.FragmentItemTaskBinding;
-import com.sozmi.dispatcher.fragment.TasksFragment;
-import com.sozmi.dispatcher.model.system.MyFM;
+import com.sozmi.dispatcher.fragment.TaskFragment;
 import com.sozmi.dispatcher.model.objects.Task;
+import com.sozmi.dispatcher.model.system.MyFM;
+import com.sozmi.dispatcher.model.system.Tag;
 
 import java.util.List;
 
@@ -48,8 +49,8 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
         holder.mPanelTime.setVisibility(View.INVISIBLE);
         holder.mInfoButton.setOnClickListener(view1 -> {
             Bundle bundle = new Bundle();
-            bundle.putParcelable("TASK",  task);
-            MyFM.OpenFragment(new TasksFragment(),null);
+            bundle.putInt(Tag.TaskID.toString(), position);
+            MyFM.OpenFragment(new TaskFragment(), bundle);
         });
     }
 
@@ -78,8 +79,8 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
             mNameView = binding.nameTask;
             mImageViewStatus = binding.imageGroupTask;
             mInfoButton = binding.infoTask;
-            mPanelTime =binding.panelTimerTask;
-            mProgressBarTask =binding.progressBarTask;
+            mPanelTime = binding.panelTimerTask;
+            mProgressBarTask = binding.progressBarTask;
         }
     }
 }

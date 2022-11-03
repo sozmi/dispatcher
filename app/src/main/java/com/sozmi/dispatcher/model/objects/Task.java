@@ -1,33 +1,31 @@
 package com.sozmi.dispatcher.model.objects;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
 import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.model.navigation.Map;
+import com.sozmi.dispatcher.model.system.Server;
 
 import org.osmdroid.util.GeoPoint;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class Task extends Object<TypeIconTask> {
-
+public class Task extends Object<TypeTask> {
     private TypeGroupTask typeGroup;
-    private int baseCost;
     private StatusTask statusTask;
-    private ArrayList<Car> cars;
+    private ArrayList<Car> cars = new ArrayList<>();
+    Timer timer;
+    int time = 60;
 
-    public Task(GeoPoint point, String name, TypeGroupTask type, int baseCost, TypeIconTask image, StatusTask statusTask) {
-        super(name, point, image);
+    public Task(int id, GeoPoint point, String name, TypeGroupTask typeGroup, int baseCost, TypeTask image, StatusTask statusTask) {
+        super(id, name, point, image, typeGroup.toModifier()*baseCost);
         setStatusTask(statusTask);
-        setTypeGroup(type);
-        setBaseCost(baseCost);
+        setTypeGroup(typeGroup);
     }
 
     @Override
     public int getImage() {
-        switch (type) {
+        switch (getType()) {
             case fire:
                 switch (statusTask) {
                     case executed:
@@ -60,36 +58,12 @@ public class Task extends Object<TypeIconTask> {
         }
     }
 
-    public GeoPoint getPoint() {
-        return point;
-    }
-
-    public void setPoint(GeoPoint point) {
-        this.point = point;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public TypeGroupTask getTypeGroup() {
         return typeGroup;
     }
 
     public void setTypeGroup(TypeGroupTask typeGroup) {
         this.typeGroup = typeGroup;
-    }
-
-    public int getBaseCost() {
-        return baseCost;
-    }
-
-    public void setBaseCost(int baseCost) {
-        this.baseCost = baseCost;
     }
 
 
@@ -109,4 +83,35 @@ public class Task extends Object<TypeIconTask> {
         return statusTask.toColor();
     }
 
+    public ArrayList<Car> getCars() {
+        return cars;
+    }
+
+    public void sendCars(ArrayList<CarCheck> cars_check) {
+        ArrayList<Car> cars = new ArrayList<>();
+
+        for (CarCheck car : cars_check) {
+            car.getCar().setStatus(StatusCar.MovingOnCall);
+            cars.add(car.getCar());
+        }
+        for (Car car : cars) {
+            Map.sendOnRoute(car.getPoint(), getPoint(),car);
+        }
+
+        this.cars = cars;
+
+    }
+
+    public void startTimer() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                Server.removeTask(getID());
+            }
+        }, time);
+    }
+
+    public void pause() {
+        timer.cancel();
+    }
 }

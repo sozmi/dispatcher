@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <CheckBox
+        android:id="@+id/checkbox"/>
+    <ImageView
+        android:id="@+id/imageCar"
+        android:layout_width="@dimen/car_icon_size"
+        android:layout_height="@dimen/car_icon_size"
+        android:layout_gravity="start"
+        android:src="@drawable/ic_fire_truck"
+        android:contentDescription="@string/iconCar"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/nameCar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/medium_text"
+            android:text="@string/nameCar"/>
+        <TextView
+            android:id="@+id/typeCar"
+            android:textSize="@dimen/small_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/typeCar"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/statusCar"
+        android:layout_width="@dimen/car_icon_size"
+        android:layout_height="@dimen/car_icon_size"
+        android:layout_gravity="end|center"
+        android:gravity="center"
+        android:textColor="@color/icons"
+        android:text="@string/codeCar"/>
+
+
+
+
+
+</GridLayout>

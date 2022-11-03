@@ -14,9 +14,12 @@ import androidx.core.content.ContextCompat;
 
 import com.sozmi.dispatcher.BuildConfig;
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.model.system.Server;
 import com.sozmi.dispatcher.model.objects.Building;
+import com.sozmi.dispatcher.model.objects.Car;
+import com.sozmi.dispatcher.model.objects.Route;
 import com.sozmi.dispatcher.model.objects.Task;
+import com.sozmi.dispatcher.model.system.TimerTaskSendCar;
+import com.sozmi.dispatcher.model.system.Server;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -26,15 +29,21 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Timer;
 
 public class Map {
     private static MapView map;
-    private static List<Marker> markers;
+    private static final ArrayList<Marker> markers = new ArrayList<>();
+    private static final ArrayList<Car> inMovement = new ArrayList<>();
+
+    public static void init() {
+        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+        Routing.init();
+    }
 
     public static void init(View view) {
-        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         map = view.findViewById(R.id.mapView);
+        Routing.setMap(map);
         map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         map.setMultiTouchControls(true);
         map.setMaxZoomLevel(20.0);
@@ -42,7 +51,18 @@ public class Map {
         moveCamTo(getUserLocation(view.getContext()));
         addBuildings(Server.getBuildings());
         addTasks(Server.getTasks());
+        addMovement();
         map.invalidate();
+
+    }
+
+    private static void addMovement() {
+        if (Map.inMovement.size() == 0)
+            return;
+        TimerTaskSendCar task = new TimerTaskSendCar(inMovement);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(task, 0, 50);
+
     }
 
     public static void addBuildings(ArrayList<Building> buildings) {
@@ -140,4 +160,10 @@ public class Map {
         return ContextCompat.getDrawable(context, drawableId);
     }
 
+    public static void sendOnRoute(GeoPoint from, GeoPoint to, Car car) {
+        Route route = Routing.Road(from, to);
+        car.setRoute(route);
+        car.setReverse_root();
+        inMovement.add(car);
+    }
 }

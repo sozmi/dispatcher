@@ -18,8 +18,8 @@ public class Building extends Object<TypeBuilding> {
      * @param type  тип здания по его классификации
      * @param point координаты здания
      */
-    public Building(String name, TypeBuilding type, GeoPoint point) {
-        super(name,point,type);
+    public Building(int id, String name, TypeBuilding type, GeoPoint point) {
+        super(id, name,point,type, type.toCost());
         cars = new ArrayList<>();
     }
 
@@ -31,8 +31,8 @@ public class Building extends Object<TypeBuilding> {
      * @param cars  список машин, относящихся к зданию
      * @param point координаты здания
      */
-    public Building(String name, TypeBuilding type, ArrayList<Car> cars, GeoPoint point) {
-        super(name,point,type);
+    public Building(int id,String name, TypeBuilding type, ArrayList<Car> cars, GeoPoint point) {
+        super(id, name,point,type, type.toCost());
         setCars(cars);
     }
 
@@ -53,16 +53,6 @@ public class Building extends Object<TypeBuilding> {
     public void setCars(ArrayList<Car> cars) {
         this.cars = cars;
     }
-
-    /**
-     * Получение стоимости здания
-     *
-     * @return стоимость здания
-     */
-    public int getCost() {
-        return -1;
-    }
-
 
     public void addCar(Car car) {
         cars.add(car);

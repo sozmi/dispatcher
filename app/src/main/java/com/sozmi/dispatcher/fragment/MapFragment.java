@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.navigation.Map;
+import com.sozmi.dispatcher.model.system.Tag;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Marker;
@@ -41,12 +42,11 @@ public class MapFragment extends Fragment {
     @Override
     public void onStart() {
         Map.init(requireView());
-
         super.onStart();
         Bundle bundle = getArguments();
         if (bundle != null) {
-            GeoPoint point = bundle.getParcelable("Point");
-            boolean viewPanel = bundle.getBoolean("viewPanel");
+            GeoPoint point = bundle.getParcelable(Tag.Point.toString());
+            boolean viewPanel = bundle.getBoolean(Tag.viewPanel.toString());
             if (viewPanel) {
                 showMarker(point);
             }
@@ -69,7 +69,7 @@ public class MapFragment extends Fragment {
      */
     private void buildButtonOnClick() {
         Bundle bundle =new Bundle();
-        bundle.putParcelable("Point",Map.getMarkerPoint(build));
+        bundle.putParcelable(Tag.Point.toString(),Map.getMarkerPoint(build));
         MyFM.OpenFragment(new BuildFragment(), bundle);
     }
 

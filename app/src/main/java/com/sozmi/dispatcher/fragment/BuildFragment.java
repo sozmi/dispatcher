@@ -19,6 +19,7 @@ import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.system.Server;
 import com.sozmi.dispatcher.model.objects.TypeBuilding;
+import com.sozmi.dispatcher.model.system.Tag;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -40,7 +41,7 @@ public class BuildFragment extends Fragment {
 
         Bundle bundle = getArguments();
         if(bundle!=null){
-            point =bundle.getParcelable("Point");
+            point =bundle.getParcelable(Tag.Point.toString());
             pointBuild.setText(point.toString().replace(",", ",\n"));
         }
 
@@ -77,8 +78,8 @@ public class BuildFragment extends Fragment {
 
     private void onButtonChangeClick() {
         Bundle bundle =new Bundle();
-        bundle.putParcelable("Point",point);
-        bundle.putBoolean("viewPanel",true);
+        bundle.putParcelable(Tag.Point.toString(), point);
+        bundle.putBoolean(Tag.viewPanel.toString(), true);
         MyFM.OpenFragment(new MapFragment(),bundle);
     }
 
@@ -86,7 +87,7 @@ public class BuildFragment extends Fragment {
     private void onButtonBuildClick() {
         if (Server.addBuild(name.getText().toString(), point, typeBuilding)) {
             Bundle bundle =new Bundle();
-            bundle.putParcelable("Point",point);
+            bundle.putParcelable(Tag.Point.toString(), point);
             MyFM.OpenFragment(new MapFragment(),bundle);
         } else {
             Toast toast = Toast.makeText(getContext(),

@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.adapters.TaskViewAdapter;
+import com.sozmi.dispatcher.model.objects.Task;
 import com.sozmi.dispatcher.model.system.Server;
+import com.sozmi.dispatcher.model.system.Tag;
 
 
 public class TasksFragment extends Fragment {
@@ -36,12 +38,13 @@ public class TasksFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(new TaskViewAdapter(Server.getTasks()));
         }
+
         return view;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "TaskFragment";
+        return "TasksFragment";
     }
 }

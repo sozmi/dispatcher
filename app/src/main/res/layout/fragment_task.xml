@@ -76,8 +76,8 @@
         android:layout_marginTop="0dp"
         android:text="Машины на месте вызова" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lst_on_location"
+    <com.sozmi.dispatcher.ui.MyListView
+        android:id="@+id/lst_on_call"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@+id/txtOnLocation"
@@ -88,10 +88,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Свободные машины"
-        android:layout_below="@+id/lst_on_location"
+        android:layout_below="@+id/lst_on_call"
         android:layout_marginTop="0dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.sozmi.dispatcher.ui.MyListView
         android:id="@+id/lst_free_car"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -99,6 +99,7 @@
         android:layout_below="@+id/txtCarFree"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
+        android:choiceMode="multipleChoice"
         android:minHeight="100dp" />
 
     <LinearLayout
@@ -109,10 +110,12 @@
         android:layout_marginBottom="0dp">
 
         <Button
+            android:id="@+id/sendCarTask"
             style="@style/button_text_little"
             android:text="Отправить машины" />
 
         <Button
+            android:id="@+id/supportTask"
             style="@style/button_text_little"
             android:text="Поделиться" />
     </LinearLayout>

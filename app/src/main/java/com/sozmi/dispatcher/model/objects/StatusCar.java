@@ -5,10 +5,11 @@ import androidx.annotation.NonNull;
 import com.sozmi.dispatcher.R;
 
 public enum StatusCar {
-    Available,
-    OnCall,
+    Available,//доступна
+    OnCall,//на месте вызова
     Moving,
-    Unavailable;
+    MovingOnCall,//возврат на базу
+    Unavailable; //недоступна
 
     @Override
     @NonNull
@@ -18,6 +19,7 @@ public enum StatusCar {
             case Moving: return "1";
             case OnCall: return "2";
             case Unavailable: return "3";
+            case MovingOnCall:return "4";
             default: return  "-1";
         }
     }
@@ -28,6 +30,7 @@ public enum StatusCar {
             case Moving: return R.color.yellow;
             case OnCall: return R.color.blue;
             case Unavailable: return R.color.dark_gray;
+            case MovingOnCall:return R.color.green_dark;
             default: return  0;
         }
     }

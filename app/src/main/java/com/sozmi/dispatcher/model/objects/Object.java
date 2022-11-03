@@ -1,13 +1,19 @@
 package com.sozmi.dispatcher.model.objects;
 
+import com.sozmi.dispatcher.model.system.ServerMod;
+
 import org.osmdroid.util.GeoPoint;
 
-public class Object<T extends BaseType> {
-    protected String name;
-    protected GeoPoint point;
-    protected T type;
+public class Object<T extends BaseType> extends ServerMod {
 
-    protected Object(String name,GeoPoint point,T type) {
+    private String name;
+    private GeoPoint point;
+    private T type;
+    private int cost;
+
+    protected Object(int id, String name, GeoPoint point, T type, int cost) {
+        super(id);
+        setCost(cost);
         setName(name);
         setPoint(point);
         setType(type);
@@ -64,5 +70,13 @@ public class Object<T extends BaseType> {
      */
     public int getImage() {
         return type.toImageId();
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 }

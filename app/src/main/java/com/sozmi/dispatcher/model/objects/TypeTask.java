@@ -2,7 +2,7 @@ package com.sozmi.dispatcher.model.objects;
 
 import com.sozmi.dispatcher.R;
 
-public enum TypeIconTask implements BaseType {
+public enum TypeTask implements BaseType {
     fire,
     epidemic,
     robbery;

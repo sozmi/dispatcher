@@ -1,5 +1,8 @@
-<vector android:height="200dp" android:viewportHeight="512"
-    android:viewportWidth="512" android:width="200dp" xmlns:android="http://schemas.android.com/apk/res/android">
+<vector android:height="@dimen/car_icon_size"
+    android:viewportHeight="512"
+    android:viewportWidth="512"
+    android:width="@dimen/car_icon_size"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#D80027" android:pathData="M213.33,71.11h42.67v71.11h-42.67z"/>
     <path android:fillColor="#E4F1FB" android:pathData="M0,113.78h298.67v270.22h-298.67z"/>
     <path android:fillColor="#C9E3F7" android:pathData="M455.11,227.56l-42.67,-113.78H256V384h256V256L455.11,227.56z"/>

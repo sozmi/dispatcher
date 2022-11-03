@@ -23,4 +23,19 @@ public enum TypeGroupTask implements BaseType {
                 return -1;
         }
     }
+
+    public int toModifier() {
+        switch (this){
+            case personal:
+                return 3;
+            case common:
+                return 1;
+            case premium:
+                return 10;
+            case group:
+                return 5;
+            default:
+                return -1;
+        }
+    }
 }

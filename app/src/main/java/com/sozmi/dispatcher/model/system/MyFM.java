@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.fragment.MapFragment;
 
 public class MyFM {
     private static String nameCurrent;
@@ -21,8 +22,9 @@ public class MyFM {
         String name = fragment.toString();
         if (name.equals(nameCurrent)) return;
         setCurrentName(name);
-        fragment.setArguments(bundle);
+
         FragmentTransaction ft = getFM().beginTransaction();
+        fragment.setArguments(bundle);
         ft.replace(R.id.fragment_view, fragment, name);
         ft.commit();
     }
