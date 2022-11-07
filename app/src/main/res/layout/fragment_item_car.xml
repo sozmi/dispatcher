@@ -37,9 +37,4 @@
         android:gravity="center"
         android:textColor="@color/icons"
         android:text="@string/codeCar"/>
-
-
-
-
-
 </GridLayout>

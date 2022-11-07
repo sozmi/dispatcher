@@ -1,35 +1,24 @@
 package com.sozmi.dispatcher.model.navigation;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.StrictMode;
-import android.util.Log;
-
-import androidx.core.content.ContextCompat;
 
 import com.sozmi.dispatcher.BuildConfig;
-import com.sozmi.dispatcher.model.objects.Car;
-import com.sozmi.dispatcher.model.objects.Route;
-import com.sozmi.dispatcher.model.system.MyTimerTask;
 
 import org.osmdroid.bonuspack.routing.GraphHopperRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Timer;
 
 public class Routing {
     private static GraphHopperRoadManager roadManager;
     private static MapView map;
-
     public static void init() {
         roadManager = new GraphHopperRoadManager(BuildConfig.API_KEY, false);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); //TODO: убрать запуск в главном потоке
@@ -52,26 +41,6 @@ public class Routing {
         double time = road.mDuration;
         Queue<GeoPoint> points = getAllPoints(roadOverlay.getActualPoints());
         return new Route(points, time);
-    }
-
-
-    public static void Movement(Car car) {
-        if (map == null) return;
-        Drawable nodeIcon = getDrawable(map.getContext(),car.getType().toImageId());
-        Marker nodeMarker = new Marker(map);
-        nodeMarker.setIcon(nodeIcon);
-        nodeMarker.setPosition(car.getRoute().getPoints().poll());
-        map.getOverlays().add(nodeMarker);
-        MyTimerTask task = new MyTimerTask(car, map, nodeMarker);
-        Timer timer = new Timer();
-        long period = (long)(car.getRoute().getTime()*100/car.getRoute().getCount_point());
-        Log.i("INT:","long ="+period);
-        if(period==0)period=1;
-        timer.scheduleAtFixedRate(task, 0, period);
-    }
-
-    private static Drawable getDrawable(Context context, int drawableId) {
-        return ContextCompat.getDrawable(context, drawableId);
     }
 
     private static Queue<GeoPoint> getAllPoints(List<GeoPoint> points) {

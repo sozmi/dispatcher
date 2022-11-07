@@ -1,4 +1,4 @@
-package com.sozmi.dispatcher.model.objects;
+package com.sozmi.dispatcher.model.navigation;
 
 import org.osmdroid.util.GeoPoint;
 

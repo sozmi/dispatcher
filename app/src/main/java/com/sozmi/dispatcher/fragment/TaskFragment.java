@@ -9,10 +9,18 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.adapters.BuildingViewAdapter;
 import com.sozmi.dispatcher.adapters.CarAdapter;
 import com.sozmi.dispatcher.adapters.CarCheckAdapter;
+import com.sozmi.dispatcher.adapters.CarViewAdapter;
+import com.sozmi.dispatcher.databinding.FragmentItemCarBinding;
+import com.sozmi.dispatcher.model.listeners.CarListener;
+import com.sozmi.dispatcher.model.listeners.TaskListener;
+import com.sozmi.dispatcher.model.objects.Car;
 import com.sozmi.dispatcher.model.objects.CarCheck;
 import com.sozmi.dispatcher.model.objects.Task;
 import com.sozmi.dispatcher.model.system.MyFM;
@@ -20,11 +28,17 @@ import com.sozmi.dispatcher.model.system.Server;
 import com.sozmi.dispatcher.model.system.Tag;
 import com.sozmi.dispatcher.ui.MyListView;
 
-import java.util.ArrayList;
+import org.osmdroid.util.GeoPoint;
 
-public class TaskFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+public class TaskFragment extends Fragment implements TaskListener, CarListener {
     Task task;
-    MyListView free_car, on_call;
+    MyListView free_car;
+    RecyclerView on_call;
+    TextView requirement;
+    private final List<TaskListener> listeners = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,15 +49,22 @@ public class TaskFragment extends Fragment {
         Button back = view.findViewById(R.id.backTask);
         free_car = view.findViewById(R.id.lst_free_car);
         on_call = view.findViewById(R.id.lst_on_call);
+        requirement = view.findViewById(R.id.requirement);
         Bundle bundle = getArguments();
         if (bundle != null) {
             int id = bundle.getInt(Tag.TaskID.toString());
             task = Server.getTask(id);
-            on_call.setAdapter(new CarAdapter(view.getContext(), R.layout.fragment_item_car, task.getCars()));
-            free_car.setAdapter(new CarCheckAdapter(view.getContext(), R.layout.fragment_item_car_check, Server.getFreeCars()));
+
+            on_call.setLayoutManager(new LinearLayoutManager(getContext()));
+            on_call.setAdapter(new CarViewAdapter(task.getCars(), view));
+           free_car.setAdapter(new CarCheckAdapter(view.getContext(), R.layout.fragment_item_car_check, Server.getFreeCars()));
+
+
             name.setText(task.getName());
             send.setOnClickListener(v -> OnClickSendButton());
             back.setOnClickListener(v -> OnClickBackButton());
+            task.addListener(this);
+            onChangedRequirement(task.getRequirements());
         }
 
         return view;
@@ -55,13 +76,16 @@ public class TaskFragment extends Fragment {
 
     private void OnClickSendButton() {
         CarCheckAdapter adapter = (CarCheckAdapter) free_car.getAdapter();
-        CarAdapter adapter_on_call = (CarAdapter) on_call.getAdapter();
+        CarViewAdapter adapter_on_call = (CarViewAdapter) on_call.getAdapter();
         ArrayList<CarCheck> cars_lst =adapter.getItems();
         ArrayList<CarCheck> cars =new ArrayList<>();
         for (int i=0;i<cars_lst.size();i++){
             CarCheck car = cars_lst.get(i);
             if(car.getCheck()){
-                adapter_on_call.add(car.getCar());
+                task.getCars().add(car.getCar());
+                assert adapter_on_call != null;
+                adapter_on_call.notifyItemInserted(task.getCars().size()-2);
+                car.getCar().addListener(this);
                 adapter.remove(car);
                 cars.add(car);
                 i--;
@@ -69,7 +93,7 @@ public class TaskFragment extends Fragment {
         }
         task.sendCars(cars);
         adapter.notifyDataSetChanged();
-        adapter_on_call.notifyDataSetChanged();
+
 
     }
 
@@ -84,4 +108,26 @@ public class TaskFragment extends Fragment {
     }
 
 
+    @Override
+    public void onChangedRequirement(String res) {
+        if(res!=null && !res.equals("")){
+            requirement.setText(res);
+            requirement.setVisibility(View.VISIBLE);}
+        else
+            requirement.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStatusChanged(Car car) {
+        CarViewAdapter adapter = (CarViewAdapter) on_call.getAdapter();
+        assert adapter != null;
+        adapter.notifyItemChanged(task.getCars().indexOf(car));
+        CarCheckAdapter adapter2 = (CarCheckAdapter) free_car.getAdapter();
+        adapter2.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPositionChanged(Car car) {
+
+    }
 }

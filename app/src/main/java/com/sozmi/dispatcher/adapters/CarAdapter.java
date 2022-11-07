@@ -18,7 +18,7 @@ public class CarAdapter extends ArrayAdapter<Car> {
     private final LayoutInflater inflater;
     private final int layout;
     private final ArrayList<Car> carArrayList;
-    @SuppressWarnings("unused")
+
     public CarAdapter(Context context, int resource, ArrayList<Car> cars) {
         super(context, resource, cars);
         this.carArrayList = cars;
@@ -43,7 +43,7 @@ public class CarAdapter extends ArrayAdapter<Car> {
         viewHolder.mTypeView.setText(car.getType().toString());
         viewHolder.mImageView.setImageResource(car.getImage());
         viewHolder.mStatusView.setText(car.getStatusToString());
-        viewHolder.mStatusView.setBackgroundColor(ContextCompat.getColor(convertView.getContext(),car.getColor()));
+        viewHolder.mStatusView.setBackgroundColor(car.getColor(getContext()));
 
         return convertView;
     }
@@ -59,7 +59,5 @@ public class CarAdapter extends ArrayAdapter<Car> {
             mImageView = view.findViewById(R.id.imageCar);
             mStatusView =view.findViewById(R.id.statusCar);
         }
-
-
     }
 }

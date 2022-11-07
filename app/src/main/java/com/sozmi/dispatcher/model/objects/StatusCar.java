@@ -24,7 +24,7 @@ public enum StatusCar {
         }
     }
 
-    public int toColor(){
+    public int toColorID(){
         switch (this){
             case Available: return R.color.green;
             case Moving: return R.color.yellow;

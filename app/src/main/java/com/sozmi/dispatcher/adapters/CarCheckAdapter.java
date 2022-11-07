@@ -50,7 +50,7 @@ public class CarCheckAdapter extends ArrayAdapter<CarCheck> {
         holder.mTypeView.setText(car.getType().toString());
         holder.mImageView.setImageResource(car.getImage());
         holder.mStatusView.setText(car.getStatusToString());
-        holder.mStatusView.setBackgroundColor(ContextCompat.getColor(convertView.getContext(), car.getColor()));
+        holder.mStatusView.setBackgroundColor(car.getColor(getContext()));
         holder.mCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
             check.setCheck(isChecked);
             notifyDataSetChanged();

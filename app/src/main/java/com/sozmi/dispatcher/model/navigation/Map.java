@@ -14,11 +14,11 @@ import androidx.core.content.ContextCompat;
 
 import com.sozmi.dispatcher.BuildConfig;
 import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.model.listeners.CarListener;
 import com.sozmi.dispatcher.model.objects.Building;
 import com.sozmi.dispatcher.model.objects.Car;
-import com.sozmi.dispatcher.model.objects.Route;
+import com.sozmi.dispatcher.model.objects.StatusCar;
 import com.sozmi.dispatcher.model.objects.Task;
-import com.sozmi.dispatcher.model.system.TimerTaskSendCar;
 import com.sozmi.dispatcher.model.system.Server;
 
 import org.osmdroid.api.IMapController;
@@ -29,66 +29,72 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
-public class Map {
-    private static MapView map;
-    private static final ArrayList<Marker> markers = new ArrayList<>();
-    private static final ArrayList<Car> inMovement = new ArrayList<>();
+public class Map implements CarListener {
+    private static MapView mapView;
+    private static boolean isInit = false;
+    private static Map map;
 
-    public static void init() {
-        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
-        Routing.init();
+    public static Map getMap() {
+        return map;
     }
 
-    public static void init(View view) {
-        map = view.findViewById(R.id.mapView);
-        Routing.setMap(map);
-        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
-        map.setMultiTouchControls(true);
-        map.setMaxZoomLevel(20.0);
-        map.setMinZoomLevel(4.0);
+    public Map() {
+        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
+        Routing.init();
+        map = this;
+    }
+
+    public static boolean isIsInit() {
+        return isInit;
+    }
+
+    public static void setIsInit(boolean isInit) {
+        Map.isInit = isInit;
+    }
+
+    public MapView getMapView() {
+        return mapView;
+    }
+
+    public void init(View view) {
+        mapView = view.findViewById(R.id.mapView);
+        isInit = true;
+        Routing.setMap(mapView);
+        mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
+        mapView.setMultiTouchControls(true);
+        mapView.setMaxZoomLevel(20.0);
+        mapView.setMinZoomLevel(4.0);
         moveCamTo(getUserLocation(view.getContext()));
         addBuildings(Server.getBuildings());
         addTasks(Server.getTasks());
-        addMovement();
-        map.invalidate();
-
+        mapView.invalidate();
     }
 
-    private static void addMovement() {
-        if (Map.inMovement.size() == 0)
-            return;
-        TimerTaskSendCar task = new TimerTaskSendCar(inMovement);
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(task, 0, 50);
-
+    public void addListenersPointsCarToDraw(Car car) {
+        car.addListener(this);
     }
 
-    public static void addBuildings(ArrayList<Building> buildings) {
+    public void addBuildings(ArrayList<Building> buildings) {
         for (Building building : buildings) {
-            addMarkerBuilding(building);
+            drawBuilding(building);
         }
     }
 
-    public static void addTasks(ArrayList<Task> tasks) {
+    public void addTasks(ArrayList<Task> tasks) {
         for (Task task : tasks) {
-            addMarkerTask(task);
+            drawTask(task);
         }
     }
 
-    public static void moveCamTo(GeoPoint point) {
-        IMapController mapController = map.getController();
+    public void moveCamTo(GeoPoint point) {
+        IMapController mapController = mapView.getController();
         mapController.setZoom(15.0);
         mapController.setCenter(point);
     }
 
     public static GeoPoint getCamPoint() {
-        return (GeoPoint) map.getMapCenter();
-    }
-
-    public static GeoPoint getMarkerPoint(Marker marker) {
-        return marker.getPosition();
+        return (GeoPoint) mapView.getMapCenter();
     }
 
     public static GeoPoint getUserLocation(Context context) {
@@ -102,8 +108,7 @@ public class Map {
         criteria.setSpeedRequired(true);
 
         String provider = locationManager.getBestProvider(criteria, true);
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -117,53 +122,82 @@ public class Map {
         return new GeoPoint(location);
     }
 
-    public static Marker addMarkerBuilding(Building building) {
-
-        Marker marker = new Marker(map);
-        marker.setIcon(getDrawable(map.getContext(), building.getType().toImageId()));
-        marker.setPosition(building.getPoint());
-        marker.setTitle(building.getName());
-        // marker.setOnMarkerClickListener((marker1, mapView) -> true);
-        map.getOverlays().add(marker);
-        map.invalidate();
-        return marker;
+    public void drawBuilding(Building building) {
+        Marker marker = drawMarker(building.getName(), building.getImage(), building.getPosition(), false, true);
+        building.setMarker(marker);
     }
 
-    public static Marker addMarkerTask(Task task) {
-        Marker marker = new Marker(map);
-        marker.setIcon(getDrawable(map.getContext(), task.getImage()));
-        marker.setPosition(task.getPoint());
-        marker.setOnMarkerClickListener((marker1, mapView) -> true);
-        map.getOverlays().add(marker);
-        map.invalidate();
-        return marker;
+    public void drawTask(Task task) {
+        Marker marker = drawMarker("", task.getImage(), task.getPosition(), false, false);
+        task.setMarker(marker);
     }
 
-    public static Marker addMarkerIndicator(GeoPoint point) {
-
-        Marker marker = new Marker(map);
-        marker.setIcon(getDrawable(map.getContext(), R.drawable.ic_map_marker));
-        marker.setPosition(point);
-        marker.setOnMarkerClickListener((marker1, mapView) -> true);
-        marker.setDraggable(true);
-        map.getOverlays().add(marker);
-        map.invalidate();
-        return marker;
+    public Marker drawMarkerIndicator(GeoPoint point) {
+        return drawMarker("", R.drawable.ic_map_marker, point, true, false);
     }
 
-    public static void removeMarker(Marker marker) {
-        marker.remove(map);
-        map.invalidate();
+    public void removeMarker(Marker marker) {
+        marker.remove(mapView);
+        mapView.invalidate();
     }
 
-    private static Drawable getDrawable(Context context, int drawableId) {
+    public void changeMarkerImage(Marker marker, int idRes) {
+        marker.setIcon(getDrawable(mapView.getContext(), idRes));
+        mapView.postInvalidate();
+    }
+
+    private Drawable getDrawable(Context context, int drawableId) {
         return ContextCompat.getDrawable(context, drawableId);
     }
 
-    public static void sendOnRoute(GeoPoint from, GeoPoint to, Car car) {
-        Route route = Routing.Road(from, to);
-        car.setRoute(route);
-        car.setReverse_root();
-        inMovement.add(car);
+    private Marker drawMarker(String title, int id, GeoPoint point, boolean isDrag, boolean isShowTitle) {
+        Marker marker = new Marker(mapView);
+        marker.setIcon(getDrawable(mapView.getContext(), id));
+        marker.setPosition(point);
+        marker.setTitle(title);
+        if (isShowTitle) marker.setOnMarkerClickListener((marker1, mapView) -> true);
+        marker.setDraggable(isDrag);
+        mapView.getOverlays().add(marker);
+        mapView.invalidate();
+        return marker;
+    }
+
+    @Override
+    public void onStatusChanged(Car car) {
+        if (car.getStatus() == StatusCar.OnCall && car.getMarker() != null) {
+            removeMarker(car.getMarker());
+            car.removeListener(this);
+        }
+    }
+
+    @Override
+    public void onPositionChanged(Car car) {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                if (isInit) {
+                    if (car.getMarker() == null) {
+                        Marker marker = new Marker(mapView);
+                        marker.setIcon(getDrawable(mapView.getContext(), car.getImage()));
+                        marker.setPosition(car.getPosition());
+                        marker.setOnMarkerClickListener((marker1, mapView) -> true);
+                        if(car.getMarker()==null)
+                            mapView.getOverlays().add(marker);
+                        car.setMarker(marker);
+                    }
+                    car.getMarker().setPosition(car.getPosition());
+                    mapView.postInvalidate();
+                } else {
+                    if (car.getMarker() != null) {
+                        car.getMarker().remove(mapView);
+                        mapView.postInvalidate();
+                        car.setMarker(null);
+                    }
+                }
+            }
+        };
+        thread.start();
+
     }
 }

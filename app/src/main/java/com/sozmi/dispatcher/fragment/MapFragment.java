@@ -12,8 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.model.system.MyFM;
+
 import com.sozmi.dispatcher.model.navigation.Map;
+import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.system.Tag;
 
 import org.osmdroid.util.GeoPoint;
@@ -23,6 +24,7 @@ public class MapFragment extends Fragment {
     ImageButton addBuildingButton;
     FrameLayout panel_building;
     private Marker build;
+    private Map map;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,8 +43,9 @@ public class MapFragment extends Fragment {
 
     @Override
     public void onStart() {
-        Map.init(requireView());
         super.onStart();
+        map = Map.getMap();
+        map.init(requireView());
         Bundle bundle = getArguments();
         if (bundle != null) {
             GeoPoint point = bundle.getParcelable(Tag.Point.toString());
@@ -50,7 +53,8 @@ public class MapFragment extends Fragment {
             if (viewPanel) {
                 showMarker(point);
             }
-            Map.moveCamTo(point);
+            //  Map.moveCamTo(point);
+            map.moveCamTo(point);
         }
     }
 
@@ -58,7 +62,8 @@ public class MapFragment extends Fragment {
      * Поведение при нажатии кнопки отмены при выборе координат на карте
      */
     private void cancelBuildButtonOnClick() {
-        Map.removeMarker(build);
+        map.removeMarker(build);
+        // Map.removeMarker(build);
         build = null;
         addBuildingButton.setVisibility(View.VISIBLE);
         panel_building.setVisibility(View.INVISIBLE);
@@ -68,8 +73,8 @@ public class MapFragment extends Fragment {
      * Поведение при нажатии кнопки для вызова фрагмента строительства
      */
     private void buildButtonOnClick() {
-        Bundle bundle =new Bundle();
-        bundle.putParcelable(Tag.Point.toString(),Map.getMarkerPoint(build));
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Tag.Point.toString(), build.getPosition());
         MyFM.OpenFragment(new BuildFragment(), bundle);
     }
 
@@ -81,7 +86,7 @@ public class MapFragment extends Fragment {
     }
 
     private void showMarker(GeoPoint point) {
-        build = Map.addMarkerIndicator(point);
+        build = map.drawMarkerIndicator(point);
         panel_building.setVisibility(View.VISIBLE);
         addBuildingButton.setVisibility(View.INVISIBLE);
     }
@@ -90,5 +95,11 @@ public class MapFragment extends Fragment {
     @Override
     public String toString() {
         return "MapFragment";
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Map.setIsInit(false);
     }
 }

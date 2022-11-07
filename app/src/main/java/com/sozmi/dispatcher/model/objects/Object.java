@@ -3,6 +3,7 @@ package com.sozmi.dispatcher.model.objects;
 import com.sozmi.dispatcher.model.system.ServerMod;
 
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.Marker;
 
 public class Object<T extends BaseType> extends ServerMod {
 
@@ -10,12 +11,21 @@ public class Object<T extends BaseType> extends ServerMod {
     private GeoPoint point;
     private T type;
     private int cost;
+    private Marker marker;
+
+    public Marker getMarker() {
+        return marker;
+    }
+
+    public void setMarker(Marker marker) {
+        if(this.marker==null || marker==null) this.marker = marker;
+    }
 
     protected Object(int id, String name, GeoPoint point, T type, int cost) {
         super(id);
         setCost(cost);
         setName(name);
-        setPoint(point);
+        setPosition(point);
         setType(type);
     }
 
@@ -37,11 +47,11 @@ public class Object<T extends BaseType> extends ServerMod {
         return name;
     }
 
-    public GeoPoint getPoint() {
+    public GeoPoint getPosition() {
         return point;
     }
 
-    public void setPoint(GeoPoint point) {
+    public void setPosition(GeoPoint point) {
         this.point = point;
     }
 

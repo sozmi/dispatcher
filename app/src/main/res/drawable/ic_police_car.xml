@@ -1,6 +1,6 @@
 <vector xmlns:tools="http://schemas.android.com/tools"
-    android:height="200dp" android:viewportHeight="511.98"
-    android:viewportWidth="511.98" android:width="200dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:height="@dimen/car_icon_size" android:viewportHeight="511.98"
+    android:viewportWidth="511.98" android:width="@dimen/car_icon_size" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#ED5564" android:pathData="M245.33,159.54H202.64c-5.89,0 -10.66,4.78 -10.66,10.67v36.01c0,5.89 4.77,10.67 10.66,10.67h42.69c5.89,0 10.66,-4.78 10.66,-10.67v-36.01C255.99,164.32 251.22,159.54 245.33,159.54z"/>
     <path android:fillColor="#5D9CEC" android:pathData="M74.43,277.55c0,0 39.51,-74.67 149.56,-74.67c110.06,0 149.35,74.7 149.35,74.7c127.98,0 127.98,0 127.98,117.28H53.33c-19.7,0.16 -42.67,-21.09 -42.67,-21.09v-74.9l21.33,-21.31L74.43,277.55L74.43,277.55z"/>
     <path android:fillColor="#4FC2E9" android:pathData="M366.25,266.93c-15.61,-20.64 -58.36,-64.04 -142.26,-64.04c-83.94,0 -126.84,43.42 -142.47,64.04H366.25z"/>
