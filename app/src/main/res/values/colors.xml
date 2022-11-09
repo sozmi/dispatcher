@@ -32,6 +32,9 @@
     <color name="blue">#165FDE</color>
     <color name="green">#26AE16</color>
     <color name="green.dark">#1A770F</color>
-    <color name="yellow">#DEDB16</color>
+    <color name="yellow">#E4BC2A</color>
+    <color name="yellow.dark">#B19508</color>
     <color name="white">#FFF1F1</color>
+    <color name="red">#8F0A0A</color>
+    <color name="red.dark">#750606</color>
 </resources>

@@ -1,0 +1,13 @@
+<vector android:height="@dimen/task_icon_size"
+    android:viewportHeight="500"
+    android:viewportWidth="500"
+    android:width="@dimen/task_icon_size"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="@color/red"
+        android:pathData="m159.5,149.01c0,-10.18 4.05,-19.95 11.25,-27.15c7.2,-7.2 16.97,-11.25 27.15,-11.25l104.21,0l0,0c10.18,0 19.95,4.05 27.15,11.25c7.2,7.2 11.25,16.97 11.25,27.15l0,104.21l0,0c0,21.21 -17.19,38.4 -38.4,38.4l-104.21,0l0,0c-21.21,0 -38.4,-17.19 -38.4,-38.4l0,-104.21z" android:strokeLineCap="round"/>
+    <path android:fillColor="@color/red.dark"
+        android:pathData="m265,321.33l15,-30l-30,-0l-30,-0l15,30l15,30l15,-30z"/>
+    <path android:fillColor="@color/icons"
+        android:pathData="m221.72,261.57c-31.84,-15.5 -40.22,-30.18 -35.43,-50.22c3.54,-14.8 15.12,-26.84 16.23,-41.61c4.95,7.78 7.02,13.39 7.57,21.52c15.74,-16.66 26.14,-39.73 26.76,-63.95c0,0 40.99,20.81 43.68,52.25c3.53,-6.48 5.31,-16.77 1.78,-23.44c10.59,6.67 72.55,65.88 -8.39,105.45c15.22,-25.6 3.93,-60.15 -22.5,-76.1c1.76,6.86 -1.33,32.45 -13.02,43.69c3.24,-18.79 -3.08,-26.73 -3.08,-26.73s-2.17,10.52 -10.59,21.15c-7.69,9.71 -13.01,20.01 -3.01,37.99l0,0z"
+/>
+</vector>

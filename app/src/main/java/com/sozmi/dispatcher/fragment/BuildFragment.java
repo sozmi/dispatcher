@@ -85,13 +85,14 @@ public class BuildFragment extends Fragment {
 
 
     private void onButtonBuildClick() {
-        if (Server.addBuild(name.getText().toString(), point, typeBuilding)) {
+        String res =Server.addBuild(name.getText().toString(), point, typeBuilding);
+        if (res==null) {
             Bundle bundle =new Bundle();
             bundle.putParcelable(Tag.Point.toString(), point);
             MyFM.OpenFragment(new MapFragment(),bundle);
         } else {
             Toast toast = Toast.makeText(getContext(),
-                    "Недостаточно средств", Toast.LENGTH_SHORT);
+                    res, Toast.LENGTH_SHORT);
             toast.show();
         }
 

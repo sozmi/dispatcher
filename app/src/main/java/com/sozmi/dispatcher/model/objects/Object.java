@@ -18,7 +18,7 @@ public class Object<T extends BaseType> extends ServerMod {
     }
 
     public void setMarker(Marker marker) {
-        if(this.marker==null || marker==null) this.marker = marker;
+            this.marker = marker;
     }
 
     protected Object(int id, String name, GeoPoint point, T type, int cost) {
@@ -27,6 +27,10 @@ public class Object<T extends BaseType> extends ServerMod {
         setName(name);
         setPosition(point);
         setType(type);
+    }
+
+    public int getCost() {
+        return cost;
     }
 
     /**
@@ -80,10 +84,6 @@ public class Object<T extends BaseType> extends ServerMod {
      */
     public int getImage() {
         return type.toImageId();
-    }
-
-    public int getCost() {
-        return cost;
     }
 
     public void setCost(int cost) {

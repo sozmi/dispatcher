@@ -7,8 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.objects.Car;
 

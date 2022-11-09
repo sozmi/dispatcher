@@ -7,19 +7,25 @@ import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.sozmi.dispatcher.BuildConfig;
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.listeners.CarListener;
+import com.sozmi.dispatcher.model.listeners.ServerListener;
+import com.sozmi.dispatcher.model.listeners.TaskListener;
 import com.sozmi.dispatcher.model.objects.Building;
 import com.sozmi.dispatcher.model.objects.Car;
 import com.sozmi.dispatcher.model.objects.StatusCar;
+import com.sozmi.dispatcher.model.objects.StatusTask;
 import com.sozmi.dispatcher.model.objects.Task;
 import com.sozmi.dispatcher.model.system.Server;
+import com.sozmi.dispatcher.model.system.SystemTag;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -30,7 +36,7 @@ import org.osmdroid.views.overlay.Marker;
 
 import java.util.ArrayList;
 
-public class Map implements CarListener {
+public class Map implements CarListener, TaskListener, ServerListener {
     private static MapView mapView;
     private static boolean isInit = false;
     private static Map map;
@@ -45,16 +51,19 @@ public class Map implements CarListener {
         map = this;
     }
 
-    public static boolean isIsInit() {
+    public static boolean isInit() {
         return isInit;
     }
 
-    public static void setIsInit(boolean isInit) {
-        Map.isInit = isInit;
-    }
-
-    public MapView getMapView() {
-        return mapView;
+    public static void onDestroy() {
+        isInit = false;
+        for (Car car : Server.getInMovement()) {
+            car.removeListener("MapClass");
+        }
+        for (Task task : Server.getTasks()) {
+            task.removeListener("MapClass");
+        }
+        Server.removeListener("MapClass");
     }
 
     public void init(View view) {
@@ -66,13 +75,11 @@ public class Map implements CarListener {
         mapView.setMaxZoomLevel(20.0);
         mapView.setMinZoomLevel(4.0);
         moveCamTo(getUserLocation(view.getContext()));
+        Server.addListener(this,toString());
         addBuildings(Server.getBuildings());
         addTasks(Server.getTasks());
+        addCars(Server.getInMovement());
         mapView.invalidate();
-    }
-
-    public void addListenersPointsCarToDraw(Car car) {
-        car.addListener(this);
     }
 
     public void addBuildings(ArrayList<Building> buildings) {
@@ -84,6 +91,13 @@ public class Map implements CarListener {
     public void addTasks(ArrayList<Task> tasks) {
         for (Task task : tasks) {
             drawTask(task);
+            task.addListener(this, toString());
+        }
+    }
+
+    public void addCars(ArrayList<Car> cars) {
+        for (Car car : cars) {
+            car.addListener(this, toString());
         }
     }
 
@@ -109,13 +123,6 @@ public class Map implements CarListener {
 
         String provider = locationManager.getBestProvider(criteria, true);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return new GeoPoint(0.0, 0.0);
         }
         Location location = locationManager.getLastKnownLocation(provider);
@@ -127,9 +134,14 @@ public class Map implements CarListener {
         building.setMarker(marker);
     }
 
+    public void drawCar(Car car){
+        Marker marker = drawMarker(car.getName(), car.getImage(),car.getPosition(),false,false);
+        car.setMarker(marker);
+    }
     public void drawTask(Task task) {
-        Marker marker = drawMarker("", task.getImage(), task.getPosition(), false, false);
+        Marker marker = drawMarker(task.getName(), task.getImage(), task.getPosition(), false, false);
         task.setMarker(marker);
+        Log.i("Draw", "drawTask + setMarker");
     }
 
     public Marker drawMarkerIndicator(GeoPoint point) {
@@ -139,11 +151,6 @@ public class Map implements CarListener {
     public void removeMarker(Marker marker) {
         marker.remove(mapView);
         mapView.invalidate();
-    }
-
-    public void changeMarkerImage(Marker marker, int idRes) {
-        marker.setIcon(getDrawable(mapView.getContext(), idRes));
-        mapView.postInvalidate();
     }
 
     private Drawable getDrawable(Context context, int drawableId) {
@@ -158,46 +165,87 @@ public class Map implements CarListener {
         if (isShowTitle) marker.setOnMarkerClickListener((marker1, mapView) -> true);
         marker.setDraggable(isDrag);
         mapView.getOverlays().add(marker);
-        mapView.invalidate();
+        mapView.postInvalidate();
         return marker;
     }
 
     @Override
     public void onStatusChanged(Car car) {
-        if (car.getStatus() == StatusCar.OnCall && car.getMarker() != null) {
-            removeMarker(car.getMarker());
-            car.removeListener(this);
+        if (car.getStatus() == StatusCar.OnCall || car.getStatus() == StatusCar.Available) {
+            if (car.getMarker() != null) {
+                removeMarker(car.getMarker());
+                car.setMarker(null);
+            }
+            car.removeListener(toString());
         }
     }
 
     @Override
     public void onPositionChanged(Car car) {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                if (isInit) {
-                    if (car.getMarker() == null) {
-                        Marker marker = new Marker(mapView);
-                        marker.setIcon(getDrawable(mapView.getContext(), car.getImage()));
-                        marker.setPosition(car.getPosition());
-                        marker.setOnMarkerClickListener((marker1, mapView) -> true);
-                        if(car.getMarker()==null)
-                            mapView.getOverlays().add(marker);
-                        car.setMarker(marker);
-                    }
-                    car.getMarker().setPosition(car.getPosition());
-                    mapView.postInvalidate();
-                } else {
-                    if (car.getMarker() != null) {
-                        car.getMarker().remove(mapView);
-                        mapView.postInvalidate();
-                        car.setMarker(null);
-                    }
+        if (isInit) {
+            if (car.getMarker() == null) {
+                drawCar(car);
+            }
+            else {
+                car.getMarker().setPosition(car.getPosition());
+                mapView.postInvalidate();
+            }
+        } else {
+            if (car.getMarker() != null) {
+                removeMarker(car.getMarker());
+                car.setMarker(null);
+            }
+        }
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "MapClass";
+    }
+
+    @Override
+    public void onChangedRequirement(String res) {
+
+    }
+
+    @Override
+    public void onChangeStatusTask(Task task) {
+        if (isInit) {
+            if (task.getMarker() == null) {
+                drawTask(task);
+            }
+            else {
+                if(task.getStatusTask()==StatusTask.executed){
+                    removeMarker(task.getMarker());
+                    task.setMarker(null);
+                    mapView.invalidate();
+                }
+                else {
+                    task.getMarker().setIcon(getDrawable(mapView.getContext(), task.getImage()));
+                    mapView.invalidate();
                 }
             }
-        };
-        thread.start();
+        } else {
+            if (task.getMarker() != null) {
+                removeMarker(task.getMarker());
+                task.setMarker(null);
+            }
+        }
+    }
 
+    @Override
+    public void onChangeTimerTask(Task task) {
+
+    }
+
+    @Override
+    public void addTask(Task task) {
+        if(isInit()){
+            drawTask(task);
+            task.addListener(this, toString());
+            mapView.invalidate();
+            Log.i(String.valueOf(SystemTag.map),"draw new task on map");
+        }
     }
 }

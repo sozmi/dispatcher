@@ -13,11 +13,23 @@ public enum TypeTask implements BaseType {
             case epidemic:
                 return R.drawable.ic_epidemic_green;
             case fire:
-                return R.drawable.ic_fire;
+                return R.drawable.ic_gun;
             case robbery:
-                return R.drawable.ic_robbery;
+                return R.drawable.ic_fire;
             default:
                 return 0;
+        }
+    }
+    public static TypeTask getTypeTask(int index){
+        switch (index) {
+            case 0:
+                return fire;
+            case 1:
+                return epidemic;
+            case 2:
+                return robbery;
+            default:
+                return null;
         }
     }
 }

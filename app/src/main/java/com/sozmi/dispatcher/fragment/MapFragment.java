@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
-
 import com.sozmi.dispatcher.model.navigation.Map;
 import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.system.Tag;
@@ -29,7 +28,7 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-
+        map = Map.getMap();
         addBuildingButton = view.findViewById(R.id.buttonAddBuilding);
         Button cancelBuildingButton = view.findViewById(R.id.buttonCancelBuildOnPanel);
         Button buildBuildingButton = view.findViewById(R.id.buttonBuildOnPanel);
@@ -44,7 +43,6 @@ public class MapFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        map = Map.getMap();
         map.init(requireView());
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -53,7 +51,6 @@ public class MapFragment extends Fragment {
             if (viewPanel) {
                 showMarker(point);
             }
-            //  Map.moveCamTo(point);
             map.moveCamTo(point);
         }
     }
@@ -63,7 +60,6 @@ public class MapFragment extends Fragment {
      */
     private void cancelBuildButtonOnClick() {
         map.removeMarker(build);
-        // Map.removeMarker(build);
         build = null;
         addBuildingButton.setVisibility(View.VISIBLE);
         panel_building.setVisibility(View.INVISIBLE);
@@ -100,6 +96,6 @@ public class MapFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Map.setIsInit(false);
+        Map.onDestroy();
     }
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sozmi.dispatcher.databinding.FragmentItemTaskBinding;
 import com.sozmi.dispatcher.fragment.TaskFragment;
+import com.sozmi.dispatcher.model.objects.StatusTask;
 import com.sozmi.dispatcher.model.objects.Task;
 import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.system.Tag;
@@ -45,16 +46,19 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
         Task task = mValues.get(position);
         holder.mNameView.setText(task.getName());
         holder.mImageViewStatus.setImageResource(task.getImageGroupTask());
-        holder.mImageViewStatus.setBackgroundResource(task.getBackgroundStatusTask());
+        holder.mImageViewStatus.setBackgroundResource(task.getColorStatus());
         holder.mPanelTime.setVisibility(View.INVISIBLE);
         holder.mInfoButton.setOnClickListener(view1 -> {
             Bundle bundle = new Bundle();
             bundle.putInt(Tag.TaskID.toString(), position);
             MyFM.OpenFragment(new TaskFragment(), bundle);
         });
+        holder.mProgressBarTask.setMax(task.getExecute_time());
+        holder.mProgressBarTask.setProgress(task.getCurrentTime());
+        holder.mTimerView.setText(task.getCurrentTimeToString());
+        if(task.getStatusTask()== StatusTask.execute)
+            holder.mPanelTime.setVisibility(View.VISIBLE);
     }
-
-
     /**
      * @return количество элементов списка.
      */
@@ -68,7 +72,7 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
     // При этом RecyclerView создаёт ровно столько контейнеров, сколько нужно для отображения на экране.
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public final TextView mNameView;
+        public final TextView mNameView, mTimerView;
         public final ImageView mImageViewStatus;
         public final Button mInfoButton;
         public final LinearLayout mPanelTime;
@@ -81,6 +85,7 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
             mInfoButton = binding.infoTask;
             mPanelTime = binding.panelTimerTask;
             mProgressBarTask = binding.progressBarTask;
+            mTimerView = binding.timerTask;
         }
     }
 }

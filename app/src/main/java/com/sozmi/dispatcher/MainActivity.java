@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         }
 //TODO: TEst
         Server.AddTestBuild();
-        Map map =new Map();
+        new Map();
         ImageButton mapButton = findViewById(R.id.buttonMap);
         ImageButton buildingsButton = findViewById(R.id.buttonBuildings);
         ImageButton buildButton = findViewById(R.id.buttonBuild);

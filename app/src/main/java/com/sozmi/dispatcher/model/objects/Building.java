@@ -24,19 +24,6 @@ public class Building extends Object<TypeBuilding> {
     }
 
     /**
-     * Конструктор
-     *
-     * @param name  название здания
-     * @param type  тип здания по его классификации
-     * @param cars  список машин, относящихся к зданию
-     * @param point координаты здания
-     */
-    public Building(int id,String name, TypeBuilding type, ArrayList<Car> cars, GeoPoint point) {
-        super(id, name,point,type, type.toCost());
-        setCars(cars);
-    }
-
-    /**
      * Получение списка машин, относящихся к зданию
      *
      * @return список машин, относящихся к зданию

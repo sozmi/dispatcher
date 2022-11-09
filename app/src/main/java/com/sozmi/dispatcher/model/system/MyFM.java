@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.fragment.MapFragment;
 
 public class MyFM {
     private static String nameCurrent;

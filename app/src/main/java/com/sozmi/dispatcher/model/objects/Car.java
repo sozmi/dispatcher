@@ -2,14 +2,12 @@ package com.sozmi.dispatcher.model.objects;
 
 import android.content.Context;
 
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.sozmi.dispatcher.model.listeners.CarListener;
 import com.sozmi.dispatcher.model.navigation.Map;
 import com.sozmi.dispatcher.model.navigation.Route;
 import com.sozmi.dispatcher.model.navigation.Routing;
-import com.sozmi.dispatcher.model.system.Server;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -20,6 +18,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Класс, описывающий машину как объект
@@ -28,19 +27,21 @@ public class Car extends Object<TypeCar> {
     private StatusCar status;
     private Route route;
     private Route reverse_root;
-    private int taskId = -1;
-    private final ArrayList<CarListener> listeners = new ArrayList<>();
+    private Building building;
+    private final ConcurrentHashMap<String, CarListener> listeners = new ConcurrentHashMap<>();
 
     /**
      * Конструктор
      *
-     * @param name   пользовательское название машины
-     * @param type   тип машины по её классификации
-     * @param status статус машины
-     * @param point  координаты машины
+     * @param name     пользовательское название машины
+     * @param type     тип машины по её классификации
+     * @param status   статус машины
+     * @param point    координаты машины
+     * @param building домашнее здание
      */
-    public Car(int id, String name, TypeCar type, StatusCar status, GeoPoint point) {
+    public Car(int id, String name, TypeCar type, StatusCar status, GeoPoint point, Building building) {
         super(id, name, point, type, type.toCost());
+        setBuilding(building);
         setStatus(status);
     }
 
@@ -58,9 +59,6 @@ public class Car extends Object<TypeCar> {
         return route;
     }
 
-    public Route getReverse_root() {
-        return reverse_root;
-    }
 
     public void setReverse_root() {
         this.reverse_root = new Route(route);
@@ -105,59 +103,67 @@ public class Car extends Object<TypeCar> {
         onStatusChanged();
     }
 
-    public int getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
-    }
-
     public void onPositionChanged() {
-        // Notify everybody that may be interested.
-        for (CarListener hl : listeners)
-            hl.onPositionChanged(this);
+        listeners.forEach((key, value) -> {
+            var elem = listeners.get(key);
+            if (elem != null) {
+                elem.onPositionChanged(this);
+            }
+        });
     }
 
     public void onStatusChanged() {
-        // Notify everybody that may be interested.
-        for (CarListener hl : listeners)
-            hl.onStatusChanged(this);
+        listeners.forEach((key, value) -> {
+            var elem = listeners.get(key);
+            if (elem != null) {
+                elem.onStatusChanged(this);
+            }
+        });
     }
 
-    public void addListener(CarListener toAdd) {
-        listeners.add(toAdd);
+    public void addListener(CarListener toAdd,String TAG) {
+        listeners.putIfAbsent(TAG,toAdd);
     }
 
-    public void moving(GeoPoint finish) {
-        Route route = Routing.Road(getPosition(), finish);
-        setRoute(route);
-        setReverse_root();
-        Server.addInMovement(this);
-        Map.getMap().addListenersPointsCarToDraw(this);
+    public void removeListener(String key) {
+        listeners.entrySet().removeIf(entry -> entry.getKey().equals(key));
+    }
+
+    public void moving(GeoPoint finish, StatusCar status) {
+        if (finish == getBuilding().getPosition()) {
+            setRoute(reverse_root);
+        } else {
+            Route route = Routing.Road(getPosition(), finish);
+            setRoute(route);
+            setReverse_root();
+        }
+        if (Map.isInit()) addListener(Map.getMap(),"MapClass");
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                GeoPoint point = route.getPoints().poll();
+                GeoPoint point = getRoute().getPoints().poll();
                 if (point == null) {
-                    setStatus(StatusCar.OnCall);
+                    setStatus(status);
                     cancel();
                 } else {
                     setPosition(point);
-                    if(Map.isIsInit())
-                        onPositionChanged();
+                    onPositionChanged();
                 }
             }
         };
 
         Timer timer = new Timer("CarMovingTimer");
-        long period = (long) (route.getTime()/ route.getCount_point()); //TODO умножить на 100
+        long period = (long) (route.getTime()*100 / route.getCount_point());
 
         if (period == 0) period = 1;
         timer.scheduleAtFixedRate(task, 0, period);
     }
 
-    public void removeListener(CarListener toRemove) {
-        listeners.remove(toRemove);
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 }

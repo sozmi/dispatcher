@@ -7,8 +7,8 @@ import java.util.Queue;
 
 public class Route {
     private Queue<GeoPoint> points;
-    private double time;
-    private double count_point;
+    private final double time;
+    private final double count_point;
 
     public Route(Queue<GeoPoint> points, double time) {
         this.points = points;
@@ -32,15 +32,7 @@ public class Route {
         return time;
     }
 
-    public void setTime(double time) {
-        this.time = time;
-    }
-
     public double getCount_point() {
         return count_point;
-    }
-
-    public void setCount_point(double count_point) {
-        this.count_point = count_point;
     }
 }
