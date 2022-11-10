@@ -3,7 +3,7 @@ package com.sozmi.dispatcher.model.system;
 import android.os.Handler;
 import android.os.Looper;
 
-public class User extends ServerMod {
+public class User extends BaseObject {
 
     private int money = 150000;
     private final int maxCountTask = 20;

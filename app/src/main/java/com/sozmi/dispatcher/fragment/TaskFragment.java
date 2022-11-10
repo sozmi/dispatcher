@@ -60,8 +60,7 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            int id = bundle.getInt(Tag.TaskID.toString());
-            task = Server.getTask(id);
+            task = (Task) bundle.getSerializable(Tag.TaskID.toString());
 
             on_call.setLayoutManager(new LinearLayoutManager(getContext()));
             on_call.setAdapter(new CarViewAdapter(task.getCars(), view));

@@ -1,11 +1,16 @@
 package com.sozmi.dispatcher.model.objects;
 
-import com.sozmi.dispatcher.model.system.ServerMod;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+import com.sozmi.dispatcher.model.system.BaseObject;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Marker;
 
-public class Object<T extends BaseType> extends ServerMod {
+public class Object<T extends BaseType> extends BaseObject {
 
     private String name;
     private GeoPoint point;
@@ -18,7 +23,7 @@ public class Object<T extends BaseType> extends ServerMod {
     }
 
     public void setMarker(Marker marker) {
-            this.marker = marker;
+        this.marker = marker;
     }
 
     protected Object(int id, String name, GeoPoint point, T type, int cost) {
@@ -89,4 +94,5 @@ public class Object<T extends BaseType> extends ServerMod {
     public void setCost(int cost) {
         this.cost = cost;
     }
+
 }

@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
@@ -16,6 +17,7 @@ import androidx.core.content.ContextCompat;
 
 import com.sozmi.dispatcher.BuildConfig;
 import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.fragment.TaskFragment;
 import com.sozmi.dispatcher.model.listeners.CarListener;
 import com.sozmi.dispatcher.model.listeners.ServerListener;
 import com.sozmi.dispatcher.model.listeners.TaskListener;
@@ -24,8 +26,10 @@ import com.sozmi.dispatcher.model.objects.Car;
 import com.sozmi.dispatcher.model.objects.StatusCar;
 import com.sozmi.dispatcher.model.objects.StatusTask;
 import com.sozmi.dispatcher.model.objects.Task;
+import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.system.Server;
 import com.sozmi.dispatcher.model.system.SystemTag;
+import com.sozmi.dispatcher.model.system.Tag;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -130,22 +134,28 @@ public class Map implements CarListener, TaskListener, ServerListener {
     }
 
     public void drawBuilding(Building building) {
-        Marker marker = drawMarker(building.getName(), building.getImage(), building.getPosition(), false, true);
+        Marker marker = drawMarker(building.getName(), building.getImage(), building.getPosition(), false, false);
         building.setMarker(marker);
     }
 
     public void drawCar(Car car){
-        Marker marker = drawMarker(car.getName(), car.getImage(),car.getPosition(),false,false);
+        Marker marker = drawMarker(car.getName(), car.getImage(),car.getPosition(),false,true);
         car.setMarker(marker);
     }
     public void drawTask(Task task) {
-        Marker marker = drawMarker(task.getName(), task.getImage(), task.getPosition(), false, false);
+        Marker marker = drawMarker(task.getName(), task.getImage(), task.getPosition(), false, true);
+        marker.setOnMarkerClickListener((marker1, mapView1) -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Tag.TaskID.toString(), task);
+            MyFM.OpenFragment(new TaskFragment(),bundle);
+            return true;
+        });
         task.setMarker(marker);
         Log.i("Draw", "drawTask + setMarker");
     }
 
     public Marker drawMarkerIndicator(GeoPoint point) {
-        return drawMarker("", R.drawable.ic_map_marker, point, true, false);
+        return drawMarker("", R.drawable.ic_map_marker, point, true, true);
     }
 
     public void removeMarker(Marker marker) {
@@ -157,12 +167,13 @@ public class Map implements CarListener, TaskListener, ServerListener {
         return ContextCompat.getDrawable(context, drawableId);
     }
 
-    private Marker drawMarker(String title, int id, GeoPoint point, boolean isDrag, boolean isShowTitle) {
+    private Marker drawMarker(String title, int id, GeoPoint point, boolean isDrag, boolean noShowTitle) {
         Marker marker = new Marker(mapView);
         marker.setIcon(getDrawable(mapView.getContext(), id));
         marker.setPosition(point);
         marker.setTitle(title);
-        if (isShowTitle) marker.setOnMarkerClickListener((marker1, mapView) -> true);
+        if (noShowTitle)
+            marker.setOnMarkerClickListener((marker1, mapView) -> true);
         marker.setDraggable(isDrag);
         mapView.getOverlays().add(marker);
         mapView.postInvalidate();

@@ -1,13 +1,14 @@
 package com.sozmi.dispatcher.model.system;
 
-public class ServerMod {
-   private final int ID;
+public class BaseObject {
+    private final int ID;
 
-    public ServerMod(int id) {
+    public BaseObject(int id) {
         ID = id;
     }
 
     public int getID() {
         return ID;
     }
+
 }

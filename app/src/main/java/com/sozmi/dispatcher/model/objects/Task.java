@@ -11,12 +11,13 @@ import com.sozmi.dispatcher.model.system.SystemTag;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Task extends Object<TypeTask> implements CarListener {
+public class Task extends Object<TypeTask> implements CarListener, Serializable {
     private TypeGroupTask typeGroup;
     private StatusTask statusTask;
     private final ArrayList<Car> cars = new ArrayList<>();
@@ -142,7 +143,7 @@ public class Task extends Object<TypeTask> implements CarListener {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                Log.i(String.valueOf(SystemTag.timer),"start executed task");
+                Log.i(String.valueOf(SystemTag.timer), "start executed task");
                 setStatusTask(StatusTask.executed);
                 for (Car car : cars) {
                     {
@@ -164,7 +165,7 @@ public class Task extends Object<TypeTask> implements CarListener {
         }, execute_time);
 
         Timer timerCounterTime = new Timer("TimerCounterTime");
-        Log.i(String.valueOf(SystemTag.timer),"start TimerCounterTime");
+        Log.i(String.valueOf(SystemTag.timer), "start TimerCounterTime");
         timerCounterTime.scheduleAtFixedRate(new TimerTask() {
             int i = 0;
 
@@ -172,9 +173,9 @@ public class Task extends Object<TypeTask> implements CarListener {
             public void run() {
                 i++;
                 setCurrentTime(execute_time - i * 1000);
-                if (execute_time - i * 1000 <= 0){
+                if (execute_time - i * 1000 <= 0) {
                     cancel();
-                    Log.i(String.valueOf(SystemTag.timer),"stop TimerCounterTime");
+                    Log.i(String.valueOf(SystemTag.timer), "stop TimerCounterTime");
                 }
             }
         }, 0, 1000);
@@ -241,7 +242,5 @@ public class Task extends Object<TypeTask> implements CarListener {
 
     @Override
     public void onPositionChanged(Car car) {
-
     }
-
 }
