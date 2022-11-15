@@ -19,7 +19,7 @@ import com.sozmi.dispatcher.adapters.TaskViewAdapter;
 import com.sozmi.dispatcher.model.listeners.TaskListener;
 import com.sozmi.dispatcher.model.objects.StatusTask;
 import com.sozmi.dispatcher.model.objects.Task;
-import com.sozmi.dispatcher.model.system.Server;
+import com.sozmi.dispatcher.model.server.ServerData;
 
 import java.util.Objects;
 
@@ -36,16 +36,16 @@ public class TasksFragment extends Fragment implements TaskListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-        var tasks = Server.getTasks();
+        var tasks = ServerData.getTasks();
         for (Task task : tasks
         ) {
             task.addListener(this,toString());
         }
         // Set the adapter
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
+            //Context context = view.getContext();
             recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            //recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(new TaskViewAdapter(tasks));
             ((SimpleItemAnimator) Objects.requireNonNull(recyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
         }
@@ -56,7 +56,7 @@ public class TasksFragment extends Fragment implements TaskListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        var tasks = Server.getTasks();
+        var tasks = ServerData.getTasks();
         for (Task task : tasks
         ) {
             task.removeListener(toString());
@@ -88,7 +88,7 @@ public class TasksFragment extends Fragment implements TaskListener {
 
     @Override
     public void onChangeTimerTask(Task task) {
-        int id = Server.getTasks().indexOf(task);
+        int id = ServerData.getTasks().indexOf(task);
         new Handler(Looper.getMainLooper()).post(() -> {
             if (task.getStatusTask() == StatusTask.execute){
                 Objects.requireNonNull(recyclerView.getAdapter()).notifyItemChanged(id);

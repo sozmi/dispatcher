@@ -1,8 +1,11 @@
 package com.sozmi.dispatcher.model.system;
 
 public class BaseObject {
-    private final int ID;
+    private int ID;
 
+    public BaseObject(){
+        ID =-1;
+    }
     public BaseObject(int id) {
         ID = id;
     }
@@ -11,4 +14,7 @@ public class BaseObject {
         return ID;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 }

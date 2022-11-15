@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.model.server.ServerData;
 import com.sozmi.dispatcher.model.system.MyFM;
 
 
@@ -108,13 +109,16 @@ public class LoginFragment extends Fragment {
     private void Login(String email, String password) {
         //TODO: Написать обработчик сверки с бд и регистрацией, входом
         if (email != null && password != null) {
-            MyFM.OpenFragment(new MapFragment(),null);
+            MyFM.OpenFragment(new MapFragment(), null);
             FrameLayout topMenu = requireActivity().findViewById(R.id.top_menu);
             LinearLayout bottomMenu = requireActivity().findViewById(R.id.bottom_menu);
             topMenu.setVisibility(View.VISIBLE);
             bottomMenu.setVisibility(View.VISIBLE);
+            //ServerData.getUser().addMoney(0);
+            //ServerData.loadData();
         }
     }
+
     @NonNull
     @Override
     public String toString() {

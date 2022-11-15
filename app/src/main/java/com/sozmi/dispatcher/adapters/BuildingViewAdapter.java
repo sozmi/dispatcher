@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.databinding.FragmentItemBuildingBinding;
 import com.sozmi.dispatcher.model.objects.Building;
-import com.sozmi.dispatcher.model.system.Server;
+import com.sozmi.dispatcher.model.server.ServerData;
 import com.sozmi.dispatcher.ui.MyListView;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public class BuildingViewAdapter extends RecyclerView.Adapter<BuildingViewAdapte
         holder.mImageView.setImageResource(building.getImage());
         holder.mCarView.setAdapter(new CarAdapter(view.getContext(), R.layout.fragment_item_car, building.getCars()));
         holder.mAddButton.setOnClickListener(view1 -> {
-            if(Server.addCar(building, building.getTypeCar())){
+            if(ServerData.addCar(building, building.getTypeCar())){
                 ((BaseAdapter)  holder.mCarView.getAdapter()).notifyDataSetChanged();
             }
             else {

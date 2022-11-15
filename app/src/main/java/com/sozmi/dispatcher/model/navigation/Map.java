@@ -27,7 +27,7 @@ import com.sozmi.dispatcher.model.objects.StatusCar;
 import com.sozmi.dispatcher.model.objects.StatusTask;
 import com.sozmi.dispatcher.model.objects.Task;
 import com.sozmi.dispatcher.model.system.MyFM;
-import com.sozmi.dispatcher.model.system.Server;
+import com.sozmi.dispatcher.model.server.ServerData;
 import com.sozmi.dispatcher.model.system.SystemTag;
 import com.sozmi.dispatcher.model.system.Tag;
 
@@ -61,13 +61,13 @@ public class Map implements CarListener, TaskListener, ServerListener {
 
     public static void onDestroy() {
         isInit = false;
-        for (Car car : Server.getInMovement()) {
+        for (Car car : ServerData.getInMovement()) {
             car.removeListener("MapClass");
         }
-        for (Task task : Server.getTasks()) {
+        for (Task task : ServerData.getTasks()) {
             task.removeListener("MapClass");
         }
-        Server.removeListener("MapClass");
+        ServerData.removeListener("MapClass");
     }
 
     public void init(View view) {
@@ -79,10 +79,10 @@ public class Map implements CarListener, TaskListener, ServerListener {
         mapView.setMaxZoomLevel(20.0);
         mapView.setMinZoomLevel(4.0);
         moveCamTo(getUserLocation(view.getContext()));
-        Server.addListener(this,toString());
-        addBuildings(Server.getBuildings());
-        addTasks(Server.getTasks());
-        addCars(Server.getInMovement());
+        ServerData.addListener(this,toString());
+        addBuildings(ServerData.getBuildings());
+        addTasks(ServerData.getTasks());
+        addCars(ServerData.getInMovement());
         mapView.invalidate();
     }
 

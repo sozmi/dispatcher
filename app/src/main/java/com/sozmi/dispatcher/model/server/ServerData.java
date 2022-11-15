@@ -1,4 +1,4 @@
-package com.sozmi.dispatcher.model.system;
+package com.sozmi.dispatcher.model.server;
 
 import android.util.Log;
 
@@ -20,26 +20,54 @@ import com.sozmi.dispatcher.model.objects.TypeBuilding;
 import com.sozmi.dispatcher.model.objects.TypeCar;
 import com.sozmi.dispatcher.model.objects.TypeGroupTask;
 import com.sozmi.dispatcher.model.objects.TypeTask;
+import com.sozmi.dispatcher.model.objects.User;
+import com.sozmi.dispatcher.model.system.SystemTag;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Server {
+public class ServerData {
     private static final ArrayList<Building> buildings = new ArrayList<>();
     private static final ArrayList<Task> tasks = new ArrayList<>();
     private static final ConcurrentHashMap<String, Car> carInMovement = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, ServerListener> listeners = new ConcurrentHashMap<>();
-    private static final User user = new User(1, 150000);
+    private static final User user = new User();
     private static int carIndex = 0;
+    //private static String host ="82.179.140.18";
+    // private static int port =45558;
+
+    private static String host = "172.18.218.182";
+    private static int port = 45558;
+    private static Connection connection;
+
+    public static void loadData() {
+        new Thread(() -> {
+            connection = new Connection(host, port);
+            connection.sendData("get_user");
+            try {
+                while (!connection.isReady()){
+                   Log.d("SOCKET","await data");
+                }
+                user.loadData(connection.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //TODO: TEst
+            ServerData.AddTestBuild();
+        }).start();
+
+    }
 
     public static void addListener(ServerListener toAdd, String TAG) {
         listeners.putIfAbsent(TAG, toAdd);
     }
+
     public static void addTask(Task task) {
         listeners.forEach((key, value) -> {
             var elem = listeners.get(key);
@@ -89,7 +117,7 @@ public class Server {
                 Random random = new Random();
                 int index = random.nextInt(TypeTask.values().length);
                 int time = 60000;
-                Task task = new Task(taskID, point, "Пожар" + taskID, TypeGroupTask.personal, 500,TypeTask.getTypeTask(index), StatusTask.not_executed, requirements, time);
+                Task task = new Task(taskID, point, "Пожар" + taskID, TypeGroupTask.personal, 500, TypeTask.getTypeTask(index), StatusTask.not_executed, requirements, time);
 
                 task.addListener(new TaskListener() {
                     @Override
@@ -198,7 +226,7 @@ public class Server {
 
     public static void AddTestBuild() {
         new ArrayList<Car>();
-        var res=addBuild("Комплекс зданий", new GeoPoint(56.867, 35.945, 149.249), TypeBuilding.hospital);
+        var res = addBuild("Комплекс зданий", new GeoPoint(56.867, 35.945, 149.249), TypeBuilding.hospital);
         addCar(buildings.get(0), TypeCar.ambulance);
         addCar(buildings.get(0), TypeCar.fireTrack);
         addCar(buildings.get(0), TypeCar.fireTrack);

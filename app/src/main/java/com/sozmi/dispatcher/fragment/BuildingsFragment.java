@@ -1,6 +1,5 @@
 package com.sozmi.dispatcher.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +7,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.adapters.BuildingViewAdapter;
-import com.sozmi.dispatcher.model.system.Server;
+import com.sozmi.dispatcher.model.server.ServerData;
 
 /**
  * A fragment representing a list of Items.
@@ -32,13 +30,12 @@ public class BuildingsFragment extends Fragment {
 
         // Set the adapter
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new BuildingViewAdapter(Server.getBuildings(), view));
+            recyclerView.setAdapter(new BuildingViewAdapter(ServerData.getBuildings(), view));
         }
         return view;
     }
+
     @NonNull
     @Override
     public String toString() {

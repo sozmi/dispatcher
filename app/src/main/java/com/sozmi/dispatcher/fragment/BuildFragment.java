@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.system.MyFM;
-import com.sozmi.dispatcher.model.system.Server;
+import com.sozmi.dispatcher.model.server.ServerData;
 import com.sozmi.dispatcher.model.objects.TypeBuilding;
 import com.sozmi.dispatcher.model.system.Tag;
 
@@ -85,7 +85,7 @@ public class BuildFragment extends Fragment {
 
 
     private void onButtonBuildClick() {
-        String res =Server.addBuild(name.getText().toString(), point, typeBuilding);
+        String res = ServerData.addBuild(name.getText().toString(), point, typeBuilding);
         if (res==null) {
             Bundle bundle =new Bundle();
             bundle.putParcelable(Tag.Point.toString(), point);

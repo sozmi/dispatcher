@@ -27,7 +27,7 @@ import com.sozmi.dispatcher.model.objects.CarCheck;
 import com.sozmi.dispatcher.model.objects.StatusTask;
 import com.sozmi.dispatcher.model.objects.Task;
 import com.sozmi.dispatcher.model.system.MyFM;
-import com.sozmi.dispatcher.model.system.Server;
+import com.sozmi.dispatcher.model.server.ServerData;
 import com.sozmi.dispatcher.model.system.Tag;
 import com.sozmi.dispatcher.ui.MyListView;
 
@@ -64,7 +64,7 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
 
             on_call.setLayoutManager(new LinearLayoutManager(getContext()));
             on_call.setAdapter(new CarViewAdapter(task.getCars(), view));
-            free_car.setAdapter(new CarCheckAdapter(view.getContext(), R.layout.fragment_item_car_check, Server.getFreeCars()));
+            free_car.setAdapter(new CarCheckAdapter(view.getContext(), R.layout.fragment_item_car_check, ServerData.getFreeCars()));
 
 
             name.setText(task.getName());
