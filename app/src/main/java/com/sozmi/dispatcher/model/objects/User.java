@@ -72,12 +72,13 @@ public class User extends BaseObject {
         return name;
     }
 
-    public void loadData(String data) {
-        var d = data.split(";");
-        if (d[0].equals("user")) {
-            setID(Integer.parseInt(d[1]));
-            setName(d[2]);
-            setMoney(Integer.parseInt(d[3]));
+    public boolean loadData(String data) {
+        var d = data.split("\\|");
+        if (d.length ==3) {
+            setID(Integer.parseInt(d[0]));
+            setName(d[1]);
+            setMoney(Integer.parseInt(d[2]));
+            return  true;
         } else {
             try {
                 Log.d("SOCKET", "Get message: "+data);
@@ -88,6 +89,7 @@ public class User extends BaseObject {
                 Log.d("SOCKET", "Get message: "+data);
             e.printStackTrace();
             }
+            return false;
         }
     }
 }

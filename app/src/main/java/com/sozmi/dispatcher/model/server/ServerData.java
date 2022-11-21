@@ -1,5 +1,9 @@
 package com.sozmi.dispatcher.model.server;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.StrictMode;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -33,35 +37,45 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerData {
+    public static final String APP_PREFERENCES = "settings";
+    public static final String APP_PREFERENCES_EMAIL = "User_email";
+    public static final String APP_PREFERENCES_PASSWD = "User_password";
+    static SharedPreferences mSettings; //файл настроек
     private static final ArrayList<Building> buildings = new ArrayList<>();
     private static final ArrayList<Task> tasks = new ArrayList<>();
     private static final ConcurrentHashMap<String, Car> carInMovement = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, ServerListener> listeners = new ConcurrentHashMap<>();
     private static final User user = new User();
     private static int carIndex = 0;
-    //private static String host ="82.179.140.18";
-    // private static int port =45558;
+    private static final String host = "82.179.140.18";
+    private static final int port = 45555;
 
-    private static String host = "172.18.218.182";
-    private static int port = 45558;
-    private static Connection connection;
+    public static boolean Authorization(String email, String passwd) throws InterruptedException, IOException, RuntimeException, IllegalArgumentException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        Connection connection = new Connection(host, port);
+        connection.sendData("get_user;"+ email + "|" +email.substring(0, email.indexOf("@"))+"|"+ passwd);
+        String s = connection.getData();
+        connection.disConnectWithServer();
+        return user.loadData(s);
+    }
 
-    public static void loadData() {
-        new Thread(() -> {
-            connection = new Connection(host, port);
-            connection.sendData("get_user");
-            try {
-                while (!connection.isReady()){
-                   Log.d("SOCKET","await data");
-                }
-                user.loadData(connection.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //TODO: TEst
-            ServerData.AddTestBuild();
-        }).start();
+    public static void loadSettings(Activity activity) {
+        mSettings = activity.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+    }
 
+    public static void addEmail(String email) {
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putString(APP_PREFERENCES_EMAIL, email);
+        editor.apply();
+        Log.d("Config", "add email to config setting");
+    }
+
+    public static void addPasswd(String passwd) {
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putString(APP_PREFERENCES_EMAIL, passwd);
+        editor.apply();
+        Log.d("Config", "add password to config setting");
     }
 
     public static void addListener(ServerListener toAdd, String TAG) {
@@ -97,15 +111,12 @@ public class ServerData {
         return tasks;
     }
 
-    public static void addTask() {
-        generateTask();
-    }
-
     public static void generateTask() {
         Timer timer = new Timer("TimerGenerateTasks");
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                if(buildings.size()<=0) return;
                 Log.i(String.valueOf(SystemTag.timer), "start TimerGenerateTasks");
                 if (tasks.size() >= user.getMaxCountTask()) cancel();
                 int taskID = tasks.size();
@@ -151,9 +162,12 @@ public class ServerData {
         return buildings.get(index);
     }
 
-    public static boolean isAuth() {
-        return false;
+    public static boolean isLoginSaved() {
+        boolean res = mSettings.contains(APP_PREFERENCES_EMAIL) && mSettings.contains(APP_PREFERENCES_PASSWD);
+        Log.d("Config", "Login is save in config:" + res);
+        return res;
     }
+
 
     public static String addBuild(String name, GeoPoint point, TypeBuilding typeBuilding) {
         if (user.isNoMoney(typeBuilding.toCost())) {
@@ -206,12 +220,6 @@ public class ServerData {
         return true;
     }
 
-
-    public static Task getTask(int taskId) {
-        if (taskId > tasks.size() - 1 || tasks.size() == 0) return null;
-        return tasks.get(taskId);
-    }
-
     public static ArrayList<CarCheck> getFreeCars() {
         ArrayList<CarCheck> cars = new ArrayList<>();
         for (Building build : buildings)
@@ -224,16 +232,16 @@ public class ServerData {
         return user;
     }
 
-    public static void AddTestBuild() {
-        new ArrayList<Car>();
-        var res = addBuild("Комплекс зданий", new GeoPoint(56.867, 35.945, 149.249), TypeBuilding.hospital);
-        addCar(buildings.get(0), TypeCar.ambulance);
-        addCar(buildings.get(0), TypeCar.fireTrack);
-        addCar(buildings.get(0), TypeCar.fireTrack);
-        addCar(buildings.get(0), TypeCar.fireTrack);
-        addCar(buildings.get(0), TypeCar.police);
-        addTask();
-    }
+//    public static void AddTestBuild() {
+//        new ArrayList<Car>();
+//        addBuild("Комплекс зданий", new GeoPoint(56.867, 35.945, 149.249), TypeBuilding.hospital);
+//        addCar(buildings.get(0), TypeCar.ambulance);
+//        addCar(buildings.get(0), TypeCar.fireTrack);
+//        addCar(buildings.get(0), TypeCar.fireTrack);
+//        addCar(buildings.get(0), TypeCar.fireTrack);
+//        addCar(buildings.get(0), TypeCar.police);
+//        addTask();
+//    }
 
     public static ArrayList<Car> getInMovement() {
         return new ArrayList<>(carInMovement.values());
@@ -247,10 +255,22 @@ public class ServerData {
         removeCarInMovement(car.getID() + "");
     }
 
+    public static boolean AuthorizationSave() throws IOException, InterruptedException {
+        return Authorization(mSettings.getString(APP_PREFERENCES_EMAIL, ""), mSettings.getString(APP_PREFERENCES_PASSWD, ""));
+    }
+
     @NonNull
     @Override
     public String toString() {
         return "ServerClass";
+    }
+
+    public static void unloader() throws IOException, InterruptedException, RuntimeException, IllegalArgumentException {
+        Connection connection = new Connection(host, port);
+        connection.sendData("update_user;" + getUser().getID() + "|" + getUser().getMoney() + ";\0");
+        String s = connection.getData();
+        connection.disConnectWithServer();
+
     }
 }
 

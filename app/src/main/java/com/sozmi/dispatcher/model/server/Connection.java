@@ -75,15 +75,23 @@ public class Connection {
         }
     }
 
-public boolean isReady() throws IOException {
+    public boolean isReady() throws IOException {
         return in.ready();
-}
-    public String getData() throws IOException {
+    }
+
+    public String getData() throws IOException, InterruptedException, RuntimeException {
         Log.d(LOG_TAG, "Начало чтения данных из буффера");
         StringBuilder message = new StringBuilder();
         int charsRead;
         char[] buffer = new char[BUFFER_SIZE];
-
+        int i = 0;
+        while (!isReady()) {
+            if (i >= 60)
+                throw new RuntimeException("Превышено время ожидания");
+            Log.d("SOCKET", "await data"+ i+"s");
+            Thread.sleep(1000);
+            i++;
+        }
         while ((charsRead = in.read(buffer)) != -1) {
             Log.d(LOG_TAG, "charsRead:" + charsRead);
             message.append(new String(buffer).substring(0, charsRead));
@@ -93,8 +101,8 @@ public boolean isReady() throws IOException {
             }
         }
 
-        disConnectWithServer(); // disconnect server
+        //disConnectWithServer(); // disconnect server
 
-        return message.toString();
+        return message.toString().trim();
     }
 }

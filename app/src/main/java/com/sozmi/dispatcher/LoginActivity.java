@@ -1,26 +1,21 @@
-package com.sozmi.dispatcher.fragment;
+package com.sozmi.dispatcher;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.server.ServerData;
-import com.sozmi.dispatcher.model.system.MyFM;
 
+import java.io.IOException;
 
-public class LoginFragment extends Fragment {
+public class LoginActivity extends AppCompatActivity {
 
     private final TextWatcher tw_email = new TextWatcher() {
         public void afterTextChanged(Editable s) {
@@ -70,58 +65,58 @@ public class LoginFragment extends Fragment {
     };
 
     private EditText emailInput, passwordInput;
-    private static String email, password;
+    private static String email = "", password = "";
     private static boolean isPasswordValid = false, isLoginValid = false;
-
+    Button auth;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-        // Inflate the layout for this fragment
-        // This will be the top level handling of theme
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Button auth = view.findViewById(R.id.login_btn);
-        emailInput = view.findViewById(R.id.username);
-        passwordInput = view.findViewById(R.id.editText_password);
-        email = emailInput.getText().toString();
-        password = passwordInput.getText().toString();
+        setContentView(R.layout.activity_login);
+        ServerData.loadSettings(this);
+        try {
+
+            if (ServerData.isLoginSaved() && ServerData.AuthorizationSave()) {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return;
+            }
+        } catch (IOException | InterruptedException e) {
+            Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
+            toast.show();
+        }
+       auth = findViewById(R.id.login_btn);
+        emailInput = findViewById(R.id.username);
+        passwordInput = findViewById(R.id.editText_password);
+
+
         emailInput.addTextChangedListener(tw_email);
         passwordInput.addTextChangedListener(tw_password);
-
         auth.setOnClickListener(v -> OnAuthClick());
-        return view;
     }
 
     private void OnAuthClick() {
+        auth.setEnabled(false);
         if (isLoginValid && isPasswordValid) {
-            Login(email, password);
+            email = emailInput.getText().toString();
+            password = passwordInput.getText().toString();
+            try {
+                if (ServerData.Authorization(email, password)) {
+                    ServerData.addEmail(email);
+                    ServerData.addPasswd(password);
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+
+                }
+            } catch (IOException | InterruptedException |RuntimeException e) {
+                Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
         } else {
-            Toast toast = Toast.makeText(getContext(),
-                    "Неверное имя пользователя или пароль", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, "Неверное имя пользователя или пароль", Toast.LENGTH_SHORT);
             toast.show();
-            //TODO: убрать Login()
-            Login("xx", "xxx");
+
         }
-    }
-
-
-    private void Login(String email, String password) {
-        //TODO: Написать обработчик сверки с бд и регистрацией, входом
-        if (email != null && password != null) {
-            MyFM.OpenFragment(new MapFragment(), null);
-            FrameLayout topMenu = requireActivity().findViewById(R.id.top_menu);
-            LinearLayout bottomMenu = requireActivity().findViewById(R.id.bottom_menu);
-            topMenu.setVisibility(View.VISIBLE);
-            bottomMenu.setVisibility(View.VISIBLE);
-            //ServerData.getUser().addMoney(0);
-            //ServerData.loadData();
-        }
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "LoginFragment";
+        auth.setEnabled(true);
     }
 }

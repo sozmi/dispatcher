@@ -1,17 +1,14 @@
 package com.sozmi.dispatcher;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sozmi.dispatcher.fragment.BuildFragment;
 import com.sozmi.dispatcher.fragment.BuildingsFragment;
-import com.sozmi.dispatcher.fragment.LoginFragment;
 import com.sozmi.dispatcher.fragment.MapFragment;
 import com.sozmi.dispatcher.fragment.TasksFragment;
 import com.sozmi.dispatcher.model.listeners.DataListner;
@@ -22,6 +19,8 @@ import com.sozmi.dispatcher.model.system.Permission;
 import com.sozmi.dispatcher.model.system.Tag;
 
 import org.osmdroid.util.GeoPoint;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements DataListner<Integer> {
     private static GeoPoint point = null;
@@ -41,22 +40,13 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
         setContentView(R.layout.activity_main);
 
         Permission.get(this);
-        MyFM.setFM(getSupportFragmentManager());
 
-        ServerData.getUser().addListener(this, toString());
-        ServerData.loadData();
-        if (ServerData.isAuth()) {
-            MyFM.OpenFragment(new MapFragment(), null);
-            FrameLayout topMenu = findViewById(R.id.top_menu);
-            LinearLayout bottomMenu = findViewById(R.id.bottom_menu);
-            topMenu.setVisibility(View.VISIBLE);
-            bottomMenu.setVisibility(View.VISIBLE);
-        } else {
-            MyFM.OpenFragment(new LoginFragment(), null);
-        }
         new Map();
-
-        //money.setText(ServerData.getUser().getMoney());
+        ServerData.getUser().addListener(this, toString());
+        ServerData.getUser().addMoney(0);
+        MyFM.setFM(getSupportFragmentManager());
+        MyFM.OpenFragment(new MapFragment(), null);
+        ServerData.generateTask();
         actionButton();
     }
 
@@ -120,6 +110,16 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
             name.setText(ServerData.getUser().getName());
             isNoInit = false;
         }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            ServerData.unloader();
+        } catch (IOException | InterruptedException e) {
+            Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 }

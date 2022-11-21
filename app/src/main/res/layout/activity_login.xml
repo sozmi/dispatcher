@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragment.LoginFragment">
+    tools:context=".LoginActivity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="160dp"
@@ -15,45 +21,46 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="30dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
         android:text="@string/email"
-        android:textColor="@color/day.primary.dark"/>
+        android:textColor="@color/day.primary.dark" />
+
     <EditText
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:autofillHints="emailAddress"
         android:ems="10"
         android:hint="@string/example_email"
         android:imeOptions="actionGo"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="20dp"
-        android:layout_marginHorizontal="30dp"
         android:inputType="textEmailAddress"
-        android:autofillHints="emailAddress" />
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="20dp" />
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="30dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/day.primary.dark"
-        android:text="@string/password" />
+        android:layout_marginHorizontal="30dp"
+        android:text="@string/password"
+        android:textColor="@color/day.primary.dark" />
+
     <EditText
         android:id="@+id/editText_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:autofillHints="password"
         android:hint="@string/example_password"
         android:inputType="textPassword"
         android:paddingHorizontal="12dp"
-        android:paddingVertical="20dp"
-        android:layout_marginHorizontal="30dp"
-        android:autofillHints="password"
-        />
+        android:paddingVertical="20dp" />
 
     <Button
         android:id="@+id/login_btn"
-        android:text="@string/auth"
         style="@style/button_text"
-        />
+        android:text="@string/auth" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -62,3 +69,4 @@
         android:minHeight="48dp"
         android:text="@string/save_password" />
 </LinearLayout>
+</FrameLayout>
