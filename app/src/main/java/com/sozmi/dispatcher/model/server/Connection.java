@@ -18,7 +18,7 @@ public class Connection {
     private PrintWriter out = null;
     private BufferedReader in = null;
     private final String LOG_TAG = "SOCKET";
-    private InetSocketAddress socketAddress = null;
+    private final InetSocketAddress socketAddress;
 
     /**
      * Constructor with Host, Port and MAC Address
@@ -33,13 +33,16 @@ public class Connection {
     private void connectWithServer() {
         try {
             if (socket == null || socket.isClosed()) {
-                Log.d(LOG_TAG, "Соединение с сокетом:" + socketAddress.toString() + " устанавливается");
+                Log.d(LOG_TAG, "Соединение с сокетом:" + socketAddress + " устанавливается");
                 socket = new Socket(socketAddress.getAddress(), socketAddress.getPort());
-                Log.d(LOG_TAG, "Соединение с сокетом:" + socketAddress.toString() + " установлено");
+                Log.d(LOG_TAG, "Соединение с сокетом:" + socketAddress + " установлено");
                 out = new PrintWriter(socket.getOutputStream());
                 Log.d(LOG_TAG, "Буффер для отправки данных создан");
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 Log.d(LOG_TAG, "Буффер для получения данных создан");
+                if (!socket.isConnected()) {
+                    throw new NetworkException("Не удалось установить соединение с сервером. Пожалуйста, попробуйте позже");
+                }
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage());
@@ -47,7 +50,7 @@ public class Connection {
         }
     }
 
-    public void disConnectWithServer() {
+    public void disconnect() {
         Log.d(LOG_TAG, "Начало закрытия сокета");
         Log.d(LOG_TAG, "socket!=null:" + (socket != null));
         if (socket != null) {
@@ -72,6 +75,7 @@ public class Connection {
             out.write(message);
             out.flush();
             Log.d(LOG_TAG, "Отправлено сообщение:" + message);
+
         }
     }
 
@@ -79,7 +83,7 @@ public class Connection {
         return in.ready();
     }
 
-    public String getData() throws IOException, InterruptedException, RuntimeException {
+    public String getData() throws IOException, InterruptedException {
         Log.d(LOG_TAG, "Начало чтения данных из буффера");
         StringBuilder message = new StringBuilder();
         int charsRead;
@@ -87,8 +91,8 @@ public class Connection {
         int i = 0;
         while (!isReady()) {
             if (i >= 60)
-                throw new RuntimeException("Превышено время ожидания");
-            Log.d("SOCKET", "await data"+ i+"s");
+                throw new NetworkException("Не удалось соединиться с сервером. Превышено время ожидания. ");
+            Log.d("SOCKET", "await data" + i + "s");
             Thread.sleep(1000);
             i++;
         }
@@ -100,9 +104,6 @@ public class Connection {
                 break;
             }
         }
-
-        //disConnectWithServer(); // disconnect server
-
         return message.toString().trim();
     }
 }

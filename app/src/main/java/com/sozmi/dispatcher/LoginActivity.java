@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sozmi.dispatcher.model.server.NetworkException;
 import com.sozmi.dispatcher.model.server.ServerData;
 
 import java.io.IOException;
@@ -73,17 +74,22 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ServerData.loadSettings(this);
-        try {
-
-            if (ServerData.isLoginSaved() && ServerData.AuthorizationSave()) {
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                return;
+            try {
+                if (ServerData.isLoginSaved() && ServerData.AuthorizationSave()) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+            } catch (IOException e) {
+                Toast toast = Toast.makeText(this, "Не удалось прочитать полученные данные. Пожалуйста попробуйте позже.", Toast.LENGTH_SHORT);
+                toast.show();
+            } catch (InterruptedException e) {
+                Toast toast = Toast.makeText(this, "Произошла ошибка потока. Пожалуйста попробуйте позже.", Toast.LENGTH_SHORT);
+                toast.show();
+            }catch (NetworkException e){
+                Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
+                toast.show();
             }
-        } catch (IOException | InterruptedException e) {
-            Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
-            toast.show();
-        }
        auth = findViewById(R.id.login_btn);
         emailInput = findViewById(R.id.username);
         passwordInput = findViewById(R.id.editText_password);
@@ -107,12 +113,29 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
 
                 }
-            } catch (IOException | InterruptedException |RuntimeException e) {
+            } catch (IOException e) {
+                Toast toast = Toast.makeText(this, "Не удалось прочитать полученные данные. Пожалуйста попробуйте позже.", Toast.LENGTH_SHORT);
+                toast.show();
+            } catch (InterruptedException e) {
+                Toast toast = Toast.makeText(this, "Произошла ошибка потока. Пожалуйста, попробуйте позже.", Toast.LENGTH_SHORT);
+                toast.show();
+            }catch (NetworkException e){
                 Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
+                toast.show();
+            }catch (NullPointerException e){
+                Toast toast = Toast.makeText(this,"Не установлено соединение с сервером. Пожалуйста, попробуйте позже", Toast.LENGTH_SHORT);
                 toast.show();
             }
 
-        } else {
+        }else if(emailInput.getText().toString().isEmpty()){
+            Toast toast = Toast.makeText(this, "Введите e-mail", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else if(passwordInput.getText().toString().isEmpty()){
+            Toast toast = Toast.makeText(this, "Введите пароль", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+            else {
             Toast toast = Toast.makeText(this, "Неверное имя пользователя или пароль", Toast.LENGTH_SHORT);
             toast.show();
 

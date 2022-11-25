@@ -1,6 +1,7 @@
 package com.sozmi.dispatcher.model.objects;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.core.content.res.ResourcesCompat;
 
@@ -43,6 +44,52 @@ public class Car extends Object<TypeCar> {
         super(id, name, point, type, type.toCost());
         setBuilding(building);
         setStatus(status);
+    }
+    public Car(String data, Building building) {
+        super();
+        var d = data.split("\\|");
+        if (d.length ==5) {
+            setID(Integer.parseInt(d[0]));
+            var position =d[1].split(",");
+            setPosition(new GeoPoint(Double.parseDouble(position[0].replace("(","")),Double.parseDouble(position[1].replace(")",""))));
+            setName(d[2]);
+            setBuilding(building);
+            setType(TypeCar.valueOf(d[3]));
+            setStatus(StatusCar.valueOf(d[4]));
+        } else {
+            try {
+                Log.d("SOCKET", "Get message: "+data);
+                throw new Exception("Передали не здание");
+
+            } catch (Exception e) {
+                Log.d("SOCKET", e.getMessage());
+                Log.d("SOCKET", "Get message: "+data);
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Car(String data) {
+        super();
+        var d = data.split("\\|");
+        if (d.length ==5) {
+            setID(Integer.parseInt(d[0]));
+            var position =d[1].split(",");
+            setPosition(new GeoPoint(Double.parseDouble(position[0].replace("(","")),Double.parseDouble(position[1].replace(")",""))));
+            setName(d[2]);
+            setType(TypeCar.valueOf(d[3]));
+            setStatus(StatusCar.valueOf(d[4]));
+        } else {
+            try {
+                Log.d("SOCKET", "Get message: "+data);
+                throw new Exception("Передали не здание");
+
+            } catch (Exception e) {
+                Log.d("SOCKET", e.getMessage());
+                Log.d("SOCKET", "Get message: "+data);
+                e.printStackTrace();
+            }
+        }
     }
 
     public void setRoute(Route route) {

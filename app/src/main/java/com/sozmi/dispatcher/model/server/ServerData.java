@@ -50,14 +50,39 @@ public class ServerData {
     private static final String host = "82.179.140.18";
     private static final int port = 45555;
 
-    public static boolean Authorization(String email, String passwd) throws InterruptedException, IOException, RuntimeException, IllegalArgumentException {
+    public static boolean Authorization(String email, String passwd) throws InterruptedException, IOException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Connection connection = new Connection(host, port);
-        connection.sendData("get_user;"+ email + "|" +email.substring(0, email.indexOf("@"))+"|"+ passwd);
+        connection.sendData("get_user;" + email + "|" + email.substring(0, email.indexOf("@")) + "|" + passwd);
         String s = connection.getData();
-        connection.disConnectWithServer();
-        return user.loadData(s);
+        connection.disconnect();
+        if (user.loadData(s)) {
+            return loader();
+        }
+        return false;
+    }
+
+    private static boolean loader() throws IOException, InterruptedException {
+
+        Connection connection = new Connection(host, port);
+        connection.sendData("get_build;" + getUser().getID());
+        String build_str = connection.getData();
+        if(build_str.equals("no_find")) return true;
+        String[] b_str = build_str.split(";");
+        Log.d("BUILD_INFO", "Building count:" + b_str.length);
+        for (String sb : b_str) {
+                Building build = new Building(sb);
+//            connection.sendData("get_cars;"+build.getID());
+//            String s = connection.getData();
+//
+//            build.addCar(s);
+            buildings.add(build);
+        }
+
+        connection.disconnect();
+        generateTask();
+        return true;
     }
 
     public static void loadSettings(Activity activity) {
@@ -116,7 +141,7 @@ public class ServerData {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(buildings.size()<=0) return;
+                if (buildings.size() <= 0) return;
                 Log.i(String.valueOf(SystemTag.timer), "start TimerGenerateTasks");
                 if (tasks.size() >= user.getMaxCountTask()) cancel();
                 int taskID = tasks.size();
@@ -178,6 +203,7 @@ public class ServerData {
             user.minMoney(typeBuilding.toCost());
             Building b = new Building(buildings.size(), name, typeBuilding, point);
             buildings.add(b);
+
             return null;
         }
     }
@@ -232,17 +258,6 @@ public class ServerData {
         return user;
     }
 
-//    public static void AddTestBuild() {
-//        new ArrayList<Car>();
-//        addBuild("Комплекс зданий", new GeoPoint(56.867, 35.945, 149.249), TypeBuilding.hospital);
-//        addCar(buildings.get(0), TypeCar.ambulance);
-//        addCar(buildings.get(0), TypeCar.fireTrack);
-//        addCar(buildings.get(0), TypeCar.fireTrack);
-//        addCar(buildings.get(0), TypeCar.fireTrack);
-//        addCar(buildings.get(0), TypeCar.police);
-//        addTask();
-//    }
-
     public static ArrayList<Car> getInMovement() {
         return new ArrayList<>(carInMovement.values());
     }
@@ -255,7 +270,7 @@ public class ServerData {
         removeCarInMovement(car.getID() + "");
     }
 
-    public static boolean AuthorizationSave() throws IOException, InterruptedException {
+    public static boolean AuthorizationSave() throws IOException, InterruptedException, NetworkException {
         return Authorization(mSettings.getString(APP_PREFERENCES_EMAIL, ""), mSettings.getString(APP_PREFERENCES_PASSWD, ""));
     }
 
@@ -265,11 +280,11 @@ public class ServerData {
         return "ServerClass";
     }
 
-    public static void unloader() throws IOException, InterruptedException, RuntimeException, IllegalArgumentException {
+    public static void unloader() throws IOException, InterruptedException, NetworkException {
         Connection connection = new Connection(host, port);
-        connection.sendData("update_user;" + getUser().getID() + "|" + getUser().getMoney() + ";\0");
-        String s = connection.getData();
-        connection.disConnectWithServer();
+        connection.sendData("upd_user;" + getUser().getID() + "|" + getUser().getMoney());
+        connection.getData();
+        connection.disconnect();
 
     }
 }

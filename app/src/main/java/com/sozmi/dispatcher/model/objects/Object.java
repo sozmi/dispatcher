@@ -18,6 +18,10 @@ public class Object<T extends BaseType> extends BaseObject {
     private int cost;
     private Marker marker;
 
+    public Object() {
+
+    }
+
     public Marker getMarker() {
         return marker;
     }

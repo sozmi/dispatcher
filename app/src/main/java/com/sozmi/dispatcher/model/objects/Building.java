@@ -1,5 +1,7 @@
 package com.sozmi.dispatcher.model.objects;
 
+import android.util.Log;
+
 import org.osmdroid.util.GeoPoint;
 
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ import java.util.ArrayList;
  * Класс, описывающий здания
  */
 public class Building extends Object<TypeBuilding> {
-    private ArrayList<Car> cars;
+    private ArrayList<Car> cars = new ArrayList<>();
 
     /**
      * Конструктор здания без машин
@@ -20,9 +22,30 @@ public class Building extends Object<TypeBuilding> {
      */
     public Building(int id, String name, TypeBuilding type, GeoPoint point) {
         super(id, name,point,type, type.toCost());
-        cars = new ArrayList<>();
     }
 
+    public Building(String data){
+        super();
+        var d = data.split("\\|");
+        if (d.length ==4) {
+            setID(Integer.parseInt(d[0]));
+            var position =d[1].split(",");
+            setPosition(new GeoPoint(Double.parseDouble(position[0].replace("(","")),Double.parseDouble(position[1].replace(")",""))));
+            setName(d[2]);
+            setType(TypeBuilding.valueOf(d[3]));
+            setCost(getType().toCost());
+        } else {
+            try {
+                Log.d("SOCKET", "Get message: "+data);
+                throw new Exception("Передали не здание");
+
+            } catch (Exception e) {
+                Log.d("SOCKET", e.getMessage());
+                Log.d("SOCKET", "Get message: "+data);
+                e.printStackTrace();
+            }
+        }
+    }
     /**
      * Получение списка машин, относящихся к зданию
      *
@@ -44,7 +67,12 @@ public class Building extends Object<TypeBuilding> {
     public void addCar(Car car) {
         cars.add(car);
     }
+    public void addCar(String str_cars) {
+        String[] str = str_cars.split(";");
+        for (String sc : str)
+            addCar(new Car(sc));
 
+    }
     public TypeCar getTypeCar() {
         return getType().toCar();
     }
