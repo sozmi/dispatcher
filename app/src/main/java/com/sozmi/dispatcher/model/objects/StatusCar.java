@@ -24,6 +24,16 @@ public enum StatusCar {
         }
     }
 
+    public String toType(){
+        switch (this){
+            case Available: return "Available";
+            case Moving: return "Moving";
+            case OnCall: return "OnCall";
+            case Unavailable: return "Unavailable";
+            case MovingOnCall:return "MovingOnCall";
+            default: return  "unknown";
+        }
+    }
     public int toColorID(){
         switch (this){
             case Available: return R.color.green;

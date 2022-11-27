@@ -8,13 +8,13 @@ import com.sozmi.dispatcher.R;
 public enum TypeCar implements BaseType {
     ambulance,
     police,
-    fireTrack;
+    fire_truck;
 
     @NonNull
     @Override
     public String toString() {
         switch (this) {
-            case fireTrack:
+            case fire_truck:
                 return "Пожарная машина";
             case ambulance:
                 return "Скорая помощь";
@@ -28,7 +28,7 @@ public enum TypeCar implements BaseType {
     @Override
     public int toImageId() {
         switch (this) {
-            case fireTrack:
+            case fire_truck:
                 return R.drawable.ic_fire_truck;
             case ambulance:
                 return R.drawable.ic_ambulance;
@@ -42,8 +42,8 @@ public enum TypeCar implements BaseType {
     @Override
     public String toType() {
         switch (this) {
-            case fireTrack:
-                return "fireTrack";
+            case fire_truck:
+                return "fire_truck";
             case ambulance:
                 return "ambulance";
             case police:
@@ -55,7 +55,7 @@ public enum TypeCar implements BaseType {
 
     public int toCost() {
         switch (this) {
-            case fireTrack:
+            case fire_truck:
                 return 5000;
             case ambulance:
                 return 10000;

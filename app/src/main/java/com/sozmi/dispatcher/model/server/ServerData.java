@@ -97,7 +97,7 @@ public class ServerData {
             Building build = new Building(sb);
             connection.sendData("get_cars;" + build.getID());
             String s = connection.getData();
-
+if(!s.equals("no_find"))
             build.addCar(s);
             buildings.add(build);
         }
@@ -170,7 +170,7 @@ public class ServerData {
                 GeoPoint point = Coordinate.getLocationInLatLngRad(10000, getRandomBuilding().getPosition());
                 ArrayList<Requirement> requirements = new ArrayList<>();
                 requirements.add(new Requirement(1, TypeCar.police));
-                requirements.add(new Requirement(3, TypeCar.fireTrack));
+                requirements.add(new Requirement(3, TypeCar.fire_truck));
                 requirements.add(new Requirement(1, TypeCar.ambulance));
                 Random random = new Random();
                 int index = random.nextInt(TypeTask.values().length);
@@ -256,12 +256,13 @@ public class ServerData {
     }
 
     public static void addCar(Building building, TypeCar typeCar) throws NetworkException {
-        if (user.isNoMoney(typeCar.toCost())) throw new DataException("Недосаточно средств", "no_create");
+        if (user.isNoMoney(typeCar.toCost()))
+            throw new DataException("Недосаточно средств", "no_create");
 
 
         Car car = new Car(carIndex++, typeCar.name(), typeCar, StatusCar.Available, building.getPosition(), building);
         Connection connection = new Connection(host, port);
-        connection.sendData("add_car;" + building.getPositionString() + "|" + typeCar.name() + "|" + typeCar.toType() + "|" + car.getStatus()+"|"+building.getID());
+        connection.sendData("add_car;" + building.getPositionString() + "|" + typeCar.name() + "|" + typeCar.toType() + "|" + car.getStatus().toType()+"|"+building.getID());
         String s = connection.getData();
         if (s.equals("false"))
             throw new DataException("Не удалось создать машину", "no_create");

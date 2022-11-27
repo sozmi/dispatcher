@@ -59,7 +59,7 @@ public class Car extends Object<TypeCar> {
         } else {
             try {
                 Log.d("SOCKET", "Get message: "+data);
-                throw new Exception("Передали не здание");
+                throw new Exception("Передали не машину");
 
             } catch (Exception e) {
                 Log.d("SOCKET", e.getMessage());
@@ -69,28 +69,7 @@ public class Car extends Object<TypeCar> {
         }
     }
 
-    public Car(String data) {
-        super();
-        var d = data.split("\\|");
-        if (d.length ==5) {
-            setID(Integer.parseInt(d[0]));
-            var position =d[1].split(",");
-            setPosition(new GeoPoint(Double.parseDouble(position[0].replace("(","")),Double.parseDouble(position[1].replace(")",""))));
-            setName(d[2]);
-            setType(TypeCar.valueOf(d[3]));
-            setStatus(StatusCar.valueOf(d[4]));
-        } else {
-            try {
-                Log.d("SOCKET", "Get message: "+data);
-                throw new Exception("Передали не здание");
 
-            } catch (Exception e) {
-                Log.d("SOCKET", e.getMessage());
-                Log.d("SOCKET", "Get message: "+data);
-                e.printStackTrace();
-            }
-        }
-    }
 
     public void setRoute(Route route) {
         this.route = route;

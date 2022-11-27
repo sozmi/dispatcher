@@ -3,7 +3,6 @@ package com.sozmi.dispatcher.model.objects;
 import androidx.annotation.NonNull;
 
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.model.objects.TypeCar;
 
 public enum TypeBuilding implements BaseType{
     hospital,
@@ -53,7 +52,7 @@ public enum TypeBuilding implements BaseType{
 
     public TypeCar toCar() {
         switch (this){
-            case fire_station: return TypeCar.fireTrack;
+            case fire_station: return TypeCar.fire_truck;
             case hospital: return TypeCar.ambulance;
             case police: return TypeCar.police;
             default: return null;

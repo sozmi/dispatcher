@@ -2,6 +2,9 @@ package com.sozmi.dispatcher.model.objects;
 
 import android.util.Log;
 
+import com.sozmi.dispatcher.model.listeners.CarListener;
+import com.sozmi.dispatcher.model.server.ServerData;
+
 import org.osmdroid.util.GeoPoint;
 
 import java.util.ArrayList;
@@ -56,23 +59,31 @@ public class Building extends Object<TypeBuilding> {
         return cars;
     }
 
-    /**
-     * Установка списка машин, относящихся к зданию
-     *
-     * @param cars список машин, относящихся к зданию
-     */
-    public void setCars(ArrayList<Car> cars) {
-        this.cars = cars;
-    }
-
     public void addCar(Car car) {
         cars.add(car);
     }
 
     public void addCar(String str_cars) {
         String[] str = str_cars.split(";");
-        for (String sc : str)
-            addCar(new Car(sc));
+        for (String sc : str){
+            Car car = new Car(sc, this);
+            car.addListener(new CarListener() {
+                @Override
+                public void onStatusChanged(Car car) {
+                    if (StatusCar.OnCall == car.getStatus() || car.getStatus() == StatusCar.Available)
+                        ServerData.removeInMovement(car);
+                    else if (car.getStatus() == StatusCar.Moving || car.getStatus() == StatusCar.MovingOnCall)
+                        ServerData.addInMovement(car);
+                }
+
+                @Override
+                public void onPositionChanged(Car car) {
+
+                }
+            }, "ClassServer");
+            addCar(car);
+        }
+
 
     }
 
