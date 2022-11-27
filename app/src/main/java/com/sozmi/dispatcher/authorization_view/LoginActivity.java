@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-   
+
         try {
             if (ServerData.authorization(this)) {
                 Intent intent = new Intent(this, MainActivity.class);
