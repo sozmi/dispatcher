@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,18 +24,18 @@ import com.sozmi.dispatcher.model.server.ServerData;
 
 
 public class LoginFragment extends Fragment {
-    private EditText emailInput, passwordInput;
     private MyTextWatcher tw_email, tw_password;
 
     private Button auth;
-
+private CheckBox isSaveCB;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         auth = view.findViewById(R.id.buttonLogin);
-        emailInput = view.findViewById(R.id.emailLogin);
-        passwordInput = view.findViewById(R.id.passwordLogin);
+        EditText emailInput = view.findViewById(R.id.emailLogin);
+        EditText passwordInput = view.findViewById(R.id.passwordLogin);
+        isSaveCB= view.findViewById(R.id.isSave);
 
         tw_email = new MyTextWatcher(emailInput,
                 "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
@@ -48,10 +50,9 @@ public class LoginFragment extends Fragment {
     private void OnAuthClick() {
         auth.setEnabled(false);
         if (tw_email.isValid() && tw_password.isValid()) {
-            String email = emailInput.getText().toString();
-            String password = passwordInput.getText().toString();
+
             try {
-                if (ServerData.Authorization(email, password)) {
+                if (ServerData.Authorization(tw_email.getText(), tw_password.getText(),isSaveCB.isChecked())) {
                     Intent intent = new Intent(requireActivity(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
@@ -69,10 +70,10 @@ public class LoginFragment extends Fragment {
                 toast.show();
             }
 
-        } else if (emailInput.getText().toString().isEmpty()) {
+        } else if (tw_email.isEmpty()) {
             Toast toast = Toast.makeText(requireActivity(), "Введите e-mail", Toast.LENGTH_SHORT);
             toast.show();
-        } else if (passwordInput.getText().toString().isEmpty()) {
+        } else if (tw_password.isEmpty()) {
             Toast toast = Toast.makeText(requireActivity(), "Введите пароль", Toast.LENGTH_SHORT);
             toast.show();
         } else {

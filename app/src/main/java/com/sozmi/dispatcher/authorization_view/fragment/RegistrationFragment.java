@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,8 @@ public class RegistrationFragment extends Fragment {
         nameInput = view.findViewById(R.id.nameRegister);
         emailInput = view.findViewById(R.id.emailRegister);
         passwordInput = view.findViewById(R.id.passwordRegister);
+
+
         tw_email = new MyTextWatcher(emailInput, "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", "Пожалуйста, введите правильную почту");
         tw_password = new MyTextWatcher(passwordInput,
                 "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#%^&+=])(?=\\S+$)(?=[^\\;\\|\\']+$).{8,}",
@@ -49,13 +52,10 @@ public class RegistrationFragment extends Fragment {
 
     private void onRegisterButtonClick() {
         register.setEnabled(false);
-        String email = emailInput.getText().toString();
-        String password = passwordInput.getText().toString();
-        String name =nameInput.getText().toString();
         if (tw_email.isValid() && tw_password.isValid() && tw_name.isValid()) {
 
             try {
-                if (ServerData.Registration(email, password,name)) {
+                if (ServerData.Registration(tw_email.getText(), tw_password.getText(),tw_name.getText())) {
                     Intent intent = new Intent(requireActivity(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
@@ -75,13 +75,13 @@ public class RegistrationFragment extends Fragment {
                     emailInput.setError(e.getMessage());
                 }
             }
-        } else if (nameInput.getText().toString().isEmpty()) {
+        } else if (tw_name.isEmpty()) {
             Toast toast = Toast.makeText(requireActivity(), "Введите логин", Toast.LENGTH_SHORT);
             toast.show();
-        } else if (emailInput.getText().toString().isEmpty()) {
+        } else if (tw_email.isEmpty()) {
             Toast toast = Toast.makeText(requireActivity(), "Введите e-mail", Toast.LENGTH_SHORT);
             toast.show();
-        } else if (passwordInput.getText().toString().isEmpty()) {
+        } else if (tw_password.isEmpty()) {
             Toast toast = Toast.makeText(requireActivity(), "Введите пароль", Toast.LENGTH_SHORT);
             toast.show();
 

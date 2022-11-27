@@ -49,7 +49,7 @@ public class ServerData {
     private static final String host = "82.179.140.18";
     private static final int port = 45555;
 
-    public static boolean Authorization(String email, String passwd) throws NetworkException {
+    public static boolean Authorization(String email, String passwd, boolean isSave) throws NetworkException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Connection connection = new Connection(host, port);
@@ -57,8 +57,11 @@ public class ServerData {
         String s = connection.getData();
         connection.disconnect();
         if (user.loadData(s)) {
-            ServerData.addEmail(email);
-            ServerData.addPasswd(passwd);
+            if(isSave){
+                ServerData.addEmail(email);
+                ServerData.addPasswd(passwd);
+            }
+
             return loader();
         }
         return false;
@@ -313,7 +316,7 @@ if(!s.equals("no_find"))
     }
 
     public static boolean AuthorizationSave() throws NetworkException {
-        return Authorization(mSettings.getString(APP_PREFERENCES_EMAIL, ""), mSettings.getString(APP_PREFERENCES_PASSWD, ""));
+        return Authorization(mSettings.getString(APP_PREFERENCES_EMAIL, ""), mSettings.getString(APP_PREFERENCES_PASSWD, ""),false);
     }
 
     public static boolean authorization(Activity activity) throws NetworkException {

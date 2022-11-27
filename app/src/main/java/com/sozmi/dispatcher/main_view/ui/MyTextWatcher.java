@@ -40,12 +40,20 @@ public class MyTextWatcher implements TextWatcher {
         if (text.isEmpty() || isNoValidPattern(text)) {
             textView.setError(error);
             isValid = false;
-            Log.d("TW","error: pass no valid"+ isNoValidPattern(text));
+            Log.d("TW", "error: pass no valid" + isNoValidPattern(text));
         } else {
             textView.setError(null);
-                        isValid = true;
-            Log.d("TW","yes");
+            isValid = true;
+            Log.d("TW", "yes");
         }
+    }
+
+    public String getText() {
+        return textView.getText().toString();
+    }
+
+    public boolean isEmpty() {
+        return textView.getText().toString().isEmpty();
     }
 
     public boolean isValid() {
