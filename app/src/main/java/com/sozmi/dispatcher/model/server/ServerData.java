@@ -25,6 +25,7 @@ import com.sozmi.dispatcher.model.objects.TypeCar;
 import com.sozmi.dispatcher.model.objects.TypeGroupTask;
 import com.sozmi.dispatcher.model.objects.TypeTask;
 import com.sozmi.dispatcher.model.objects.User;
+import com.sozmi.dispatcher.model.system.GenerateTasksTimer;
 import com.sozmi.dispatcher.model.system.SystemTag;
 
 import org.osmdroid.util.GeoPoint;
@@ -56,8 +57,11 @@ public class ServerData {
         connection.sendData("get_user;" + email + "|" + passwd);
         String s = connection.getData();
         connection.disconnect();
+        if(s.equals("no_find")){
+            throw new DataException("Неверный логин или пароль","no_find");
+        }
         if (user.loadData(s)) {
-            if(isSave){
+            if (isSave) {
                 ServerData.addEmail(email);
                 ServerData.addPasswd(passwd);
             }
@@ -100,8 +104,8 @@ public class ServerData {
             Building build = new Building(sb);
             connection.sendData("get_cars;" + build.getID());
             String s = connection.getData();
-if(!s.equals("no_find"))
-            build.addCar(s);
+            if (!s.equals("no_find"))
+                build.addCar(s);
             buildings.add(build);
         }
 
@@ -132,7 +136,7 @@ if(!s.equals("no_find"))
         listeners.putIfAbsent(TAG, toAdd);
     }
 
-    public static void addTask(Task task) {
+    public static void addTaskListener(Task task) {
         listeners.forEach((key, value) -> {
             var elem = listeners.get(key);
             if (elem != null) {
@@ -163,53 +167,7 @@ if(!s.equals("no_find"))
 
     public static void generateTask() {
         Timer timer = new Timer("TimerGenerateTasks");
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (buildings.size() <= 0) return;
-                Log.i(String.valueOf(SystemTag.timer), "start TimerGenerateTasks");
-                if (tasks.size() >= user.getMaxCountTask()) cancel();
-                int taskID = tasks.size();
-                GeoPoint point = Coordinate.getLocationInLatLngRad(10000, getRandomBuilding().getPosition());
-                ArrayList<Requirement> requirements = new ArrayList<>();
-                requirements.add(new Requirement(1, TypeCar.police));
-                requirements.add(new Requirement(3, TypeCar.fire_truck));
-                requirements.add(new Requirement(1, TypeCar.ambulance));
-                Random random = new Random();
-                int index = random.nextInt(TypeTask.values().length);
-                int time = 60000;
-                Task task = new Task(taskID, point, "Пожар" + taskID, TypeGroupTask.personal, 500, TypeTask.getTypeTask(index), StatusTask.not_executed, requirements, time);
-
-                task.addListener(new TaskListener() {
-                    @Override
-                    public void onChangedRequirement(String res) {
-                    }
-
-                    @Override
-                    public void onChangeStatusTask(Task task) {
-                        if (task.getStatusTask() == StatusTask.executed) {
-                            task.setIndex(tasks.indexOf(task));
-                            user.addMoney(task.getCost());
-                            tasks.remove(task);
-                            if (tasks.size() > user.getMaxCountTask()) generateTask();
-                        }
-                    }
-
-                    @Override
-                    public void onChangeTimerTask(Task task) {
-                    }
-                }, toString());
-                tasks.add(task);
-                addTask(task);
-
-            }
-        }, 0, 60000);
-    }
-
-    private static Building getRandomBuilding() {
-        Random random = new Random();
-        int index = random.nextInt(buildings.size());
-        return buildings.get(index);
+        timer.scheduleAtFixedRate(new GenerateTasksTimer(), 0, 60000);
     }
 
     public static boolean isLoginSaved() {
@@ -265,7 +223,7 @@ if(!s.equals("no_find"))
 
         Car car = new Car(carIndex++, typeCar.name(), typeCar, StatusCar.Available, building.getPosition(), building);
         Connection connection = new Connection(host, port);
-        connection.sendData("add_car;" + building.getPositionString() + "|" + typeCar.name() + "|" + typeCar.toType() + "|" + car.getStatus().toType()+"|"+building.getID());
+        connection.sendData("add_car;" + building.getPositionString() + "|" + typeCar.name() + "|" + typeCar.toType() + "|" + car.getStatus().toType() + "|" + building.getID());
         String s = connection.getData();
         if (s.equals("false"))
             throw new DataException("Не удалось создать машину", "no_create");
@@ -316,7 +274,7 @@ if(!s.equals("no_find"))
     }
 
     public static boolean AuthorizationSave() throws NetworkException {
-        return Authorization(mSettings.getString(APP_PREFERENCES_EMAIL, ""), mSettings.getString(APP_PREFERENCES_PASSWD, ""),false);
+        return Authorization(mSettings.getString(APP_PREFERENCES_EMAIL, ""), mSettings.getString(APP_PREFERENCES_PASSWD, ""), false);
     }
 
     public static boolean authorization(Activity activity) throws NetworkException {

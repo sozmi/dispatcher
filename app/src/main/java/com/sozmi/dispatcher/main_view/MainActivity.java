@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
     private void buildButtonOnClick() {
         point = Map.getCamPoint();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Tag.Point.toString(), Map.getUserLocation(this));
+        bundle.putParcelable(Tag.Point.toString(), Map.getUserLocation());
         MyFM.OpenFragment(new BuildFragment(), bundle);
     }
 

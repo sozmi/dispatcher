@@ -4,9 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.sozmi.dispatcher.BuildConfig;
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.main_view.fragments.TaskFragment;
@@ -44,6 +43,7 @@ public class Map implements CarListener, TaskListener, ServerListener {
     private static MapView mapView;
     private static boolean isInit = false;
     private static Map map;
+    private static GeoPoint userPosition=new GeoPoint(55.7522, 37.6156);
 
     public static Map getMap() {
         return map;
@@ -74,11 +74,12 @@ public class Map implements CarListener, TaskListener, ServerListener {
         mapView = view.findViewById(R.id.mapView);
         isInit = true;
         Routing.setMap(mapView);
+        getLastLocationNewMethod(view.getContext());
         mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         mapView.setMultiTouchControls(true);
         mapView.setMaxZoomLevel(20.0);
         mapView.setMinZoomLevel(4.0);
-        moveCamToUser(view);
+        moveCamToUser();
         ServerData.addListener(this, toString());
         addBuildings(ServerData.getBuildings());
         addTasks(ServerData.getTasks());
@@ -86,8 +87,8 @@ public class Map implements CarListener, TaskListener, ServerListener {
         mapView.invalidate();
     }
 
-    public static void moveCamToUser(View view) {
-        moveCamTo(getUserLocation(view.getContext()));
+    public static void moveCamToUser() {
+        moveCamTo(getUserLocation());
     }
 
     public void addBuildings(ArrayList<Building> buildings) {
@@ -119,22 +120,25 @@ public class Map implements CarListener, TaskListener, ServerListener {
         return (GeoPoint) mapView.getMapCenter();
     }
 
-    public static GeoPoint getUserLocation(Context context) {
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    public static GeoPoint getUserLocation() {
+        return userPosition;
+    }
 
-        Criteria criteria = new Criteria();
-        criteria.setSpeedAccuracy(Criteria.ACCURACY_HIGH);
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setAltitudeRequired(true);
-        criteria.setBearingRequired(true);
-        criteria.setSpeedRequired(true);
 
-        String provider = locationManager.getBestProvider(criteria, true);
+
+    private void getLastLocationNewMethod(Context context) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return new GeoPoint(0.0, 0.0);
+            Log.d("Permission", "Нет разрешений");
+            return;
         }
-        Location location = locationManager.getLastKnownLocation(provider);
-        return new GeoPoint(location);
+        FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(location -> {
+                    // GPS location can be null if GPS is switched off
+                    if (location != null) {
+                        userPosition = new GeoPoint(location);
+                    }
+                });
     }
 
     public void drawBuilding(Building building) {

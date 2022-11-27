@@ -20,7 +20,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Marker;
 
 public class MapFragment extends Fragment {
-    ImageButton addBuildingButton,move_btn;
+    ImageButton addBuildingButton, move_btn;
     FrameLayout panel_building;
     private Marker build;
     private Map map;
@@ -33,8 +33,8 @@ public class MapFragment extends Fragment {
         Button cancelBuildingButton = view.findViewById(R.id.buttonCancelBuildOnPanel);
         Button buildBuildingButton = view.findViewById(R.id.buttonBuildOnPanel);
         panel_building = view.findViewById(R.id.panel_build);
-       move_btn = view.findViewById(R.id.buttonMoveToPosition);
-        move_btn.setOnClickListener(v -> Map.moveCamToUser(view));
+        move_btn = view.findViewById(R.id.buttonMoveToPosition);
+        move_btn.setOnClickListener(v -> Map.moveCamToUser());
         addBuildingButton.setOnClickListener(v -> buttonAddBuildingOnClick());
         buildBuildingButton.setOnClickListener(v -> buildButtonOnClick());
         cancelBuildingButton.setOnClickListener(v -> cancelBuildButtonOnClick());
@@ -53,6 +53,8 @@ public class MapFragment extends Fragment {
                 showMarker(point);
             }
             map.moveCamTo(point);
+        }else {
+            Map.moveCamToUser();
         }
     }
 

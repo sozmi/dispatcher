@@ -1,5 +1,7 @@
 package com.sozmi.dispatcher.model.objects;
 
+import androidx.annotation.NonNull;
+
 import com.sozmi.dispatcher.R;
 
 public enum TypeTask implements BaseType {
@@ -45,6 +47,21 @@ public enum TypeTask implements BaseType {
                 return robbery;
             default:
                 return null;
+        }
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        switch (this) {
+            case epidemic:
+                return "Эпидемия в городе";
+            case fire:
+                return "Пожар в жилом доме";
+            case robbery:
+                return  "Ограбление банка";
+            default:
+                return "unknown";
         }
     }
 }

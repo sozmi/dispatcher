@@ -43,8 +43,8 @@ public class RegistrationFragment extends Fragment {
 
         tw_email = new MyTextWatcher(emailInput, "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", "Пожалуйста, введите правильную почту");
         tw_password = new MyTextWatcher(passwordInput,
-                "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#%^&+=])(?=\\S+$)(?=[^\\;\\|\\']+$).{8,}",
-                "Некорректный пароль. Допустимые символы(0-9,a-z,A-Z,!@#%^&+=)");
+                "(?=[^\\;\\|\\']+$).{10,}",
+                "Длина пароля меньше 10 или использованы запрещённые символы: ;'|");
         tw_name = new MyTextWatcher(nameInput,"^[а-яА-ЯёЁa-zA-Z0-9]+$","Введите логин без специальных символов");
         register.setOnClickListener(v -> onRegisterButtonClick());
         return view;
