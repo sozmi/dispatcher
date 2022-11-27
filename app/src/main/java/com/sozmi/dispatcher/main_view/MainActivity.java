@@ -101,13 +101,17 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
 
     @Override
     public void onChangeData(Integer money) {
-        TextView moneyText = findViewById(R.id.money);
-        moneyText.setText(String.valueOf(money));
-        if (isNoInit) {
-            TextView name = findViewById(R.id.nameUser);
-            name.setText(ServerData.getUser().getName());
-            isNoInit = false;
-        }
+        //public void run() {
+        runOnUiThread(() -> {
+            TextView moneyText = findViewById(R.id.money);
+            moneyText.setText(String.valueOf(money));
+            if (isNoInit) {
+                TextView name = findViewById(R.id.nameUser);
+                name.setText(ServerData.getUser().getName());
+                isNoInit = false;
+            }
+        });
+
     }
 
     @Override

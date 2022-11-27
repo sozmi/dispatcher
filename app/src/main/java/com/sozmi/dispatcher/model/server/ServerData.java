@@ -1,39 +1,44 @@
 package com.sozmi.dispatcher.model.server;
 
+import static androidx.core.content.FileProvider.getUriForFile;
+
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 
+import com.sozmi.dispatcher.BuildConfig;
+import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.listeners.CarListener;
 import com.sozmi.dispatcher.model.listeners.ServerListener;
-import com.sozmi.dispatcher.model.listeners.TaskListener;
-import com.sozmi.dispatcher.model.navigation.Coordinate;
 import com.sozmi.dispatcher.model.navigation.HaversineAlgorithm;
 import com.sozmi.dispatcher.model.objects.Building;
 import com.sozmi.dispatcher.model.objects.Car;
 import com.sozmi.dispatcher.model.objects.CarCheck;
-import com.sozmi.dispatcher.model.objects.Requirement;
 import com.sozmi.dispatcher.model.objects.StatusCar;
-import com.sozmi.dispatcher.model.objects.StatusTask;
 import com.sozmi.dispatcher.model.objects.Task;
 import com.sozmi.dispatcher.model.objects.TypeBuilding;
 import com.sozmi.dispatcher.model.objects.TypeCar;
-import com.sozmi.dispatcher.model.objects.TypeGroupTask;
-import com.sozmi.dispatcher.model.objects.TypeTask;
 import com.sozmi.dispatcher.model.objects.User;
 import com.sozmi.dispatcher.model.system.GenerateTasksTimer;
-import com.sozmi.dispatcher.model.system.SystemTag;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerData {
@@ -57,8 +62,8 @@ public class ServerData {
         connection.sendData("get_user;" + email + "|" + passwd);
         String s = connection.getData();
         connection.disconnect();
-        if(s.equals("no_find")){
-            throw new DataException("Неверный логин или пароль","no_find");
+        if (s.equals("no_find")) {
+            throw new DataException("Неверный логин или пароль", "no_find");
         }
         if (user.loadData(s)) {
             if (isSave) {

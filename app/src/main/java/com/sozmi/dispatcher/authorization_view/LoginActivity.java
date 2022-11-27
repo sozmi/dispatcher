@@ -31,7 +31,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+   
         try {
             if (ServerData.authorization(this)) {
                 Intent intent = new Intent(this, MainActivity.class);
@@ -58,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onPause();
 
     }
+
 
 
 

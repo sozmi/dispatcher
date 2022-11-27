@@ -16,12 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/day_theme"
         tools:targetApi="30">
+
         <activity
             android:name=".authorization_view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
             <meta-data
                 android:name="android.app.lib_name"
