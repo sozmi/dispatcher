@@ -17,20 +17,18 @@
         android:theme="@style/day_theme"
         tools:targetApi="30">
         <activity
-            android:name=".LoginActivity"
-            android:noHistory="true"
+            android:name=".authorization_view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <meta-data
                 android:name="android.app.lib_name"
-                android:value="" />
+                android:value=""/>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".main_view.MainActivity"
             android:exported="false">
         </activity>
 

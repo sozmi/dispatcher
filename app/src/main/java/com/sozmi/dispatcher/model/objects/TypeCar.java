@@ -21,7 +21,7 @@ public enum TypeCar implements BaseType {
             case police:
                 return "Полицейская машина";
             default:
-                return "null";
+                return "unknown";
         }
     }
 
@@ -36,6 +36,20 @@ public enum TypeCar implements BaseType {
                 return R.drawable.ic_police_car;
             default:
                 return -1;
+        }
+    }
+
+    @Override
+    public String toType() {
+        switch (this) {
+            case fireTrack:
+                return "fireTrack";
+            case ambulance:
+                return "ambulance";
+            case police:
+                return "police";
+            default:
+                return "unknown";
         }
     }
 

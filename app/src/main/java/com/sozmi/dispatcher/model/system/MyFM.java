@@ -43,4 +43,8 @@ public class MyFM {
     public static void setFM(FragmentManager fm) {
         MyFM.fm = fm;
     }
+    public static void clear(){
+        fm=null;
+        nameCurrent=null;
+    }
 }

@@ -8,7 +8,8 @@
         android:layout_width="20dp"
         android:layout_height="match_parent"
         android:background="@drawable/share_yellow"
-        android:src="@drawable/ic_star" />
+        android:src="@drawable/ic_star"
+        android:contentDescription="@string/logo_task" />
 
 
     <LinearLayout
@@ -22,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:drawablePadding="25dp"
-            android:text="Название задания"
+            android:text="@string/example_name"
             android:textSize="@dimen/medium_text" />
 
         <LinearLayout
@@ -42,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="02:55:10" />
+                android:text="@string/example_time" />
 
         </LinearLayout>
     </LinearLayout>
@@ -51,7 +52,7 @@
         android:id="@+id/infoTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="info">
+        android:text="@string/example_info">
 
     </Button>
 

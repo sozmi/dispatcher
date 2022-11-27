@@ -31,6 +31,16 @@ public enum TypeBuilding implements BaseType{
         }
     }
 
+    @Override
+    public String toType() {
+        switch (this){
+            case fire_station: return "fire_station";
+            case hospital: return "hospital";
+            case police: return "police";
+            default: return "unknown";
+        }
+    }
+
     public int toCost(){
         switch (this){
             case fire_station:

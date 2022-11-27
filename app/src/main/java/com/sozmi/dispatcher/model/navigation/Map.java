@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat;
 
 import com.sozmi.dispatcher.BuildConfig;
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.fragment.TaskFragment;
+import com.sozmi.dispatcher.main_view.fragments.TaskFragment;
 import com.sozmi.dispatcher.model.listeners.CarListener;
 import com.sozmi.dispatcher.model.listeners.ServerListener;
 import com.sozmi.dispatcher.model.listeners.TaskListener;
@@ -26,8 +26,8 @@ import com.sozmi.dispatcher.model.objects.Car;
 import com.sozmi.dispatcher.model.objects.StatusCar;
 import com.sozmi.dispatcher.model.objects.StatusTask;
 import com.sozmi.dispatcher.model.objects.Task;
-import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.server.ServerData;
+import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.system.SystemTag;
 import com.sozmi.dispatcher.model.system.Tag;
 
@@ -78,12 +78,16 @@ public class Map implements CarListener, TaskListener, ServerListener {
         mapView.setMultiTouchControls(true);
         mapView.setMaxZoomLevel(20.0);
         mapView.setMinZoomLevel(4.0);
-        moveCamTo(getUserLocation(view.getContext()));
-        ServerData.addListener(this,toString());
+        moveCamToUser(view);
+        ServerData.addListener(this, toString());
         addBuildings(ServerData.getBuildings());
         addTasks(ServerData.getTasks());
         addCars(ServerData.getInMovement());
         mapView.invalidate();
+    }
+
+    public static void moveCamToUser(View view) {
+        moveCamTo(getUserLocation(view.getContext()));
     }
 
     public void addBuildings(ArrayList<Building> buildings) {
@@ -105,7 +109,7 @@ public class Map implements CarListener, TaskListener, ServerListener {
         }
     }
 
-    public void moveCamTo(GeoPoint point) {
+    public static void moveCamTo(GeoPoint point) {
         IMapController mapController = mapView.getController();
         mapController.setZoom(15.0);
         mapController.setCenter(point);
@@ -138,16 +142,17 @@ public class Map implements CarListener, TaskListener, ServerListener {
         building.setMarker(marker);
     }
 
-    public void drawCar(Car car){
-        Marker marker = drawMarker(car.getName(), car.getImage(),car.getPosition(),false,true);
+    public void drawCar(Car car) {
+        Marker marker = drawMarker(car.getName(), car.getImage(), car.getPosition(), false, true);
         car.setMarker(marker);
     }
+
     public void drawTask(Task task) {
         Marker marker = drawMarker(task.getName(), task.getImage(), task.getPosition(), false, true);
         marker.setOnMarkerClickListener((marker1, mapView1) -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable(Tag.TaskID.toString(), task);
-            MyFM.OpenFragment(new TaskFragment(),bundle);
+            MyFM.OpenFragment(new TaskFragment(), bundle);
             return true;
         });
         task.setMarker(marker);
@@ -196,8 +201,7 @@ public class Map implements CarListener, TaskListener, ServerListener {
         if (isInit) {
             if (car.getMarker() == null) {
                 drawCar(car);
-            }
-            else {
+            } else {
                 car.getMarker().setPosition(car.getPosition());
                 mapView.postInvalidate();
             }
@@ -225,14 +229,12 @@ public class Map implements CarListener, TaskListener, ServerListener {
         if (isInit) {
             if (task.getMarker() == null) {
                 drawTask(task);
-            }
-            else {
-                if(task.getStatusTask()==StatusTask.executed){
+            } else {
+                if (task.getStatusTask() == StatusTask.executed) {
                     removeMarker(task.getMarker());
                     task.setMarker(null);
                     mapView.invalidate();
-                }
-                else {
+                } else {
                     task.getMarker().setIcon(getDrawable(mapView.getContext(), task.getImage()));
                     mapView.invalidate();
                 }
@@ -252,11 +254,11 @@ public class Map implements CarListener, TaskListener, ServerListener {
 
     @Override
     public void addTask(Task task) {
-        if(isInit()){
+        if (isInit()) {
             drawTask(task);
             task.addListener(this, toString());
             mapView.invalidate();
-            Log.i(String.valueOf(SystemTag.map),"draw new task on map");
+            Log.i(String.valueOf(SystemTag.map), "draw new task on map");
         }
     }
 }

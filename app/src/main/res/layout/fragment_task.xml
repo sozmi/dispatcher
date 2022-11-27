@@ -100,7 +100,7 @@
         android:layout_below="@+id/lst_on_call"
         android:layout_marginTop="0dp"/>
 
-    <com.sozmi.dispatcher.ui.MyListView
+    <com.sozmi.dispatcher.main_view.ui.MyListView
         android:id="@+id/lst_free_car"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -124,7 +124,6 @@
             android:text="Отправить машины" />
 
         <Button
-            android:id="@+id/supportTask"
             style="@style/button_text_little"
             android:text="Поделиться" />
     </LinearLayout>

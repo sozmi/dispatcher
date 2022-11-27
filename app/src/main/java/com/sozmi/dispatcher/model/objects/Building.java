@@ -21,31 +21,32 @@ public class Building extends Object<TypeBuilding> {
      * @param point координаты здания
      */
     public Building(int id, String name, TypeBuilding type, GeoPoint point) {
-        super(id, name,point,type, type.toCost());
+        super(id, name, point, type, type.toCost());
     }
 
-    public Building(String data){
+    public Building(String data) {
         super();
         var d = data.split("\\|");
-        if (d.length ==4) {
+        if (d.length == 4) {
             setID(Integer.parseInt(d[0]));
-            var position =d[1].split(",");
-            setPosition(new GeoPoint(Double.parseDouble(position[0].replace("(","")),Double.parseDouble(position[1].replace(")",""))));
+            var position = d[1].split(",");
+            setPosition(new GeoPoint(Double.parseDouble(position[0].replace("(", "")), Double.parseDouble(position[1].replace(")", ""))));
             setName(d[2]);
             setType(TypeBuilding.valueOf(d[3]));
             setCost(getType().toCost());
         } else {
             try {
-                Log.d("SOCKET", "Get message: "+data);
+                Log.d("SOCKET", "Get message: " + data);
                 throw new Exception("Передали не здание");
 
             } catch (Exception e) {
                 Log.d("SOCKET", e.getMessage());
-                Log.d("SOCKET", "Get message: "+data);
+                Log.d("SOCKET", "Get message: " + data);
                 e.printStackTrace();
             }
         }
     }
+
     /**
      * Получение списка машин, относящихся к зданию
      *
@@ -67,12 +68,14 @@ public class Building extends Object<TypeBuilding> {
     public void addCar(Car car) {
         cars.add(car);
     }
+
     public void addCar(String str_cars) {
         String[] str = str_cars.split(";");
         for (String sc : str)
             addCar(new Car(sc));
 
     }
+
     public TypeCar getTypeCar() {
         return getType().toCar();
     }

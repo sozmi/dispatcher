@@ -8,12 +8,10 @@
     <string name="account">Аккаунт</string>
     <!-- Strings related to login -->
     <string name="name_account">Abram This</string>
-    <string name="login_text">ВХОД ИЛИ РЕГИСТРАЦИЯ</string>
     <string name="email">E-mail:</string>
     <string name="example_email">example-mail@mail.ru</string>
     <string name="password">Пароль:</string>
     <string name="example_password">сюды вводите пароль</string>
-    <string name="auth">Вход/регистрация</string>
     <string name="save_password">Запомнить пароль</string>
     <string name="add">Добавить</string>
     <string name="build">Построить здание</string>
@@ -35,4 +33,24 @@
     <string name="nameBuildingExample">Базовая станция</string>
     <string name="costBuilding">Стоимость постройки:</string>
     <string name="addCar">Добавление машины</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="map_world">мировая карта</string>
+    <string name="contacts">Контакты:</string>
+    <string name="contact_mail">sozmi@vk.com</string>
+    <string name="entrance">Вход</string>
+    <string name="registration">Регистрация</string>
+    <string name="vk_logo">vk</string>
+    <string name="google_logo">google</string>
+    <string name="telegram_logo">telegram</string>
+    <string name="example_name">Название задания</string>
+    <string name="example_time">02:55:10</string>
+    <string name="example_info">info</string>
+    <string name="logo_task">task image</string>
+    <string name="authorization">АВТОРИЗАЦИЯ</string>
+    <string name="registrations">РЕГИСТРАЦИЯ</string>
+    <string name="login">Логин:</string>
+    <string name="login_example">здеся мой логин</string>
+    <string name="registrationss">зарегистрироваться</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

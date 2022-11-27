@@ -7,8 +7,8 @@ import com.sozmi.dispatcher.R;
 public enum StatusCar {
     Available,//доступна
     OnCall,//на месте вызова
-    Moving,
-    MovingOnCall,//возврат на базу
+    Moving,//возврат на базу
+    MovingOnCall,//движение на вызов
     Unavailable; //недоступна
 
     @Override

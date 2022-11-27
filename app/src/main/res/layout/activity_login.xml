@@ -1,72 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:background="@color/lite_white"
+    android:orientation="vertical"
+    tools:context=".authorization_view.LoginActivity">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:fontFamily="@font/oswald"
-        android:gravity="center"
-        android:text="@string/login_text"
-        android:textSize="@dimen/big_text" />
+        android:layout_height="150dp"
+        android:layout_gravity="top"
+        android:scaleType="centerCrop"
+        android:src="@drawable/map"
+        android:contentDescription="@string/map_world"/>
 
-    <TextView
-        android:layout_width="match_parent"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_view_auth"
+        android:layout_gravity="top"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:text="@string/email"
-        android:textColor="@color/day.primary.dark" />
+        tools:layout="@layout/fragment_authorization" />
 
-    <EditText
-        android:id="@+id/username"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:autofillHints="emailAddress"
-        android:ems="10"
-        android:hint="@string/example_email"
-        android:imeOptions="actionGo"
-        android:inputType="textEmailAddress"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="20dp" />
+        android:gravity="bottom|center"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:text="@string/password"
-        android:textColor="@color/day.primary.dark" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contacts"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/editText_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:autofillHints="password"
-        android:hint="@string/example_password"
-        android:inputType="textPassword"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="20dp" />
-
-    <Button
-        android:id="@+id/login_btn"
-        style="@style/button_text"
-        android:text="@string/auth" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:minHeight="48dp"
-        android:text="@string/save_password" />
-</LinearLayout>
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/contact_mail"
+            android:textAllCaps="false" />
+    </LinearLayout>
+</GridLayout>

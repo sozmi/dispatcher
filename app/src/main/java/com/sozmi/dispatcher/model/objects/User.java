@@ -12,7 +12,7 @@ public class User extends BaseObject {
 
     private String name;
     private int money;
-    private  int maxCountTask;
+    private final int maxCountTask;
     private final ConcurrentHashMap<String, DataListner<Integer>> listeners = new ConcurrentHashMap<>();
 
     public User() {

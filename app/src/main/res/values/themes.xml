@@ -4,7 +4,7 @@
         <item name="colorPrimary">@color/day.primary</item>
         <item name="colorPrimaryVariant">@color/day.primary.light</item>
         <item name="colorPrimaryDark">@color/day.primary.dark</item>
-        <item name="android:textSize">@dimen/primary_text</item>
+        <item name="android:textSize">@dimen/medium_text</item>
         <item name="android:textColorPrimary">@color/dark_gray</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/day.secondary</item>

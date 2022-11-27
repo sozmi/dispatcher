@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingTop="80dp"
+    android:orientation="vertical"
+    tools:context=".authorization_view.fragment.AuthorizationFragment">
+
+    <Button
+        android:id="@+id/buttonOpenLoginFragment"
+        style="@style/button_grey_text"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:text="@string/entrance" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/test_gradient" />
+
+    <Button
+        android:id="@+id/buttonOpenRegisterFragment"
+        style="@style/button_red_text"
+        android:layout_width="255dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/registration" />
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <ImageButton
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_vk"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/vk_logo" />
+        <ImageButton
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_google"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/google_logo" />
+        <ImageButton
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_telegram"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/telegram_logo" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -24,6 +24,22 @@ public enum TypeGroupTask implements BaseType {
         }
     }
 
+    @Override
+    public String toType() {
+        switch (this){
+            case personal:
+                return "personal";
+            case common:
+                return "common";
+            case premium:
+                return "premium";
+            case group:
+                return "group";
+            default:
+                return "unknown";
+        }
+    }
+
     public int toModifier() {
         switch (this){
             case personal:

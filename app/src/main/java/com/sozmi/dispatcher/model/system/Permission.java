@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
 import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.model.navigation.Map;
 
 /**Класс для получения разрешений*/
 public class Permission{
@@ -35,7 +36,7 @@ public class Permission{
      * @param context контекст приложения
      * @return true, если даны; false, не даны
      */
-    private static boolean checkAll(Context context) {
+    public static boolean checkAll(Context context) {
         for (String permission : PERMISSION)
             //если нет разрешения возвращаем false
             if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)

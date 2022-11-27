@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".main_view.MainActivity">
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
@@ -34,6 +34,16 @@
         android:src="@drawable/ic_add"
         android:background="@drawable/gradient"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="10dp"
         android:contentDescription="@string/add"/>
+    <ImageButton
+        android:id="@+id/buttonMoveToPosition"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|start"
+        android:src="@drawable/ic_my_location"
+        android:background="@drawable/gradient"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="переместиться на мою локацию"/>
 </FrameLayout>

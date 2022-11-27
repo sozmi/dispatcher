@@ -30,7 +30,7 @@ public class Connection {
         this.socketAddress = new InetSocketAddress(host, port);
     }
 
-    private void connectWithServer() {
+    private void connect() throws NetworkException {
         try {
             if (socket == null || socket.isClosed()) {
                 Log.d(LOG_TAG, "Соединение с сокетом:" + socketAddress + " устанавливается");
@@ -47,6 +47,8 @@ public class Connection {
         } catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage());
             e.printStackTrace();
+            throw new NetworkException("Не удалось установить соединение с сервером. Пожалуйста, попробуйте позже");
+
         }
     }
 
@@ -69,9 +71,9 @@ public class Connection {
         }
     }
 
-    public void sendData(String message) {
+    public void sendData(String message) throws NetworkException {
         if (message != null) {
-            connectWithServer();
+            connect();
             out.write(message);
             out.flush();
             Log.d(LOG_TAG, "Отправлено сообщение:" + message);
@@ -83,12 +85,15 @@ public class Connection {
         return in.ready();
     }
 
-    public String getData() throws IOException, InterruptedException {
+    public String getData() throws NetworkException {
         Log.d(LOG_TAG, "Начало чтения данных из буффера");
         StringBuilder message = new StringBuilder();
         int charsRead;
         char[] buffer = new char[BUFFER_SIZE];
         int i = 0;
+        try {
+
+
         while (!isReady()) {
             if (i >= 60)
                 throw new NetworkException("Не удалось соединиться с сервером. Превышено время ожидания. ");
@@ -103,6 +108,11 @@ public class Connection {
             if (!in.ready()) {
                 break;
             }
+        }
+        }catch (IOException e){
+            throw new NetworkException("Не удалось прочитать полученные данные. Пожалуйста попробуйте позже.");
+        }catch (InterruptedException e){
+            throw new NetworkException("Произошла ошибка потока. Пожалуйста, попробуйте позже.");
         }
         return message.toString().trim();
     }

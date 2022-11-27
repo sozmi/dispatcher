@@ -64,6 +64,9 @@ public class Object<T extends BaseType> extends BaseObject {
         return point;
     }
 
+    public String getPositionString() {
+        return "("+point.getLatitude()+","+point.getLongitude()+")";
+    }
     public void setPosition(GeoPoint point) {
         this.point = point;
     }

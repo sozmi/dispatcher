@@ -20,6 +20,21 @@ public enum TypeTask implements BaseType {
                 return 0;
         }
     }
+
+    @Override
+    public String toType() {
+        switch (this) {
+            case epidemic:
+                return "epidemic";
+            case fire:
+                return "fire";
+            case robbery:
+                return  "robbery";
+            default:
+                return "unknown";
+        }
+    }
+
     public static TypeTask getTypeTask(int index){
         switch (index) {
             case 0:
