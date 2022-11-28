@@ -2,8 +2,6 @@ package com.sozmi.dispatcher.authorization_view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +17,7 @@ import com.sozmi.dispatcher.model.server.ServerData;
 
 public class LoginActivity extends AppCompatActivity {
     public static String lastName = "";
+
     @Override
     public void onBackPressed() {
         FragmentManager sm = getSupportFragmentManager();
@@ -33,7 +32,13 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        try {
+            ServerData.loadLastVersion(this);
+        } catch (NetworkException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            return;
+        }
         try {
             if (ServerData.authorization(this)) {
                 Intent intent = new Intent(this, MainActivity.class);
@@ -43,8 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
         } catch (NetworkException e) {
-            Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
-            toast.show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment f = new AuthorizationFragment();
@@ -60,8 +64,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onPause();
 
     }
-
-
 
 
 }

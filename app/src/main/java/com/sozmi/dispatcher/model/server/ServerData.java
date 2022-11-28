@@ -54,6 +54,19 @@ public class ServerData {
     private static int carIndex = 0;
     private static final String host = "82.179.140.18";
     private static final int port = 45555;
+    public static void loadLastVersion(Activity activity) throws NetworkException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        Connection connection = new Connection(host, port);
+        connection.sendData("get_version;" + BuildConfig.VERSION_NAME);
+        String s = connection.getData();
+        connection.disconnect();
+        if(s.equals("true"))
+            return;
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(s));
+        activity.startActivity(browserIntent);
+        activity.finishAffinity();
+    }
 
     public static boolean Authorization(String email, String passwd, boolean isSave) throws NetworkException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -289,6 +302,7 @@ public class ServerData {
         }
         return false;
     }
+
 
     @NonNull
     @Override
