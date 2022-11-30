@@ -45,30 +45,32 @@ public class Car extends Object<TypeCar> {
         setBuilding(building);
         setStatus(status);
     }
+
     public Car(String data, Building building) {
         super();
         var d = data.split("\\|");
-        if (d.length ==5) {
-            setID(Integer.parseInt(d[0]));
-            var position =d[1].split(",");
-            setPosition(new GeoPoint(Double.parseDouble(position[0].replace("(","")),Double.parseDouble(position[1].replace(")",""))));
-            setName(d[2]);
+        if (d.length == 5) {
+            int id = Integer.parseInt(d[0]);
+            String[] position = d[1].split(",");
+            GeoPoint point = new GeoPoint(Double.parseDouble(position[0].replace("(", "")), Double.parseDouble(position[1].replace(")", "")));
+            String name = d[2];
+            var type = TypeCar.valueOf(d[3]);
+
+            initObject(id, name, point, type, type.toCost());
             setBuilding(building);
-            setType(TypeCar.valueOf(d[3]));
             setStatus(StatusCar.valueOf(d[4]));
         } else {
             try {
-                Log.d("SOCKET", "Get message: "+data);
+                Log.d("SOCKET", "Get message: " + data);
                 throw new Exception("Передали не машину");
 
             } catch (Exception e) {
                 Log.d("SOCKET", e.getMessage());
-                Log.d("SOCKET", "Get message: "+data);
+                Log.d("SOCKET", "Get message: " + data);
                 e.printStackTrace();
             }
         }
     }
-
 
 
     public void setRoute(Route route) {
@@ -147,8 +149,8 @@ public class Car extends Object<TypeCar> {
         });
     }
 
-    public void addListener(CarListener toAdd,String TAG) {
-        listeners.putIfAbsent(TAG,toAdd);
+    public void addListener(CarListener toAdd, String TAG) {
+        listeners.putIfAbsent(TAG, toAdd);
     }
 
     public void removeListener(String key) {
@@ -163,7 +165,7 @@ public class Car extends Object<TypeCar> {
             setRoute(route);
             setReverse_root();
         }
-        if (Map.isInit()) addListener(Map.getMap(),"MapClass");
+        if (Map.isInit()) addListener(Map.getMap(), "MapClass");
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -179,7 +181,7 @@ public class Car extends Object<TypeCar> {
         };
 
         Timer timer = new Timer("CarMovingTimer");
-        long period = (long) (route.getTime()*100 / route.getCount_point());
+        long period = (long) (route.getTime() * 100 / route.getCount_point());
 
         if (period == 0) period = 1;
         timer.scheduleAtFixedRate(task, 0, period);

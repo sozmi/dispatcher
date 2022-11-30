@@ -1,4 +1,4 @@
-package com.sozmi.dispatcher.main_view.ui;
+package com.sozmi.dispatcher.ui;
 
 import android.text.Editable;
 import android.text.TextWatcher;

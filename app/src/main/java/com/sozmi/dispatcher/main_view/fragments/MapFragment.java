@@ -95,7 +95,7 @@ public class MapFragment extends Fragment {
     @NonNull
     @Override
     public String toString() {
-        return "MapFragment";
+        return getClass().getName();
     }
 
     @Override

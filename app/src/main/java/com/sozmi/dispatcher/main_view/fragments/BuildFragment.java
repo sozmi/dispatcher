@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.objects.TypeBuilding;
+import com.sozmi.dispatcher.model.server.DataException;
 import com.sozmi.dispatcher.model.server.NetworkException;
 import com.sozmi.dispatcher.model.server.ServerData;
 import com.sozmi.dispatcher.model.system.MyFM;
@@ -89,10 +90,8 @@ public class BuildFragment extends Fragment {
         try {
             ServerData.addBuild(name.getText().toString(), point, typeBuilding);
 
-        } catch (NetworkException e) {
-            Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT);
-            toast.show();
-            return;
+        } catch (NetworkException | DataException e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable(Tag.Point.toString(), point);
@@ -102,6 +101,6 @@ public class BuildFragment extends Fragment {
     @NonNull
     @Override
     public String toString() {
-        return "BuildFragment";
+        return getClass().getName();
     }
 }

@@ -1,26 +1,16 @@
 package com.sozmi.dispatcher.model.server;
 
-import static androidx.core.content.FileProvider.getUriForFile;
-
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
 
 import com.sozmi.dispatcher.BuildConfig;
-import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.listeners.CarListener;
 import com.sozmi.dispatcher.model.listeners.ServerListener;
 import com.sozmi.dispatcher.model.navigation.HaversineAlgorithm;
@@ -36,7 +26,6 @@ import com.sozmi.dispatcher.model.system.GenerateTasksTimer;
 
 import org.osmdroid.util.GeoPoint;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -54,6 +43,7 @@ public class ServerData {
     private static int carIndex = 0;
     private static final String host = "82.179.140.18";
     private static final int port = 45555;
+
     public static void loadLastVersion(Activity activity) throws NetworkException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -61,7 +51,7 @@ public class ServerData {
         connection.sendData("get_version;" + BuildConfig.VERSION_NAME);
         String s = connection.getData();
         connection.disconnect();
-        if(s.equals("true"))
+        if (s.equals("true"))
             return;
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(s));
         activity.startActivity(browserIntent);
@@ -200,6 +190,8 @@ public class ServerData {
             throw new DataException("Недостаточно средств", "no_money");
         } else if (isBuildingExist(point)) {
             throw new DataException("Здание находится слишком близко к уже существующим", "no_money");
+        } else if (user.getMaxCountBuilding() < buildings.size()) {
+            throw new DataException("Превышено максимальное число построек. Нельзя построить больше" + user.getMaxCountBuilding() + " зданий", "no_create");
         } else {
 
             Building b = new Building(buildings.size(), name, typeBuilding, point);
@@ -235,36 +227,38 @@ public class ServerData {
     }
 
     public static void addCar(Building building, TypeCar typeCar) throws NetworkException {
-        if (user.isNoMoney(typeCar.toCost()))
+        if (user.isNoMoney(typeCar.toCost())) {
             throw new DataException("Недосаточно средств", "no_create");
+        } else if (user.getMaxCarInBuilding() < building.getCars().size()) {
+            throw new DataException("В здании может быть не больше " + user.getMaxCarInBuilding() + " машин", "no_create");
+        } else {
+            Car car = new Car(carIndex++, typeCar.name(), typeCar, StatusCar.Available, building.getPosition(), building);
+            Connection connection = new Connection(host, port);
+            connection.sendData("add_car;" + building.getPositionString() + "|" + typeCar.name() + "|" + typeCar.toType() + "|" + car.getStatus().toType() + "|" + building.getID());
+            String s = connection.getData();
+            if (s.equals("false"))
+                throw new DataException("Не удалось создать машину", "no_create");
+            else {
+                car.setID(Integer.parseInt(s));
+                car.addListener(new CarListener() {
+                    @Override
+                    public void onStatusChanged(Car car) {
+                        if (StatusCar.OnCall == car.getStatus() || car.getStatus() == StatusCar.Available)
+                            removeInMovement(car);
+                        else if (car.getStatus() == StatusCar.Moving || car.getStatus() == StatusCar.MovingOnCall)
+                            addInMovement(car);
+                    }
 
+                    @Override
+                    public void onPositionChanged(Car car) {
 
-        Car car = new Car(carIndex++, typeCar.name(), typeCar, StatusCar.Available, building.getPosition(), building);
-        Connection connection = new Connection(host, port);
-        connection.sendData("add_car;" + building.getPositionString() + "|" + typeCar.name() + "|" + typeCar.toType() + "|" + car.getStatus().toType() + "|" + building.getID());
-        String s = connection.getData();
-        if (s.equals("false"))
-            throw new DataException("Не удалось создать машину", "no_create");
-        else {
-            car.setID(Integer.parseInt(s));
-            car.addListener(new CarListener() {
-                @Override
-                public void onStatusChanged(Car car) {
-                    if (StatusCar.OnCall == car.getStatus() || car.getStatus() == StatusCar.Available)
-                        removeInMovement(car);
-                    else if (car.getStatus() == StatusCar.Moving || car.getStatus() == StatusCar.MovingOnCall)
-                        addInMovement(car);
-                }
-
-                @Override
-                public void onPositionChanged(Car car) {
-
-                }
-            }, "ClassServer");
-            building.addCar(car);
-            user.minMoney(typeCar.toCost());
+                    }
+                }, "ClassServer");
+                building.addCar(car);
+                user.minMoney(typeCar.toCost());
+            }
+            connection.disconnect();
         }
-        connection.disconnect();
     }
 
     public static ArrayList<CarCheck> getFreeCars() {

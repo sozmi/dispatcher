@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sozmi.dispatcher.databinding.FragmentItemTaskBinding;
+import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.main_view.fragments.TaskFragment;
 import com.sozmi.dispatcher.model.objects.StatusTask;
 import com.sozmi.dispatcher.model.objects.Task;
@@ -37,8 +37,8 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(FragmentItemTaskBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-    }
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_item_task, parent, false);
+        return new TaskViewAdapter.ViewHolder(view);}
 
     //В методе адаптера onBindViewHolder() связываем используемые текстовые метки с данными
     @Override
@@ -78,14 +78,14 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
         public final LinearLayout mPanelTime;
         public final ProgressBar mProgressBarTask;
 
-        public ViewHolder(FragmentItemTaskBinding binding) {
-            super(binding.getRoot());
-            mNameView = binding.nameTask;
-            mImageViewStatus = binding.imageGroupTask;
-            mInfoButton = binding.infoTask;
-            mPanelTime = binding.panelTimerTask;
-            mProgressBarTask = binding.progressBarTask;
-            mTimerView = binding.timerTask;
+        public ViewHolder(View view) {
+            super(view);
+            mNameView = view.findViewById(R.id.nameTask);
+            mImageViewStatus = view.findViewById(R.id.imageGroupTask);
+            mInfoButton = view.findViewById(R.id.infoTask);
+            mPanelTime = view.findViewById(R.id.panelTimerTask);
+            mProgressBarTask = view.findViewById(R.id.progressBarTask);
+            mTimerView = view.findViewById(R.id.timerTask);
         }
     }
 }

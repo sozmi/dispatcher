@@ -13,6 +13,8 @@ public class User extends BaseObject {
     private String name;
     private int money;
     private final int maxCountTask;
+    private final int maxCarInBuilding;
+    private final int maxCountBuilding;
     private final ConcurrentHashMap<String, DataListner<Integer>> listeners = new ConcurrentHashMap<>();
 
     public User() {
@@ -20,6 +22,12 @@ public class User extends BaseObject {
         this.money =-10000;
         this.name =null;
         this.maxCountTask =20;
+        this.maxCarInBuilding =10;
+        this.maxCountBuilding=20;
+    }
+
+    public int getMaxCarInBuilding() {
+        return maxCarInBuilding;
     }
 
     public int getMoney() {
@@ -91,5 +99,9 @@ public class User extends BaseObject {
             }
             return false;
         }
+    }
+
+    public int getMaxCountBuilding() {
+        return maxCountBuilding;
     }
 }

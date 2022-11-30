@@ -1,69 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-<LinearLayout
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-<GridLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/nameBuilding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="1"
-        android:layout_marginStart="10dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        tools:text="Название здания" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ImageButton
-        android:id="@+id/buttonAddCar"
-        style="@style/button_image_square"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="3"
-        android:background="@drawable/gradient"
-        android:src="@drawable/ic_add"
-        android:contentDescription="@string/addCar" />
+        <TextView
+            android:id="@+id/nameBuilding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_marginStart="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="Название здания" />
 
-    <ImageView
-        android:id="@+id/imageBuilding"
-        android:layout_width="@dimen/build_icon_size"
-        android:layout_height="@dimen/build_icon_size"
-        android:layout_row="0"
-        android:layout_column="0"
-        android:contentDescription="@string/iconBuilding"
-        android:src="@drawable/ic_hospital" />
+        <ImageButton
+            android:id="@+id/buttonAddCar"
+            style="@style/button_image_square"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:background="@drawable/gradient"
+            android:contentDescription="@string/addCar"
+            android:src="@drawable/ic_add" />
 
-    <TextView
-        android:id="@+id/typeBuilding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="1"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:textSize="12sp"
-        tools:text="Тип здания" />
+        <ImageView
+            android:id="@+id/imageBuilding"
+            android:layout_width="@dimen/build_icon_size"
+            android:layout_height="@dimen/build_icon_size"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:contentDescription="@string/iconBuilding"
+            android:src="@drawable/ic_hospital" />
 
-</GridLayout>
+        <TextView
+            android:id="@+id/typeBuilding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:textSize="12sp"
+            tools:text="Тип здания" />
+
+    </GridLayout>
 
 
-    <com.sozmi.dispatcher.main_view.ui.MyListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/carBuilding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="16dp"
-        android:scrollbars="none" />
+        android:layout_marginBottom="16dp" />
 
 </LinearLayout>
-</layout>

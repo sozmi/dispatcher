@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.main_view.adapters.CarCheckAdapter;
+import com.sozmi.dispatcher.main_view.adapters.CarCheckViewAdapter;
 import com.sozmi.dispatcher.main_view.adapters.CarViewAdapter;
 import com.sozmi.dispatcher.model.listeners.CarListener;
 import com.sozmi.dispatcher.model.listeners.TaskListener;
@@ -29,13 +29,12 @@ import com.sozmi.dispatcher.model.objects.Task;
 import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.server.ServerData;
 import com.sozmi.dispatcher.model.system.Tag;
-import com.sozmi.dispatcher.main_view.ui.MyListView;
 
 import java.util.ArrayList;
 
 public class TaskFragment extends Fragment implements TaskListener, CarListener {
     Task task;
-    MyListView free_car;
+    RecyclerView free_car;
     RecyclerView on_call;
     TextView requirement, timeView;
     ImageView imageView;
@@ -64,7 +63,7 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
 
             on_call.setLayoutManager(new LinearLayoutManager(getContext()));
             on_call.setAdapter(new CarViewAdapter(task.getCars(), view));
-            free_car.setAdapter(new CarCheckAdapter(view.getContext(), R.layout.fragment_item_car_check, ServerData.getFreeCars()));
+            free_car.setAdapter(new CarCheckViewAdapter( ServerData.getFreeCars(),view));
 
 
             name.setText(task.getName());
@@ -81,9 +80,9 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
 
 
     private void OnClickSendButton() {
-        CarCheckAdapter adapter = (CarCheckAdapter) free_car.getAdapter();
+        CarCheckViewAdapter adapter = (CarCheckViewAdapter) free_car.getAdapter();
         CarViewAdapter adapter_on_call = (CarViewAdapter) on_call.getAdapter();
-        ArrayList<CarCheck> cars_lst = adapter.getItems();
+        ArrayList<CarCheck> cars_lst = adapter.getValues();
         ArrayList<CarCheck> cars = new ArrayList<>();
         for (int i = 0; i < cars_lst.size(); i++) {
             CarCheck car = cars_lst.get(i);
@@ -92,13 +91,12 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
                 assert adapter_on_call != null;
                 adapter_on_call.notifyItemInserted(task.getCars().size() - 2);
                 car.getCar().addListener(this, toString());
-                adapter.remove(car);
+                adapter.notifyItemRemoved(i);
                 cars.add(car);
                 i--;
             }
         }
         task.sendCars(cars);
-        adapter.notifyDataSetChanged();
     }
 
     private void OnClickBackButton() {
@@ -108,7 +106,7 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
     @NonNull
     @Override
     public String toString() {
-        return "TaskFragment";
+        return getClass().getName();
     }
 
 
@@ -150,11 +148,12 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
     @Override
     public void onStatusChanged(Car car) {
         CarViewAdapter adapter = (CarViewAdapter) on_call.getAdapter();
-        CarCheckAdapter adapter2 = (CarCheckAdapter) free_car.getAdapter();
+        CarCheckViewAdapter adapter2 = (CarCheckViewAdapter) free_car.getAdapter();
         new Handler(Looper.getMainLooper()).post(() -> {
             assert adapter != null;
             adapter.notifyItemChanged(task.getCars().indexOf(car));
-            adapter2.notifyDataSetChanged();
+            assert adapter2 != null;
+            adapter2.notifyItemChanged(task.getCars().indexOf(car));
         });
     }
 

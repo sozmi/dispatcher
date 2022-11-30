@@ -22,13 +22,12 @@ import com.sozmi.dispatcher.model.system.Tag;
 
 import org.osmdroid.util.GeoPoint;
 
-import java.io.IOException;
-
 public class MainActivity extends AppCompatActivity implements DataListner<Integer> {
     private static GeoPoint point = null;
+
     @Override
     public void onBackPressed() {
-        if (MyFM.getCurrentName().equals("MapFragment") || MyFM.getCurrentName().equals("LoginFragment"))
+        if (MyFM.getCurrentName().equals(MapFragment.class.getName()))
             super.onBackPressed();
         else
             mapButtonOnClick();
@@ -114,9 +113,10 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
 
     }
 
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         try {
             ServerData.unloader();
         } catch (NetworkException e) {

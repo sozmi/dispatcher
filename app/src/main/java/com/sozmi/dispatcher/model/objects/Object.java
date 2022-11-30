@@ -1,10 +1,5 @@
 package com.sozmi.dispatcher.model.objects;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
 import com.sozmi.dispatcher.model.system.BaseObject;
 
 import org.osmdroid.util.GeoPoint;
@@ -38,6 +33,14 @@ public class Object<T extends BaseType> extends BaseObject {
         setType(type);
     }
 
+    public void initObject(int id, String name, GeoPoint point, T type, int cost) {
+        setID(id);
+        setCost(cost);
+        setName(name);
+        setPosition(point);
+        setType(type);
+    }
+
     public int getCost() {
         return cost;
     }
@@ -65,8 +68,9 @@ public class Object<T extends BaseType> extends BaseObject {
     }
 
     public String getPositionString() {
-        return "("+point.getLatitude()+","+point.getLongitude()+")";
+        return "(" + point.getLatitude() + "," + point.getLongitude() + ")";
     }
+
     public void setPosition(GeoPoint point) {
         this.point = point;
     }

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
 
@@ -17,8 +16,8 @@
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:background="@drawable/share_yellow"
-            android:src="@drawable/ic_star"
-            android:contentDescription="вудд" />
+            android:contentDescription="вудд"
+            android:src="@drawable/ic_star" />
 
 
         <LinearLayout
@@ -45,7 +44,7 @@
                     android:id="@+id/progressBarTask"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="188dp"
-                    android:layout_height="35dp"/>
+                    android:layout_height="35dp" />
 
                 <TextView
                     android:id="@+id/timerTask"
@@ -71,51 +70,17 @@
         android:id="@+id/requirement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/topPanel"
+        android:layout_marginTop="0dp"
         android:background="@drawable/gradient"
         android:text="Требуется:"
-        android:visibility="gone"
-        android:layout_below="@+id/topPanel"
-        android:layout_marginTop="0dp"/>
-    <TextView
-        android:id="@+id/txtOnLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/requirement"
-        android:layout_marginTop="0dp"
-        android:text="Машины на месте вызова" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lst_on_call"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_below="@+id/txtOnLocation"
-        android:layout_marginTop="0dp"
-        tools:listitem="@layout/fragment_item_car"/>
-
-    <TextView
-        android:id="@+id/txtCarFree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Свободные машины"
-        android:layout_below="@+id/lst_on_call"
-        android:layout_marginTop="0dp"/>
-
-    <com.sozmi.dispatcher.main_view.ui.MyListView
-        android:id="@+id/lst_free_car"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_above="@+id/buttonPanel"
-        android:layout_below="@+id/txtCarFree"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
-        android:choiceMode="multipleChoice"
-        android:minHeight="100dp" />
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/buttonPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|center"
         android:layout_marginBottom="0dp">
 
         <Button
@@ -127,4 +92,52 @@
             style="@style/button_text_little"
             android:text="Поделиться" />
     </LinearLayout>
-</RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:descendantFocusability="blocksDescendants">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtOnLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:text="Машины на месте вызова" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lst_on_call"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_below="@+id/txtOnLocation"
+                android:layout_marginTop="0dp"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/fragment_item_car" />
+
+            <TextView
+                android:id="@+id/txtCarFree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lst_on_call"
+                android:layout_marginTop="0dp"
+                android:text="Свободные машины" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lst_free_car"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+
+                android:layout_below="@+id/txtCarFree"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:choiceMode="multipleChoice"
+                android:minHeight="100dp" />
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</GridLayout>

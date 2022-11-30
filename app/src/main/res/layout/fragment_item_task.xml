@@ -21,7 +21,7 @@
         <TextView
             android:id="@+id/nameTask"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:drawablePadding="25dp"
             android:text="@string/example_name"
             android:textSize="@dimen/medium_text" />

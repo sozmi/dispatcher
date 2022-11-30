@@ -26,7 +26,7 @@ public class BuildingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -39,6 +39,6 @@ public class BuildingsFragment extends Fragment {
     @NonNull
     @Override
     public String toString() {
-        return "BuildingFragment";
+        return getClass().getName();
     }
 }
