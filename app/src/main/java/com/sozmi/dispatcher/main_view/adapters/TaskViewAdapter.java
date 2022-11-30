@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -74,7 +75,7 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
 
         public final TextView mNameView, mTimerView;
         public final ImageView mImageViewStatus;
-        public final Button mInfoButton;
+        public final ImageButton mInfoButton;
         public final LinearLayout mPanelTime;
         public final ProgressBar mProgressBarTask;
 

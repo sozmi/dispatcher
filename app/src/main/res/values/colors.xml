@@ -29,6 +29,7 @@
     <color name="icons">#FFFFFF</color>
     <color name="launch">#FFCCBC</color>
     <color name="dark_gray">#212121</color>
+    <color name="light_gray">#5E5B5B</color>
     <color name="blue">#165FDE</color>
     <color name="green">#26AE16</color>
     <color name="green.dark">#1A770F</color>

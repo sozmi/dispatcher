@@ -4,13 +4,13 @@ plugins {
 
 android {
     compileSdk 33
-
+    archivesBaseName = "dispatcher_game"
     defaultConfig {
         applicationId 'com.sozmi.dispatcher'
         minSdk 24
         targetSdk 33
-        versionCode 1
-        versionName "0.4"
+        versionCode 6
+        versionName "v1.06"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,10 +54,12 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.navigation:navigation-runtime:2.5.3'
-    implementation 'com.google.android.gms:play-services-location:21.0.0'
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     implementation 'com.github.MKergall:osmbonuspack:6.9.0'
 }
+

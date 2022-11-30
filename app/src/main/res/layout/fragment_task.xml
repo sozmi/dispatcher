@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <LinearLayout
+    <!--Панель описания задачи-->
+    <RelativeLayout
         android:id="@+id/topPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -14,7 +15,7 @@
         <ImageView
             android:id="@+id/imageGroupTask"
             android:layout_width="20dp"
-            android:layout_height="match_parent"
+            android:layout_height="65dp"
             android:background="@drawable/share_yellow"
             android:contentDescription="вудд"
             android:src="@drawable/ic_star" />
@@ -23,6 +24,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@+id/imageGroupTask"
             android:orientation="vertical">
 
 
@@ -56,30 +59,100 @@
             </LinearLayout>
         </LinearLayout>
 
-        <Button
+        <ImageButton
             android:id="@+id/backTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="0dp"
+            android:src="@drawable/ic_back"
             android:text="back">
 
-        </Button>
+        </ImageButton>
 
-    </LinearLayout>
-
+    </RelativeLayout>
+    <!--Панель требований-->
     <TextView
         android:id="@+id/requirement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_below="@+id/topPanel"
         android:layout_marginTop="0dp"
         android:background="@drawable/gradient"
+        android:gravity="center"
+        android:padding="10dp"
         android:text="Требуется:"
-        android:visibility="gone" />
+        android:textColor="@color/lite_white"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/buttonPanel"
+        android:layout_below="@+id/requirement"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:descendantFocusability="blocksDescendants"
+        android:padding="10dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtOnLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:text="Машины на месте вызова" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lst_on_call"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtOnLocation"
+                    android:layout_marginTop="0dp"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/fragment_item_car" />
+
+                <TextView
+                    android:id="@+id/txtCarFree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lst_on_call"
+                    android:layout_marginTop="0dp"
+                    android:text="Свободные машины" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lst_free_car"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_below="@+id/txtCarFree"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:choiceMode="multipleChoice"
+                    android:minHeight="100dp" />
+
+
+            </RelativeLayout>
+
+        </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
+    <!--Панель кнопок-->
     <LinearLayout
         android:id="@+id/buttonPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="0dp">
 
@@ -93,51 +166,4 @@
             android:text="Поделиться" />
     </LinearLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:descendantFocusability="blocksDescendants">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/txtOnLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:text="Машины на месте вызова" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lst_on_call"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_below="@+id/txtOnLocation"
-                android:layout_marginTop="0dp"
-                android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/fragment_item_car" />
-
-            <TextView
-                android:id="@+id/txtCarFree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lst_on_call"
-                android:layout_marginTop="0dp"
-                android:text="Свободные машины" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lst_free_car"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-
-                android:layout_below="@+id/txtCarFree"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                android:choiceMode="multipleChoice"
-                android:minHeight="100dp" />
-        </RelativeLayout>
-    </androidx.core.widget.NestedScrollView>
-
-
-</GridLayout>
+</RelativeLayout>

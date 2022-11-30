@@ -1,7 +1,9 @@
 package com.sozmi.dispatcher.main_view;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,14 +39,36 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Permission.get(this);
-        new Map();
+        ProgressBar progressBar = findViewById(R.id.progressLoad);
+        progressBar.setVisibility(View.VISIBLE);
+
+        var th = new Thread(() -> {
+            try {
+                ServerData.loader();
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    init();
+                });
+
+
+            } catch (NetworkException e) {
+                runOnUiThread( ()->Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+        });
+        th.start();
+
         ServerData.getUser().addListener(this, toString());
         ServerData.getUser().addMoney(0);
 
-        actionButton();
+    }
+
+
+    private void init() {
+        Permission.get(this);
+        new Map();
         MyFM.setFM(getSupportFragmentManager());
         MyFM.OpenFragment(new MapFragment(), null);
+        actionButton();
     }
 
     private void actionButton() {
@@ -116,12 +140,12 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
 
     @Override
     protected void onPause() {
-        super.onPause();
         try {
             ServerData.unloader();
         } catch (NetworkException e) {
             Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
             toast.show();
         }
+        super.onPause();
     }
 }

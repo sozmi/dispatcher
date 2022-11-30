@@ -11,7 +11,7 @@
     <string name="email">E-mail:</string>
     <string name="example_email">example-mail@mail.ru</string>
     <string name="password">Пароль:</string>
-    <string name="example_password">сюды вводите пароль</string>
+    <string name="example_password">введите пароль сюда</string>
     <string name="save_password">Запомнить пароль</string>
     <string name="add">Добавить</string>
     <string name="build">Построить здание</string>
@@ -49,7 +49,7 @@
     <string name="authorization">АВТОРИЗАЦИЯ</string>
     <string name="registrations">РЕГИСТРАЦИЯ</string>
     <string name="login">Логин:</string>
-    <string name="login_example">здеся мой логин</string>
+    <string name="login_example">введите ваш логин</string>
     <string name="registrationss">зарегистрироваться</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

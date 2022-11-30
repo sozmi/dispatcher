@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".main_view.MainActivity">
+
     <!--Верхний бар-->
     <FrameLayout
         android:id="@+id/top_menu"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,10 +54,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="2dp"
-                android:textColor="@color/icons"
                 android:background="@color/day.secondary"
                 android:padding="10dp"
-                android:text="@string/USD">
+                android:text="@string/USD"
+                android:textColor="@color/icons">
 
             </TextView>
 
@@ -66,15 +67,27 @@
     </FrameLayout>
 
     <!--Фрагмент-->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_view"
-        android:name="com.sozmi.dispatcher.main_view.fragments.MapFragment"
+    <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/top_menu"
         android:layout_above="@id/bottom_menu"
-        tools:layout="@layout/fragment_map"/>
+        android:layout_below="@+id/top_menu">
 
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+
+            tools:layout="@layout/fragment_map" />
+        <ProgressBar
+            android:id="@+id/progressLoad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/spinner_ring"
+            android:indeterminateOnly="true"
+             />
+    </FrameLayout>
     <!--Нижний бар-->
     <LinearLayout
         android:id="@+id/bottom_menu"
@@ -82,32 +95,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center">
+
         <ImageButton
             style="@style/button_image"
-            android:src="@drawable/ic_radio"
-            android:contentDescription="@string/radio"/>
+            android:contentDescription="@string/radio"
+            android:src="@drawable/ic_radio" />
+
         <ImageButton
             android:id="@+id/buttonBuildings"
             style="@style/button_image"
-            android:src="@drawable/ic_building"
-            android:contentDescription="@string/buildings"/>
+            android:contentDescription="@string/buildings"
+            android:src="@drawable/ic_building" />
+
         <ImageButton
             android:id="@+id/buttonMap"
             style="@style/button_image"
-            android:src="@drawable/ic_map"
-            android:contentDescription="@string/map"/>
+            android:contentDescription="@string/map"
+            android:src="@drawable/ic_map" />
 
         <ImageButton
             android:id="@+id/buttonTasks"
             style="@style/button_image"
-            android:src="@drawable/ic_task"
-            android:contentDescription="@string/tasks"/>
+            android:contentDescription="@string/tasks"
+            android:src="@drawable/ic_task" />
 
         <ImageButton
             android:id="@+id/buttonBuild"
             style="@style/button_image"
-            android:src="@drawable/ic_crane"
-            android:contentDescription="@string/building"/>
+            android:contentDescription="@string/building"
+            android:src="@drawable/ic_crane" />
     </LinearLayout>
 
 </RelativeLayout>

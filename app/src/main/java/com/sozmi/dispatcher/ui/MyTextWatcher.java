@@ -8,8 +8,7 @@ import android.widget.EditText;
 public class MyTextWatcher implements TextWatcher {
     private boolean isValid = false;
     private final EditText textView;
-    private final String pattern;
-    private final String error;
+    private final String pattern, error;
 
     public MyTextWatcher(EditText txt, String pattern, String error) {
         textView = txt;
@@ -59,4 +58,5 @@ public class MyTextWatcher implements TextWatcher {
     public boolean isValid() {
         return isValid;
     }
+
 }

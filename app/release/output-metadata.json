@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 1,
-      "versionName": "0.4",
-      "outputFile": "app-release.apk"
+      "versionCode": 6,
+      "versionName": "v1.06",
+      "outputFile": "dispatcher_game-release.apk"
     }
   ],
   "elementType": "File"

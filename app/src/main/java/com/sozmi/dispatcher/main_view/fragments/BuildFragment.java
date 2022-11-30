@@ -22,12 +22,13 @@ import com.sozmi.dispatcher.model.server.NetworkException;
 import com.sozmi.dispatcher.model.server.ServerData;
 import com.sozmi.dispatcher.model.system.MyFM;
 import com.sozmi.dispatcher.model.system.Tag;
+import com.sozmi.dispatcher.ui.MyTextWatcher;
 
 import org.osmdroid.util.GeoPoint;
 
 public class BuildFragment extends Fragment {
     private TypeBuilding typeBuilding;
-    private EditText name;
+    private EditText nameInput;
     private EditText cost;
     private GeoPoint point;
 
@@ -38,7 +39,8 @@ public class BuildFragment extends Fragment {
         ImageButton changeCoordinate = view.findViewById(R.id.buttonChange);
         Button build = view.findViewById(R.id.buttonBuildOnFragment);
         EditText pointBuild = view.findViewById(R.id.coordinateOut);
-        name = view.findViewById(R.id.nameBuildingOnFragment);
+        nameInput = view.findViewById(R.id.nameBuildingOnFragment);
+        MyTextWatcher tw_name = new MyTextWatcher(nameInput, "^[\\sа-яА-ЯёЁa-zA-Z0-9]+$", "Введите название здания без специальных символов");
         cost = view.findViewById(R.id.costBuilding);
 
         Bundle bundle = getArguments();
@@ -63,7 +65,7 @@ public class BuildFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 typeBuilding = TypeBuilding.values()[position];
-                name.setText(typeBuilding.toString());
+                nameInput.setText(typeBuilding.toString());
                 String txt = typeBuilding.toCost() + " руб";
                 cost.setText(txt);
             }
@@ -88,7 +90,7 @@ public class BuildFragment extends Fragment {
 
     private void onButtonBuildClick() {
         try {
-            ServerData.addBuild(name.getText().toString(), point, typeBuilding);
+            ServerData.addBuild(nameInput.getText().toString(), point, typeBuilding);
 
         } catch (NetworkException | DataException e) {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
