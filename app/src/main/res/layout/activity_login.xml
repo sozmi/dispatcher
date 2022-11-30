@@ -1,45 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lite_white"
-    android:orientation="vertical"
-    tools:context=".authorization_view.LoginActivity">
+    android:background="@color/lite_white">
 
-    <ImageView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_gravity="top"
-        android:scaleType="centerCrop"
-        android:src="@drawable/map"
-        android:contentDescription="@string/map_world"/>
+        android:layout_height="match_parent">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_view_auth"
-        android:layout_gravity="top"
-        android:layout_width="fill_parent"
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".authorization_view.LoginActivity">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_gravity="top"
+                android:contentDescription="@string/map_world"
+                android:scaleType="centerCrop"
+                android:src="@drawable/map" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragment_view_auth"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                tools:layout="@layout/fragment_authorization" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom|center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contacts"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:autoLink="email"
+
+                    android:text="@string/contact_mail"
+                    android:textAllCaps="false"
+                    android:textColorLink="@color/light_gray" />
+            </LinearLayout>
+        </GridLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progressLoadLogin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_authorization" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom|center"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/contacts"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/contact_mail"
-            android:textAllCaps="false" />
-    </LinearLayout>
-</GridLayout>
+        android:layout_gravity="center"
+        android:indeterminateDrawable="@drawable/spinner_ring"
+        android:indeterminateOnly="true" />
+</FrameLayout>

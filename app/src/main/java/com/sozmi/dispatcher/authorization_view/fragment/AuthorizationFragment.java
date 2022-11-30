@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.sozmi.dispatcher.R;
-import com.sozmi.dispatcher.authorization_view.LoginActivity;
 
 
 public class AuthorizationFragment extends Fragment {
@@ -47,7 +46,6 @@ public class AuthorizationFragment extends Fragment {
         ft.replace(R.id.fragment_view_auth, f, f.toString());
         ft.addToBackStack(f.getTag());
         ft.commit();
-        LoginActivity.lastName = f.getTag();
     }
 
     private void onRegisterClick() {
@@ -57,7 +55,6 @@ public class AuthorizationFragment extends Fragment {
         ft.replace(R.id.fragment_view_auth, f, f.toString());
         ft.addToBackStack(f.getTag());
         ft.commit();
-        LoginActivity.lastName = f.getTag();
     }
 
     @NonNull

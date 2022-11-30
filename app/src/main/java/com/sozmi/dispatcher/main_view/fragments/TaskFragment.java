@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -31,6 +32,7 @@ import com.sozmi.dispatcher.model.server.ServerData;
 import com.sozmi.dispatcher.model.system.Tag;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TaskFragment extends Fragment implements TaskListener, CarListener {
     Task task;
@@ -48,7 +50,7 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
         View view = inflater.inflate(R.layout.fragment_task, container, false);
         TextView name = view.findViewById(R.id.nameTask);
         Button send = view.findViewById(R.id.sendCarTask);
-        Button back = view.findViewById(R.id.backTask);
+        ImageButton back = view.findViewById(R.id.backTask);
         imageView = view.findViewById(R.id.imageGroupTask);
         free_car = view.findViewById(R.id.lst_free_car);
         on_call = view.findViewById(R.id.lst_on_call);
@@ -63,7 +65,8 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
 
             on_call.setLayoutManager(new LinearLayoutManager(getContext()));
             on_call.setAdapter(new CarViewAdapter(task.getCars(), view));
-            free_car.setAdapter(new CarCheckViewAdapter( ServerData.getFreeCars(),view));
+           free_car.setLayoutManager(new LinearLayoutManager(getContext()));
+            free_car.setAdapter(new CarCheckViewAdapter( ServerData.getFreeCars(), free_car, view));
 
 
             name.setText(task.getName());
@@ -82,15 +85,17 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
     private void OnClickSendButton() {
         CarCheckViewAdapter adapter = (CarCheckViewAdapter) free_car.getAdapter();
         CarViewAdapter adapter_on_call = (CarViewAdapter) on_call.getAdapter();
-        ArrayList<CarCheck> cars_lst = adapter.getValues();
+        ArrayList<CarCheck> cars_lst = Objects.requireNonNull(adapter).getValues();
         ArrayList<CarCheck> cars = new ArrayList<>();
+        int pos=0;
         for (int i = 0; i < cars_lst.size(); i++) {
             CarCheck car = cars_lst.get(i);
             if (car.getCheck()) {
                 task.getCars().add(car.getCar());
                 assert adapter_on_call != null;
-                adapter_on_call.notifyItemInserted(task.getCars().size() - 2);
+                adapter_on_call.notifyItemInserted(task.getCars().size() + pos);
                 car.getCar().addListener(this, toString());
+                cars_lst.remove(i);
                 adapter.notifyItemRemoved(i);
                 cars.add(car);
                 i--;

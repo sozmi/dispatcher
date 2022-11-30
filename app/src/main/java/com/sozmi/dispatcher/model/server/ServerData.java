@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -14,6 +15,7 @@ import com.sozmi.dispatcher.BuildConfig;
 import com.sozmi.dispatcher.model.listeners.CarListener;
 import com.sozmi.dispatcher.model.listeners.ServerListener;
 import com.sozmi.dispatcher.model.navigation.HaversineAlgorithm;
+import com.sozmi.dispatcher.model.navigation.Map;
 import com.sozmi.dispatcher.model.objects.Building;
 import com.sozmi.dispatcher.model.objects.Car;
 import com.sozmi.dispatcher.model.objects.CarCheck;
@@ -26,6 +28,7 @@ import com.sozmi.dispatcher.model.system.GenerateTasksTimer;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,8 +48,6 @@ public class ServerData {
     private static final int port = 45555;
 
     public static void loadLastVersion(Activity activity) throws NetworkException {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
         Connection connection = new Connection(host, port);
         connection.sendData("get_version;" + BuildConfig.VERSION_NAME);
         String s = connection.getData();
@@ -58,9 +59,7 @@ public class ServerData {
         activity.finishAffinity();
     }
 
-    public static boolean Authorization(String email, String passwd, boolean isSave) throws NetworkException {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+    public static boolean Authorization(String email, String passwd, boolean isSave) throws NetworkException, DataException {
         Connection connection = new Connection(host, port);
         connection.sendData("get_user;" + email + "|" + passwd);
         String s = connection.getData();
@@ -74,14 +73,12 @@ public class ServerData {
                 ServerData.addPasswd(passwd);
             }
 
-            return loader();
+            return true;
         }
         return false;
     }
 
-    public static boolean Registration(String email, String passwd, String name) throws NetworkException {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+    public static boolean Registration(String email, String passwd, String name) throws NetworkException, DataException {
         Connection connection = new Connection(host, port);
         connection.sendData("add_user;" + email + "|" + name + "|" + passwd);
         String s = connection.getData();
@@ -100,8 +97,7 @@ public class ServerData {
         return false;
     }
 
-    private static boolean loader() throws NetworkException {
-
+    public static boolean loader() throws NetworkException {
         Connection connection = new Connection(host, port);
         connection.sendData("get_build;" + getUser().getID());
         String build_str = connection.getData();
@@ -185,7 +181,7 @@ public class ServerData {
     }
 
 
-    public static void addBuild(String name, GeoPoint point, TypeBuilding typeBuilding) throws NetworkException {
+    public static void addBuild(String name, GeoPoint point, TypeBuilding typeBuilding) throws NetworkException, DataException {
         if (user.isNoMoney(typeBuilding.toCost())) {
             throw new DataException("Недостаточно средств", "no_money");
         } else if (isBuildingExist(point)) {
@@ -205,6 +201,7 @@ public class ServerData {
                 b.setID(Integer.parseInt(s));
                 user.minMoney(typeBuilding.toCost());
                 buildings.add(b);
+
             }
             connection.disconnect();
 
@@ -226,7 +223,7 @@ public class ServerData {
         return false;
     }
 
-    public static void addCar(Building building, TypeCar typeCar) throws NetworkException {
+    public static void addCar(Building building, TypeCar typeCar) throws NetworkException, DataException {
         if (user.isNoMoney(typeCar.toCost())) {
             throw new DataException("Недосаточно средств", "no_create");
         } else if (user.getMaxCarInBuilding() < building.getCars().size()) {
@@ -285,11 +282,11 @@ public class ServerData {
         removeCarInMovement(car.getID() + "");
     }
 
-    public static boolean AuthorizationSave() throws NetworkException {
+    public static boolean AuthorizationSave() throws NetworkException, DataException {
         return Authorization(mSettings.getString(APP_PREFERENCES_EMAIL, ""), mSettings.getString(APP_PREFERENCES_PASSWD, ""), false);
     }
 
-    public static boolean authorization(Activity activity) throws NetworkException {
+    public static boolean authorization(Activity activity) throws NetworkException, DataException {
         loadSettings(activity);
         if (isLoginSaved()) {
             return AuthorizationSave();

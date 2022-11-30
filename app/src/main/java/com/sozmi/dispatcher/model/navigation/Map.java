@@ -54,7 +54,13 @@ public class Map implements CarListener, TaskListener, ServerListener {
         Routing.init();
         map = this;
     }
-
+public void update(){
+    moveCamToUser();
+    addBuildings(ServerData.getBuildings());
+    addTasks(ServerData.getTasks());
+    addCars(ServerData.getInMovement());
+    mapView.invalidate();
+}
     public static boolean isInit() {
         return isInit;
     }
@@ -141,7 +147,7 @@ public class Map implements CarListener, TaskListener, ServerListener {
                 });
     }
 
-    public void drawBuilding(Building building) {
+    public static void drawBuilding(Building building) {
         Marker marker = drawMarker(building.getName(), building.getImage(), building.getPosition(), false, false);
         building.setMarker(marker);
     }
@@ -172,11 +178,11 @@ public class Map implements CarListener, TaskListener, ServerListener {
         mapView.invalidate();
     }
 
-    private Drawable getDrawable(Context context, int drawableId) {
+    private static Drawable getDrawable(Context context, int drawableId) {
         return ContextCompat.getDrawable(context, drawableId);
     }
 
-    private Marker drawMarker(String title, int id, GeoPoint point, boolean isDrag, boolean noShowTitle) {
+    private static Marker drawMarker(String title, int id, GeoPoint point, boolean isDrag, boolean noShowTitle) {
         Marker marker = new Marker(mapView);
         marker.setIcon(getDrawable(mapView.getContext(), id));
         marker.setPosition(point);

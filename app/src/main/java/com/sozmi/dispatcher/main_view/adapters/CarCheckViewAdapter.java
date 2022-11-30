@@ -1,5 +1,6 @@
 package com.sozmi.dispatcher.main_view.adapters;
 
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +21,16 @@ import java.util.List;
 public class CarCheckViewAdapter extends RecyclerView.Adapter<CarCheckViewAdapter.ViewHolder> {
 
     private final List<CarCheck> mValues;
-
+    private final RecyclerView rw;
     private final View view;
 
     public ArrayList<CarCheck> getValues() {
         return (ArrayList<CarCheck>) mValues;
     }
 
-    public CarCheckViewAdapter(List<CarCheck> items, View v) {
+    public CarCheckViewAdapter(List<CarCheck> items, RecyclerView rw, View v) {
         mValues = items;
+        this.rw = rw;
         this.view = v;
     }
 
@@ -44,15 +46,22 @@ public class CarCheckViewAdapter extends RecyclerView.Adapter<CarCheckViewAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         CarCheck carCheck = mValues.get(position);
-        Car car =carCheck.getCar();
+        Car car = carCheck.getCar();
         holder.mNameView.setText(car.getName());
         holder.mTypeView.setText(car.getType().toString());
         holder.mImageView.setImageResource(car.getImage());
         holder.mStatusView.setText(car.getStatusToString());
         holder.mStatusView.setBackgroundColor(car.getColor(view.getContext()));
         holder.mCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
-           carCheck.setCheck(isChecked);
-            notifyItemChanged(position);
+            carCheck.setCheck(isChecked);
+                    if (!rw.isComputingLayout()) {
+                        if (Looper.myLooper() != Looper.getMainLooper()) {
+                            // If BG thread,then post task to recycler view
+                            rw.postDelayed(() -> notifyItemChanged(position), 500);
+                        } else {
+                            notifyItemChanged(position);
+                        }
+                    }
         });
         holder.mCheck.setChecked(carCheck.getCheck());
     }
