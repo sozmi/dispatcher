@@ -39,8 +39,11 @@
     <li>"get_version;"-получение последней версии игры</li>
    </ul>
   <p>Общий синтаксис комманды можно привести к следующему виду "command;argumen1|argument2|...|arguments"</p>
-  <p>Процесс клиент-серверного взаимодействия представлени на рисунке</p>
-  <img src="/readme/serv-client.png" alt="фото" title="Авторизация в приложении" height=200px>
+  <p>Процесс клиент-серверного взаимодействия представлен на рисунке:</p>
+  <p align="center">
+   <img src="/readme/serv-client.png" alt="фото" title="Авторизация в приложении" height=100px>
+</p>
+ 
   <h5 name="client">Клиентская часть</h5>
   <p>Выполнена на языка Java. Поддерживаемая версия Android 7 и выше.</p>
   <p>В проекте использована карта OSM(open-street-map) и API для построения маршрутов GraphHopper в составе библиотеки OSMBonusPack.</p>
