@@ -154,7 +154,10 @@ public class ServerData {
         Connection connection = new Connection(host, port);
         connection.sendData("get_build;" + getUser().getID());
         String build_str = connection.getData();
-        if (build_str.equals("no_find")) return true;
+        if (build_str.equals("no_find")){
+            generateTask();
+            return true;
+        }
         String[] b_str = build_str.split(";");
         Log.d("BUILD_INFO", "Building count:" + b_str.length);
         for (String sb : b_str) {
@@ -224,7 +227,7 @@ public class ServerData {
 
     public static void generateTask() {
         Timer timer = new Timer("TimerGenerateTasks");
-        timer.scheduleAtFixedRate(new GenerateTasksTimer(), 0, 60000);
+        timer.scheduleAtFixedRate(new GenerateTasksTimer(), 0, 10000);
     }
 
     public static boolean isLoginSaved() {

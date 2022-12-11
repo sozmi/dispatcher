@@ -25,12 +25,13 @@ public class GenerateTasksTimer extends TimerTask {
      */
     @Override
     public void run() {
-       var buildings = ServerData.getBuildings();
+        Log.d("tag","timer t");
+        var buildings = ServerData.getBuildings();
         var tasks =ServerData.getTasks();
         var user =ServerData.getUser();
         if (buildings.size() <= 0) return;
         Log.i(String.valueOf(SystemTag.timer), "start TimerGenerateTasks");
-        if (tasks.size() >= user.getMaxCountTask()) cancel();
+        if (tasks.size() >= user.getMaxCountTask()) return;
         int taskID = tasks.size();
         GeoPoint point = Coordinate.getLocationInLatLngRad(10000, getRandomBuilding(buildings).getPosition());
         ArrayList<Requirement> requirements = new ArrayList<>();
