@@ -94,24 +94,24 @@ public class Connection {
         try {
 
 
-        while (!isReady()) {
-            if (i >= 60)
-                throw new NetworkException("Не удалось соединиться с сервером. Превышено время ожидания. ");
-            Log.d("SOCKET", "await data" + i + "s");
-            Thread.sleep(1000);
-            i++;
-        }
-        while ((charsRead = in.read(buffer)) != -1) {
-            Log.d(LOG_TAG, "charsRead:" + charsRead);
-            message.append(new String(buffer).substring(0, charsRead));
-            Log.d(LOG_TAG, "Получены данные:" + message);
-            if (!in.ready()) {
-                break;
+            while (!isReady()) {
+                if (i >= 60)
+                    throw new NetworkException("Не удалось соединиться с сервером. Превышено время ожидания. ");
+                Log.d("SOCKET", "await data" + i + "s");
+                Thread.sleep(1000);
+                i++;
             }
-        }
-        }catch (IOException e){
+            while ((charsRead = in.read(buffer)) != -1) {
+                Log.d(LOG_TAG, "charsRead:" + charsRead);
+                message.append(new String(buffer).substring(0, charsRead));
+                Log.d(LOG_TAG, "Получены данные:" + message);
+                if (!in.ready()) {
+                    break;
+                }
+            }
+        } catch (IOException e) {
             throw new NetworkException("Не удалось прочитать полученные данные. Пожалуйста попробуйте позже.");
-        }catch (InterruptedException e){
+        } catch (InterruptedException e) {
             throw new NetworkException("Произошла ошибка потока. Пожалуйста, попробуйте позже.");
         }
         return message.toString().trim();

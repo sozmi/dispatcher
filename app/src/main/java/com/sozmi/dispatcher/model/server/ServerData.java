@@ -2,24 +2,20 @@ package com.sozmi.dispatcher.model.server;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
 import com.sozmi.dispatcher.BuildConfig;
-import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.listeners.CarListener;
 import com.sozmi.dispatcher.model.listeners.ServerListener;
 import com.sozmi.dispatcher.model.navigation.HaversineAlgorithm;
@@ -41,10 +37,6 @@ import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerData {
-    public static final String APP_PREFERENCES = "settings";
-    public static final String APP_PREFERENCES_EMAIL = "User_email";
-    public static final String APP_PREFERENCES_PASSWD = "User_password";
-    static SharedPreferences mSettings; //файл настроек
     private static final ArrayList<Building> buildings = new ArrayList<>();
     private static final ArrayList<Task> tasks = new ArrayList<>();
     private static final ConcurrentHashMap<String, Car> carInMovement = new ConcurrentHashMap<>();
@@ -54,7 +46,58 @@ public class ServerData {
     private static final String host = "82.179.140.18";
     private static final int port = 45555;
 
+    //region Properties
 
+    /**
+     * Получение списка всех зданий у игрока
+     *
+     * @return список зданий
+     */
+    public static ArrayList<Building> getBuildings() {
+        return buildings;
+    }
+
+
+    /**
+     * Получение списка всех задач у игрока
+     *
+     * @return список задач
+     */
+    public static ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
+
+    /**
+     * Получение списка свободных машин
+     *
+     * @return список свободных машин
+     */
+    public static ArrayList<CarCheck> getFreeCars() {
+        ArrayList<CarCheck> cars = new ArrayList<>();
+        for (Building build : buildings)
+            for (Car car : build.getCars())
+                if (car.getStatus() == StatusCar.Available)
+                    cars.add(new CarCheck(car));
+        return cars;
+    }
+
+    /**
+     * Получение профиля пользователя
+     *
+     * @return пользователя
+     */
+    public static User getUser() {
+        return user;
+    }
+    //endregion
+
+
+    /**
+     * Проверяет загружена ли последняя версия, и если нет, то загружает её
+     * @param activity активиту
+     * @throws NetworkException ошибка подключения
+     */
     public static void loadLastVersion(Activity activity) throws NetworkException {
         final boolean[] isDownload = {true};
         Connection connection = new Connection(host, port);
@@ -104,11 +147,12 @@ public class ServerData {
 
                 activity.getApplicationContext().unregisterReceiver(this);
                 activity.finish();
-                isDownload[0] =false;
+                isDownload[0] = false;
             }
         };
         activity.getApplicationContext().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        while (isDownload[0]){}
+        while (isDownload[0]) {
+        }
     }
 
 
@@ -121,10 +165,8 @@ public class ServerData {
             throw new DataException("Неверный логин или пароль", "no_find");
         }
         if (user.loadData(s)) {
-            if (isSave) {
-                ServerData.addEmail(email);
-                ServerData.addPasswd(passwd);
-            }
+            if (isSave)
+                Authorization.addAuthorizationData(email, passwd);
 
             return true;
         }
@@ -142,8 +184,7 @@ public class ServerData {
             throw new DataException("Username уже существует.", "passwd");
 
         if (user.loadData(s)) {
-            ServerData.addEmail(email);
-            ServerData.addPasswd(passwd);
+            Authorization.addAuthorizationData(email, passwd);
             return loader();
         }
         connection.disconnect();
@@ -154,43 +195,23 @@ public class ServerData {
         Connection connection = new Connection(host, port);
         connection.sendData("get_build;" + getUser().getID());
         String build_str = connection.getData();
-        if (build_str.equals("no_find")){
-            generateTask();
-            return true;
+        if (!build_str.equals("no_find")) {
+            String[] b_str = build_str.split(";");
+            Log.d("BUILD_INFO", "Building count:" + b_str.length);
+            for (String sb : b_str) {
+                Building build = new Building(sb);
+                connection.sendData("get_cars;" + build.getID());
+                String s = connection.getData();
+                if (!s.equals("no_find"))
+                    build.addCar(s);
+                buildings.add(build);
+            }
         }
-        String[] b_str = build_str.split(";");
-        Log.d("BUILD_INFO", "Building count:" + b_str.length);
-        for (String sb : b_str) {
-            Building build = new Building(sb);
-            connection.sendData("get_cars;" + build.getID());
-            String s = connection.getData();
-            if (!s.equals("no_find"))
-                build.addCar(s);
-            buildings.add(build);
-        }
-
         connection.disconnect();
         generateTask();
         return true;
     }
 
-    public static void loadSettings(Activity activity) {
-        mSettings = activity.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-    }
-
-    public static void addEmail(String email) {
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(APP_PREFERENCES_EMAIL, email);
-        editor.apply();
-        Log.d("Config", "add email to config setting");
-    }
-
-    public static void addPasswd(String passwd) {
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString(APP_PREFERENCES_PASSWD, passwd);
-        editor.apply();
-        Log.d("Config", "add password to config setting");
-    }
 
     public static void addListener(ServerListener toAdd, String TAG) {
         listeners.putIfAbsent(TAG, toAdd);
@@ -217,23 +238,10 @@ public class ServerData {
         carInMovement.entrySet().removeIf(entry -> entry.getKey().equals(key));
     }
 
-    public static ArrayList<Building> getBuildings() {
-        return buildings;
-    }
-
-    public static ArrayList<Task> getTasks() {
-        return tasks;
-    }
 
     public static void generateTask() {
         Timer timer = new Timer("TimerGenerateTasks");
         timer.scheduleAtFixedRate(new GenerateTasksTimer(), 0, 10000);
-    }
-
-    public static boolean isLoginSaved() {
-        boolean res = mSettings.contains(APP_PREFERENCES_EMAIL) && mSettings.contains(APP_PREFERENCES_PASSWD);
-        Log.d("Config", "Login is save in config:" + res);
-        return res;
     }
 
 
@@ -314,17 +322,6 @@ public class ServerData {
         }
     }
 
-    public static ArrayList<CarCheck> getFreeCars() {
-        ArrayList<CarCheck> cars = new ArrayList<>();
-        for (Building build : buildings)
-            for (Car car : build.getCars())
-                if (car.getStatus() == StatusCar.Available) cars.add(new CarCheck(car));
-        return cars;
-    }
-
-    public static User getUser() {
-        return user;
-    }
 
     public static ArrayList<Car> getInMovement() {
         return new ArrayList<>(carInMovement.values());
@@ -339,12 +336,12 @@ public class ServerData {
     }
 
     public static boolean AuthorizationSave() throws NetworkException, DataException {
-        return Authorization(mSettings.getString(APP_PREFERENCES_EMAIL, ""), mSettings.getString(APP_PREFERENCES_PASSWD, ""), false);
+        return Authorization(Authorization.getEmail(), Authorization.getPassword(), false);
     }
 
     public static boolean authorization(Activity activity) throws NetworkException, DataException {
-        loadSettings(activity);
-        if (isLoginSaved()) {
+        Authorization.init(activity);
+        if (Authorization.isLoginSaved()) {
             return AuthorizationSave();
         }
         return false;
@@ -354,7 +351,7 @@ public class ServerData {
     @NonNull
     @Override
     public String toString() {
-        return "ServerClass";
+        return getClass().getName();
     }
 
     public static void unloader() throws NetworkException {
