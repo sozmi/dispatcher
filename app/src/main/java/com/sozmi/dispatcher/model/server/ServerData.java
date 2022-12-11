@@ -1,21 +1,28 @@
 package com.sozmi.dispatcher.model.server;
 
+import static android.content.Context.DOWNLOAD_SERVICE;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
-import android.os.StrictMode;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 
 import com.sozmi.dispatcher.BuildConfig;
+import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.model.listeners.CarListener;
 import com.sozmi.dispatcher.model.listeners.ServerListener;
 import com.sozmi.dispatcher.model.navigation.HaversineAlgorithm;
-import com.sozmi.dispatcher.model.navigation.Map;
 import com.sozmi.dispatcher.model.objects.Building;
 import com.sozmi.dispatcher.model.objects.Car;
 import com.sozmi.dispatcher.model.objects.CarCheck;
@@ -47,17 +54,63 @@ public class ServerData {
     private static final String host = "82.179.140.18";
     private static final int port = 45555;
 
+
     public static void loadLastVersion(Activity activity) throws NetworkException {
+        final boolean[] isDownload = {true};
         Connection connection = new Connection(host, port);
         connection.sendData("get_version;" + BuildConfig.VERSION_NAME);
-        String s = connection.getData();
+        String url = connection.getData();
         connection.disconnect();
-        if (s.equals("true"))
+        Log.d("Download", "Is last version:" + url.equals("true"));
+
+        if (url.equals("true"))
             return;
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(s));
-        activity.startActivity(browserIntent);
-        activity.finishAffinity();
+        String destination = activity.getApplicationContext().getExternalFilesDir(DOWNLOAD_SERVICE) + "/";
+        String fileName = "dispatcherMCS.apk";
+        destination += fileName;
+        final Uri uri = Uri.parse("file://" + destination);
+
+        File file = new File(destination);
+        if (file.exists()) {
+            file.delete();
+        }
+
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setDescription("Update");
+        request.setTitle("MyApp");
+        request.setDestinationUri(uri);
+
+        final DownloadManager manager = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+
+        BroadcastReceiver onComplete = new BroadcastReceiver() {
+            public void onReceive(Context ctxt, Intent intent) {
+                Intent intentUpdate;
+                File toInstall = new File(activity.getApplicationContext().getExternalFilesDir(DOWNLOAD_SERVICE), fileName);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Uri apkUri = FileProvider.getUriForFile(activity.getApplicationContext(), BuildConfig.APPLICATION_ID + ".provider", toInstall);
+                    intentUpdate = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+                    intentUpdate.setData(apkUri);
+                    intentUpdate.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+                } else {
+                    Uri apkUri = Uri.fromFile(toInstall);
+                    intentUpdate = new Intent(Intent.ACTION_VIEW);
+                    intentUpdate.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                    intentUpdate.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+
+                activity.getApplicationContext().startActivity(intentUpdate);
+                toInstall.deleteOnExit();
+
+                activity.getApplicationContext().unregisterReceiver(this);
+                activity.finish();
+                isDownload[0] =false;
+            }
+        };
+        activity.getApplicationContext().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        while (isDownload[0]){}
     }
+
 
     public static boolean Authorization(String email, String passwd, boolean isSave) throws NetworkException, DataException {
         Connection connection = new Connection(host, port);

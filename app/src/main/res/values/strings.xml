@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Диспетчер МЧС</string>
+    <string name="app_name">disp</string>
     <string name="radio">Радио</string>
     <string name="tasks">Задания</string>
     <string name="buildings">Здания</string>

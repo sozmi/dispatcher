@@ -38,10 +38,7 @@ public class LoginActivity extends AppCompatActivity {
             checkVersion();
             swipeRefreshLayout.setRefreshing(false);
         });
-
         checkVersion();
-
-
     }
 
 
@@ -60,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
                 swipeRefreshLayout.setOnRefreshListener(() -> {
-                   authorization();
+                    authorization();
                     swipeRefreshLayout.setRefreshing(false);
                 });
             });

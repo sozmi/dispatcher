@@ -9,8 +9,8 @@ android {
         applicationId 'com.sozmi.dispatcher'
         minSdk 24
         targetSdk 33
-        versionCode 6
-        versionName "v1.06"
+        versionCode 105
+        versionName "v1.05"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -20,6 +20,7 @@ android {
             Properties properties = new Properties()
             properties.load(project.rootProject.file('local.properties').newDataInputStream())
             buildConfigField 'String', "API_KEY", "\"${properties.getProperty('API_KEY')}\""
+            proguardFiles 'proguard-rules.pro'
         }
         release {
             minifyEnabled false
