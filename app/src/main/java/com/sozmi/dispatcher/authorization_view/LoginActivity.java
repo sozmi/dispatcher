@@ -15,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.authorization_view.fragment.AuthorizationFragment;
 import com.sozmi.dispatcher.main_view.MainActivity;
+import com.sozmi.dispatcher.model.server.Authorization;
 import com.sozmi.dispatcher.model.server.DataException;
 import com.sozmi.dispatcher.model.server.NetworkException;
 import com.sozmi.dispatcher.model.server.ServerData;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Authorization.init(this);
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             checkVersion();
@@ -66,11 +68,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void authorization() {
-
-
         try {
-
-            if (ServerData.authorization(this)) {
+            if (Authorization.authorization()) {
                 openMainActivity();
             } else {
                 runOnUiThread(() -> {

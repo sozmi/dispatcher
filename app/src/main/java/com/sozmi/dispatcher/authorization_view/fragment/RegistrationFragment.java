@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,9 +15,9 @@ import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.main_view.MainActivity;
+import com.sozmi.dispatcher.model.server.Authorization;
 import com.sozmi.dispatcher.model.server.DataException;
 import com.sozmi.dispatcher.model.server.NetworkException;
-import com.sozmi.dispatcher.model.server.ServerData;
 import com.sozmi.dispatcher.ui.MyTextWatcher;
 
 import java.util.Objects;
@@ -27,6 +28,7 @@ public class RegistrationFragment extends Fragment {
     private Button register;
     private MyTextWatcher tw_email, tw_password, tw_name;
     private EditText emailInput, passwordInput, nameInput;
+    private CheckBox check;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,12 +37,12 @@ public class RegistrationFragment extends Fragment {
         nameInput = view.findViewById(R.id.nameRegister);
         emailInput = view.findViewById(R.id.emailRegister);
         passwordInput = view.findViewById(R.id.passwordRegister);
-
+        check = view.findViewById(R.id.isSave);
 
         tw_email = new MyTextWatcher(emailInput, "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", "Пожалуйста, введите правильную почту");
         tw_password = new MyTextWatcher(passwordInput,
-                "(?=[^\\;\\|\\']+$).{10,}",
-                "Длина пароля меньше 10 или использованы запрещённые символы: ;'|");
+                "(?=[^\\;\\|\\']+$).{8,}",
+                "Длина пароля меньше 8 или использованы запрещённые символы: ;'|");
         tw_name = new MyTextWatcher(nameInput, "^[а-яА-ЯёЁa-zA-Z0-9]+$", "Введите логин без специальных символов");
         register.setOnClickListener(v -> onRegisterButtonClick());
         return view;
@@ -51,7 +53,8 @@ public class RegistrationFragment extends Fragment {
         if (tw_email.isValid() && tw_password.isValid() && tw_name.isValid()) {
             new Thread(() -> {
                 try {
-                    if (ServerData.Registration(tw_email.getText(), tw_password.getText(), tw_name.getText())) {
+
+                    if (Authorization.registration(tw_email.getText(), tw_password.getText(), tw_name.getText(), check.isChecked())) {
                         Intent intent = new Intent(requireActivity(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -61,11 +64,16 @@ public class RegistrationFragment extends Fragment {
                     requireActivity().runOnUiThread(() -> Toast.makeText(requireActivity(), e.getMessage(), Toast.LENGTH_SHORT).show());
 
                 } catch (DataException e) {
-                    if (Objects.equals(e.getType(), "passwd")) {
-                        nameInput.setError(e.getMessage());
-                    } else if (Objects.equals(e.getType(), "email")) {
-                        emailInput.setError(e.getMessage());
-                    }
+                    requireActivity().runOnUiThread(() -> {
+
+
+                        if (Objects.equals(e.getType(), "name")) {
+                            nameInput.setError(e.getMessage());
+                        } else if (Objects.equals(e.getType(), "email")) {
+                            emailInput.setError(e.getMessage());
+                        }
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
                 }
             }).start();
 

@@ -10,10 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class Connection {
-    /**
-     * Maximum size of buffer
-     */
-    public static final int BUFFER_SIZE = 128;
+    private static final int BUFFER_SIZE = 4096;
     private Socket socket = null;
     private PrintWriter out = null;
     private BufferedReader in = null;

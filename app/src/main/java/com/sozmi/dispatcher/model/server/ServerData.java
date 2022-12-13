@@ -45,7 +45,6 @@ public class ServerData {
     private static int carIndex = 0;
     private static final String host = "82.179.140.18";
     private static final int port = 45555;
-
     //region Properties
 
     /**
@@ -95,7 +94,8 @@ public class ServerData {
 
     /**
      * Проверяет загружена ли последняя версия, и если нет, то загружает её
-     * @param activity активиту
+     *
+     * @param activity активити
      * @throws NetworkException ошибка подключения
      */
     public static void loadLastVersion(Activity activity) throws NetworkException {
@@ -155,41 +155,6 @@ public class ServerData {
         }
     }
 
-
-    public static boolean Authorization(String email, String passwd, boolean isSave) throws NetworkException, DataException {
-        Connection connection = new Connection(host, port);
-        connection.sendData("get_user;" + email + "|" + passwd);
-        String s = connection.getData();
-        connection.disconnect();
-        if (s.equals("no_find")) {
-            throw new DataException("Неверный логин или пароль", "no_find");
-        }
-        if (user.loadData(s)) {
-            if (isSave)
-                Authorization.addAuthorizationData(email, passwd);
-
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean Registration(String email, String passwd, String name) throws NetworkException, DataException {
-        Connection connection = new Connection(host, port);
-        connection.sendData("add_user;" + email + "|" + name + "|" + passwd);
-        String s = connection.getData();
-        connection.disconnect();
-        if (s.equals("email_exist"))
-            throw new DataException("Email уже зарегистрирован", "email");
-        else if (s.equals("name_exist"))
-            throw new DataException("Username уже существует.", "passwd");
-
-        if (user.loadData(s)) {
-            Authorization.addAuthorizationData(email, passwd);
-            return loader();
-        }
-        connection.disconnect();
-        return false;
-    }
 
     public static boolean loader() throws NetworkException {
         Connection connection = new Connection(host, port);
@@ -335,18 +300,6 @@ public class ServerData {
         removeCarInMovement(car.getID() + "");
     }
 
-    public static boolean AuthorizationSave() throws NetworkException, DataException {
-        return Authorization(Authorization.getEmail(), Authorization.getPassword(), false);
-    }
-
-    public static boolean authorization(Activity activity) throws NetworkException, DataException {
-        Authorization.init(activity);
-        if (Authorization.isLoginSaved()) {
-            return AuthorizationSave();
-        }
-        return false;
-    }
-
 
     @NonNull
     @Override
@@ -360,6 +313,16 @@ public class ServerData {
         connection.getData();
         connection.disconnect();
 
+    }
+
+    /**
+     * Передача в метод получения данных о пользователе из сроки
+     *
+     * @param s данные о пользователе
+     * @return true - если данные успешно преобразованы, иначе false
+     */
+    public static boolean loadUser(String s) {
+        return user.loadData(s);
     }
 }
 

@@ -15,10 +15,13 @@ import androidx.fragment.app.Fragment;
 
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.main_view.MainActivity;
+import com.sozmi.dispatcher.model.server.Authorization;
 import com.sozmi.dispatcher.model.server.DataException;
 import com.sozmi.dispatcher.model.server.NetworkException;
 import com.sozmi.dispatcher.model.server.ServerData;
 import com.sozmi.dispatcher.ui.MyTextWatcher;
+
+import java.util.Objects;
 
 
 public class LoginFragment extends Fragment {
@@ -41,8 +44,8 @@ public class LoginFragment extends Fragment {
                 "Пожалуйста, введите правильную почту");
 
         tw_password = new MyTextWatcher(passwordInput,
-                "(?=[^\\;\\|\\']+$).{10,}",
-                "Длина пароля меньше 10 или использованы запрещённые символы: ;'|");
+                "(?=[^\\;\\|\\']+$).{8,}",
+                "Длина пароля меньше 8 или использованы запрещённые символы: ;'|");
         auth.setOnClickListener(v -> OnAuthClick());
         return view;
     }
@@ -52,7 +55,7 @@ public class LoginFragment extends Fragment {
         if (tw_email.isValid() && tw_password.isValid()) {
             new Thread(() -> {
                 try {
-                    if (ServerData.Authorization(tw_email.getText(), tw_password.getText(), isSaveCB.isChecked())) {
+                    if (Authorization.authorization(tw_email.getText(), tw_password.getText(), isSaveCB.isChecked())) {
                         requireActivity().runOnUiThread(() -> {
                             Intent intent = new Intent(requireActivity(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
