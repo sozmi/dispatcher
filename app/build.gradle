@@ -9,8 +9,8 @@ android {
         applicationId 'com.sozmi.dispatcher'
         minSdk 24
         targetSdk 33
-        versionCode 105
-        versionName "v1.05"
+        versionCode 200
+        versionName "v2.00"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

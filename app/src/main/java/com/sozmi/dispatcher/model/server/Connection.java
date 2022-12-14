@@ -9,6 +9,10 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+
+/**
+ * Класс, выполняющий взаимодействие с сервером
+ */
 public class Connection {
     private static final int BUFFER_SIZE = 4096;
     private Socket socket = null;
@@ -18,7 +22,7 @@ public class Connection {
     private final InetSocketAddress socketAddress;
 
     /**
-     * Constructor with Host, Port and MAC Address
+     * Конструктор с хостом и портом
      *
      * @param host ip адрес
      * @param port номер порта
@@ -26,6 +30,7 @@ public class Connection {
     public Connection(String host, int port) {
         this.socketAddress = new InetSocketAddress(host, port);
     }
+
 
     private void connect() throws NetworkException {
         try {

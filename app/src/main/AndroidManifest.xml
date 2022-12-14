@@ -41,7 +41,7 @@
         </activity>
         <activity
             android:name=".main_view.MainActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait">
         </activity>
 

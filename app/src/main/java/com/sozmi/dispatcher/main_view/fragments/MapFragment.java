@@ -53,7 +53,7 @@ public class MapFragment extends Fragment {
                 showMarker(point);
             }
             map.moveCamTo(point);
-        }else {
+        } else {
             Map.moveCamToUser();
         }
     }
@@ -100,7 +100,7 @@ public class MapFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         Map.onDestroy();
+        super.onDestroy();
     }
 }

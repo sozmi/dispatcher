@@ -10,10 +10,10 @@ public class Route {
     private final double time;
     private final double count_point;
 
-    public Route(Queue<GeoPoint> points, double time) {
+    public Route(Queue<GeoPoint> points, double time, double count_point) {
         this.points = points;
         this.time = time;
-        this.count_point =points.size();
+        this.count_point =count_point;
     }
     public Route(Route route) {
         this.points = new LinkedList<>( route.getPoints());
@@ -23,7 +23,15 @@ public class Route {
     public Queue<GeoPoint> getPoints() {
         return points;
     }
-
+    public LinkedList<GeoPoint> getPointsList() {
+        return new LinkedList<>(points);
+    }
+    public GeoPoint peekPoint() {
+        return points.peek();
+    }
+    public GeoPoint pollPoint() {
+        return points.poll();
+    }
     public void setPoints(Queue<GeoPoint> points) {
         this.points = points;
     }

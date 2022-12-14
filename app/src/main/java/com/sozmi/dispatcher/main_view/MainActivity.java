@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
 
     private void init() {
         Permission.get(this);
-        new Map();
+        new Map(this);
         MyFM.setFM(getSupportFragmentManager());
         MyFM.OpenFragment(new MapFragment(), null);
         actionButton();

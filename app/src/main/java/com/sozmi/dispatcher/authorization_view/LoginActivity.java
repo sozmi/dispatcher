@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
                 swipeRefreshLayout.setOnRefreshListener(() -> {
-                    authorization();
+                    new Thread(this::authorization).start();
                     swipeRefreshLayout.setRefreshing(false);
                 });
             });
@@ -91,9 +91,7 @@ public class LoginActivity extends AppCompatActivity {
     private void openAuthFragment() {
         runOnUiThread(() -> {
             SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-            swipeRefreshLayout.setOnRefreshListener(() -> {
-                swipeRefreshLayout.setRefreshing(false);
-            });
+            swipeRefreshLayout.setOnRefreshListener(() -> swipeRefreshLayout.setRefreshing(false));
         });
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment f = new AuthorizationFragment();

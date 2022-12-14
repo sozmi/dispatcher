@@ -1,6 +1,7 @@
 package com.sozmi.dispatcher.model.navigation;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -31,55 +32,61 @@ import com.sozmi.dispatcher.model.system.SystemTag;
 import com.sozmi.dispatcher.model.system.Tag;
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 
 public class Map implements CarListener, TaskListener, ServerListener {
     private static MapView mapView;
-    private static boolean isInit = false;
+    private static boolean isShow = false;
     private static Map map;
-    private static GeoPoint userPosition=new GeoPoint(55.7522, 37.6156);
-
+    private static GeoPoint userPosition = new GeoPoint(55.7522, 37.6156);
+    private final Activity activity;
     public static Map getMap() {
         return map;
     }
 
-    public Map() {
+    public Map(Activity activity) {
         Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
         Routing.init();
         map = this;
+        this.activity =activity;
     }
-public void update(){
-    moveCamToUser();
-    addBuildings(ServerData.getBuildings());
-    addTasks(ServerData.getTasks());
-    addCars(ServerData.getInMovement());
-    mapView.invalidate();
-}
+
+    public void update() {
+        moveCamToUser();
+        addBuildings(ServerData.getBuildings());
+        addTasks(ServerData.getTasks());
+        addCars(ServerData.getInMovement());
+        mapView.invalidate();
+    }
+
     public static boolean isInit() {
-        return isInit;
+        return isShow;
     }
 
     public static void onDestroy() {
-        isInit = false;
+        isShow = false;
         for (Car car : ServerData.getInMovement()) {
             car.removeListener("MapClass");
+            car.setMarker(null);
         }
         for (Task task : ServerData.getTasks()) {
             task.removeListener("MapClass");
+            task.setMarker(null);
         }
         ServerData.removeListener("MapClass");
     }
 
     public void init(View view) {
         mapView = view.findViewById(R.id.mapView);
-        isInit = true;
-        Routing.setMap(mapView);
+        isShow = true;
         getLastLocationNewMethod(view.getContext());
         mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         mapView.setMultiTouchControls(true);
@@ -111,6 +118,7 @@ public void update(){
     }
 
     public void addCars(ArrayList<Car> cars) {
+        Log.d("Debug","Add listener to car count:"+cars.size());
         for (Car car : cars) {
             car.addListener(this, toString());
         }
@@ -129,7 +137,6 @@ public void update(){
     public static GeoPoint getUserLocation() {
         return userPosition;
     }
-
 
 
     private void getLastLocationNewMethod(Context context) {
@@ -208,7 +215,7 @@ public void update(){
 
     @Override
     public void onPositionChanged(Car car) {
-        if (isInit) {
+        if (isShow) {
             if (car.getMarker() == null) {
                 drawCar(car);
             } else {
@@ -236,16 +243,17 @@ public void update(){
 
     @Override
     public void onChangeStatusTask(Task task) {
-        if (isInit) {
+        if (isShow) {
             if (task.getMarker() == null) {
                 drawTask(task);
+
             } else {
                 if (task.getStatusTask() == StatusTask.executed) {
                     removeMarker(task.getMarker());
                     task.setMarker(null);
                     mapView.invalidate();
                 } else {
-                    task.getMarker().setIcon(getDrawable(mapView.getContext(), task.getImage()));
+                    task.getMarker().setIcon(getDrawable(activity, task.getImage()));
                     mapView.invalidate();
                 }
             }

@@ -16,7 +16,6 @@ public class Object<T extends BaseType> extends BaseObject {
     public Object() {
 
     }
-
     public Marker getMarker() {
         return marker;
     }

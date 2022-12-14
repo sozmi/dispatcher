@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Car extends Object<TypeCar> {
     private StatusCar status;
-    private Route route;
+    private Route main_route_points;
     private Route reverse_root;
     private Building building;
     private final ConcurrentHashMap<String, CarListener> listeners = new ConcurrentHashMap<>();
@@ -73,23 +73,15 @@ public class Car extends Object<TypeCar> {
     }
 
 
-    public void setRoute(Route route) {
-        this.route = route;
-    }
-
     private Queue<GeoPoint> reverse(Queue<GeoPoint> queue) {
         List<GeoPoint> collect = new ArrayList<>(queue);
         Collections.reverse(collect);
         return new LinkedList<>(collect);
     }
 
-    public Route getRoute() {
-        return route;
-    }
-
 
     public void setReverse_root() {
-        this.reverse_root = new Route(route);
+        this.reverse_root = new Route(main_route_points);
         this.reverse_root.setPoints(reverse(reverse_root.getPoints()));
     }
 
@@ -157,32 +149,39 @@ public class Car extends Object<TypeCar> {
         listeners.entrySet().removeIf(entry -> entry.getKey().equals(key));
     }
 
+    private Queue<GeoPoint> points_rout;
+
     public void moving(GeoPoint finish, StatusCar status) {
         if (finish == getBuilding().getPosition()) {
-            setRoute(reverse_root);
+            main_route_points = reverse_root;
         } else {
-            Route route = Routing.Road(getPosition(), finish);
-            setRoute(route);
+            main_route_points = Routing.Road(getPosition(), finish);
             setReverse_root();
         }
-        if (Map.isInit()) addListener(Map.getMap(), "MapClass");
+        points_rout = new LinkedList<>(Routing.getAllPoints(main_route_points.pollPoint(), main_route_points.peekPoint()));
+        if (Map.isInit())
+            addListener(Map.getMap(), "MapClass");
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                GeoPoint point = getRoute().getPoints().poll();
-                if (point == null) {
-                    setStatus(status);
-                    cancel();
-                } else {
-                    setPosition(point);
-                    onPositionChanged();
+                if (points_rout.isEmpty()) {
+                    var start = main_route_points.pollPoint();
+                    var finishf = main_route_points.peekPoint();
+                    if (finishf == null) {
+                        setStatus(status);
+                        cancel();
+                        return;
+                    }
+                    points_rout.addAll(Routing.getAllPoints(start, finishf));
                 }
+                setPosition(points_rout.poll());
+                onPositionChanged();
             }
         };
 
         Timer timer = new Timer("CarMovingTimer");
-        long period = (long) (route.getTime() * 100 / route.getCount_point());
-
+        long period = (long) (main_route_points.getTime() / main_route_points.getCount_point());
+        Log.d("Route", "peiod: " + period);
         if (period == 0) period = 1;
         timer.scheduleAtFixedRate(task, 0, period);
     }
