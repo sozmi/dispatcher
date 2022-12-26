@@ -19,17 +19,18 @@
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="Название здания" />
-
         <ImageButton
-            android:id="@+id/buttonAddCar"
-            style="@style/button_image_square"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/buttonShow"
+            style="@style/button_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_row="0"
             android:layout_column="3"
-            android:background="@drawable/gradient"
+
             android:contentDescription="@string/addCar"
-            android:src="@drawable/ic_add" />
+            android:src="@drawable/ic_arrow_down" />
+
+
 
         <ImageView
             android:id="@+id/imageBuilding"
@@ -53,7 +54,6 @@
 
     </GridLayout>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/carBuilding"
         android:layout_width="match_parent"
@@ -61,6 +61,9 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        tools:listitem="@layout/fragment_item_car"
+        android:visibility="gone"
+        />
 
 </LinearLayout>

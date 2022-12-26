@@ -54,7 +54,32 @@ public class BuildingViewAdapter extends RecyclerView.Adapter<BuildingViewAdapte
         holder.mCarView.setLayoutManager(layoutManager);
         holder.mCarView.setAdapter(childItemAdapter);
         holder.mCarView.setRecycledViewPool(viewPool);
-        holder.mAddButton.setOnClickListener(view1 -> {
+        holder.mShowButton.setOnClickListener(view1 -> {
+            if(holder.isShow){
+                holder.isShow=false;
+                holder.mShowButton.setImageResource(R.drawable.ic_arrow_down);
+                holder.mCarView.setVisibility(View.GONE);
+            }
+            else{
+                holder.isShow=true;
+                holder.mShowButton.setImageResource(R.drawable.ic_arrow_up);
+                holder.mCarView.setVisibility(View.VISIBLE);
+            }
+        });
+        holder.mImageView.setOnClickListener(view1 -> {//TODO: открывать новое окно
+            try {
+                ServerData.addCar(building, building.getTypeCar());
+                var v = holder.mCarView.getAdapter();
+                assert v != null;
+                v.notifyItemInserted(mValues.size());
+
+            } catch (NetworkException | DataException e) {
+                Toast toast = Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
+        });
+        holder.mNameView.setOnClickListener(view1 -> {//TODO: открывать новое окно
             try {
                 ServerData.addCar(building, building.getTypeCar());
                 var v = holder.mCarView.getAdapter();
@@ -89,7 +114,9 @@ public class BuildingViewAdapter extends RecyclerView.Adapter<BuildingViewAdapte
 
         public final RecyclerView mCarView;
 
-        public final ImageButton mAddButton;
+        public final ImageButton mShowButton;
+
+        public boolean isShow=false;
 
         public ViewHolder(View view) {
             super(view);
@@ -97,7 +124,7 @@ public class BuildingViewAdapter extends RecyclerView.Adapter<BuildingViewAdapte
             mTypeView = view.findViewById(R.id.typeBuilding);
             mImageView = view.findViewById(R.id.imageBuilding);
             mCarView = view.findViewById(R.id.carBuilding);
-            mAddButton = view.findViewById(R.id.buttonAddCar);
+            mShowButton = view.findViewById(R.id.buttonShow);
         }
     }
 }
