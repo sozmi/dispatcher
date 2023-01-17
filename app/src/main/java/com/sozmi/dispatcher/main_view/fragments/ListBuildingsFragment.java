@@ -16,7 +16,7 @@ import com.sozmi.dispatcher.model.server.ServerData;
 /**
  * A fragment representing a list of Items.
  */
-public class BuildingsFragment extends Fragment {
+public class ListBuildingsFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

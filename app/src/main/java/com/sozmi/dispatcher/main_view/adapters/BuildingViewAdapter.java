@@ -1,5 +1,6 @@
 package com.sozmi.dispatcher.main_view.adapters;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sozmi.dispatcher.R;
+import com.sozmi.dispatcher.main_view.fragments.BuildFragment;
+import com.sozmi.dispatcher.main_view.fragments.BuildingFragment;
+import com.sozmi.dispatcher.model.navigation.Map;
 import com.sozmi.dispatcher.model.objects.Building;
 import com.sozmi.dispatcher.model.server.DataException;
 import com.sozmi.dispatcher.model.server.NetworkException;
 import com.sozmi.dispatcher.model.server.ServerData;
+import com.sozmi.dispatcher.model.system.MyFM;
+import com.sozmi.dispatcher.model.system.Tag;
 
 import java.util.List;
 
@@ -66,34 +72,15 @@ public class BuildingViewAdapter extends RecyclerView.Adapter<BuildingViewAdapte
                 holder.mCarView.setVisibility(View.VISIBLE);
             }
         });
-        holder.mImageView.setOnClickListener(view1 -> {//TODO: открывать новое окно
-            try {
-                ServerData.addCar(building, building.getTypeCar());
-                var v = holder.mCarView.getAdapter();
-                assert v != null;
-                v.notifyItemInserted(mValues.size());
-
-            } catch (NetworkException | DataException e) {
-                Toast toast = Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_SHORT);
-                toast.show();
-            }
-
-        });
-        holder.mNameView.setOnClickListener(view1 -> {//TODO: открывать новое окно
-            try {
-                ServerData.addCar(building, building.getTypeCar());
-                var v = holder.mCarView.getAdapter();
-                assert v != null;
-                v.notifyItemInserted(mValues.size());
-
-            } catch (NetworkException | DataException e) {
-                Toast toast = Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_SHORT);
-                toast.show();
-            }
-
-        });
+        holder.mImageView.setOnClickListener(view1 -> showBuildingFragment(building));
+        holder.mNameView.setOnClickListener(view1 -> showBuildingFragment(building));
     }
 
+    private void showBuildingFragment(Building building){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Tag.building.toString(), building);
+        MyFM.OpenFragment(new BuildingFragment(), bundle);
+    }
 
     /**
      * @return количество элементов списка.

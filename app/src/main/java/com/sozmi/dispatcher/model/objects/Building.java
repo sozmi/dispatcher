@@ -7,14 +7,15 @@ import com.sozmi.dispatcher.model.server.ServerData;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
 /**
  * Класс, описывающий здания
  */
-public class Building extends Object<TypeBuilding> {
-    private ArrayList<Car> cars = new ArrayList<>();
+public class Building extends Object<TypeBuilding> implements Serializable {
+    private final ArrayList<Car> cars = new ArrayList<>();
 
     /**
      * Конструктор здания без машин

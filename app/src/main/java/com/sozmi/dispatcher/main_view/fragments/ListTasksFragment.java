@@ -22,7 +22,7 @@ import com.sozmi.dispatcher.model.server.ServerData;
 import java.util.Objects;
 
 
-public class TasksFragment extends Fragment implements TaskListener {
+public class ListTasksFragment extends Fragment implements TaskListener {
     RecyclerView recyclerView;
 
     @Override

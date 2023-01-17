@@ -51,7 +51,7 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
         holder.mPanelTime.setVisibility(View.INVISIBLE);
         holder.mInfoButton.setOnClickListener(view1 -> {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(Tag.TaskID.toString(), task);
+            bundle.putSerializable(Tag.task.toString(), task);
             MyFM.OpenFragment(new TaskFragment(), bundle);
         });
         holder.mProgressBarTask.setMax(task.getExecute_time());

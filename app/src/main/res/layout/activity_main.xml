@@ -67,27 +67,13 @@
     </FrameLayout>
 
     <!--Фрагмент-->
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/bottom_menu"
-        android:layout_below="@+id/top_menu">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_view"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        tools:layout="@layout/fragment_map" />
 
-            tools:layout="@layout/fragment_map" />
-        <ProgressBar
-            android:id="@+id/progressLoad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminateDrawable="@drawable/spinner_ring"
-            android:indeterminateOnly="true"
-             />
-    </FrameLayout>
     <!--Нижний бар-->
     <LinearLayout
         android:id="@+id/bottom_menu"

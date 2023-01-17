@@ -300,6 +300,10 @@ public class ServerData {
         removeCarInMovement(car.getID() + "");
     }
 
+    public static int getIndexBuilding(Building building) {
+        return buildings.indexOf(building);
+    }
+
 
     @NonNull
     @Override

@@ -1,14 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".BuildingFragment">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/nameBuilding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/imageBuilding"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="Название здания" />
+
+
+        <Button
+            android:id="@+id/buttonBackToListBuilding"
+            style="@style/button_grey_text"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="Назад" />
+
+        <ImageView
+            android:id="@+id/imageBuilding"
+            android:layout_width="@dimen/build_icon_size"
+            android:layout_height="@dimen/build_icon_size"
+
+            android:contentDescription="@string/iconBuilding"
+            android:src="@drawable/ic_hospital" />
+
+        <TextView
+            android:id="@+id/typeBuilding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@+id/nameBuilding"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="1dp"
+            android:layout_toEndOf="@+id/imageBuilding"
+            android:textSize="@dimen/small_text"
+            tools:text="Тип здания" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/carCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="3dp"
+            android:text="Стоимость машины: 5000" />
+
+        <Button
+            android:id="@+id/buttonBuyCar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/carCost"
+            android:text="купить" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Гараж:" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_cars_building"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="16dp"
+        tools:listitem="@layout/fragment_item_car" />
+
+</LinearLayout>

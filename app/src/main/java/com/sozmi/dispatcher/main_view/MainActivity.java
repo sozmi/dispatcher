@@ -1,19 +1,20 @@
 package com.sozmi.dispatcher.main_view;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.sozmi.dispatcher.LoadFragment;
 import com.sozmi.dispatcher.R;
 import com.sozmi.dispatcher.main_view.fragments.BuildFragment;
-import com.sozmi.dispatcher.main_view.fragments.BuildingsFragment;
+import com.sozmi.dispatcher.main_view.fragments.ListBuildingsFragment;
+import com.sozmi.dispatcher.main_view.fragments.ListTasksFragment;
 import com.sozmi.dispatcher.main_view.fragments.MapFragment;
-import com.sozmi.dispatcher.main_view.fragments.TasksFragment;
 import com.sozmi.dispatcher.model.listeners.DataListner;
 import com.sozmi.dispatcher.model.navigation.Map;
 import com.sozmi.dispatcher.model.server.NetworkException;
@@ -39,20 +40,19 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ProgressBar progressBar = findViewById(R.id.progressLoad);
-        progressBar.setVisibility(View.VISIBLE);
 
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment f = new LoadFragment();
+        ft.add(f, f.toString());
+        ft.commit();
         var th = new Thread(() -> {
             try {
                 ServerData.loader();
-                runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    init();
-                });
+                runOnUiThread(this::init);
 
 
             } catch (NetworkException e) {
-                runOnUiThread( ()->Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         });
         th.start();
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
 
     private void BuildingsButtonOnClick() {
         point = Map.getCamPoint();
-        MyFM.OpenFragment(new BuildingsFragment(), null);
+        MyFM.OpenFragment(new ListBuildingsFragment(), null);
     }
 
     /**
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
     private void buildButtonOnClick() {
         point = Map.getCamPoint();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Tag.Point.toString(), Map.getUserLocation());
+        bundle.putParcelable(Tag.point.toString(), Map.getUserLocation());
         MyFM.OpenFragment(new BuildFragment(), bundle);
     }
 
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
         if (point != null) {
             point = Map.getCamPoint();
             Bundle bundle = new Bundle();
-            bundle.putParcelable(Tag.Point.toString(), point);
+            bundle.putParcelable(Tag.point.toString(), point);
             MyFM.OpenFragment(new MapFragment(), bundle);
             return;
         }
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements DataListner<Integ
      */
     private void taskButtonOnClick() {
         point = Map.getCamPoint();
-        MyFM.OpenFragment(new TasksFragment(), null);
+        MyFM.OpenFragment(new ListTasksFragment(), null);
     }
 
     private boolean isNoInit = true;

@@ -61,7 +61,7 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            task = (Task) bundle.getSerializable(Tag.TaskID.toString());
+            task = (Task) bundle.getSerializable(Tag.task.toString());
 
             on_call.setLayoutManager(new LinearLayoutManager(getContext()));
             on_call.setAdapter(new CarViewAdapter(task.getCars(), view));
@@ -105,7 +105,7 @@ public class TaskFragment extends Fragment implements TaskListener, CarListener 
     }
 
     private void OnClickBackButton() {
-        MyFM.OpenFragment(new TasksFragment(), null);
+        MyFM.OpenFragment(new ListTasksFragment(), null);
     }
 
     @NonNull

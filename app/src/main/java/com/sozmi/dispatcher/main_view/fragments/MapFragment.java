@@ -47,7 +47,7 @@ public class MapFragment extends Fragment {
         map.init(requireView());
         Bundle bundle = getArguments();
         if (bundle != null) {
-            GeoPoint point = bundle.getParcelable(Tag.Point.toString());
+            GeoPoint point = bundle.getParcelable(Tag.point.toString());
             boolean viewPanel = bundle.getBoolean(Tag.viewPanel.toString());
             if (viewPanel) {
                 showMarker(point);
@@ -74,7 +74,7 @@ public class MapFragment extends Fragment {
      */
     private void buildButtonOnClick() {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Tag.Point.toString(), build.getPosition());
+        bundle.putParcelable(Tag.point.toString(), build.getPosition());
         MyFM.OpenFragment(new BuildFragment(), bundle);
     }
 

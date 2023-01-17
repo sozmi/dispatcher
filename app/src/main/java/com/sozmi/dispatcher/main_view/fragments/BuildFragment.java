@@ -45,7 +45,7 @@ public class BuildFragment extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            point = bundle.getParcelable(Tag.Point.toString());
+            point = bundle.getParcelable(Tag.point.toString());
             pointBuild.setText(point.toString().replace(",", ",\n"));
         }
 
@@ -82,7 +82,7 @@ public class BuildFragment extends Fragment {
 
     private void onButtonChangeClick() {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Tag.Point.toString(), point);
+        bundle.putParcelable(Tag.point.toString(), point);
         bundle.putBoolean(Tag.viewPanel.toString(), true);
         MyFM.OpenFragment(new MapFragment(), bundle);
     }
@@ -96,7 +96,7 @@ public class BuildFragment extends Fragment {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Tag.Point.toString(), point);
+        bundle.putParcelable(Tag.point.toString(), point);
         MyFM.OpenFragment(new MapFragment(), bundle);
     }
 

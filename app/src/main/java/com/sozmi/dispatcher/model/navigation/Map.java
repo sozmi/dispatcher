@@ -168,7 +168,7 @@ public class Map implements CarListener, TaskListener, ServerListener {
         Marker marker = drawMarker(task.getName(), task.getImage(), task.getPosition(), false, true);
         marker.setOnMarkerClickListener((marker1, mapView1) -> {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(Tag.TaskID.toString(), task);
+            bundle.putSerializable(Tag.task.toString(), task);
             MyFM.OpenFragment(new TaskFragment(), bundle);
             return true;
         });
